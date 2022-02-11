@@ -3,9 +3,6 @@ package com.shatteredpixel.shatteredpixeldungeon.ui.changelist;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.WoollyBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -30,27 +27,28 @@ public class v1_X_Changes {
 	}
 
 	public static void add_Coming_Soon( ArrayList<ChangeInfo> changeInfos ) {
-
-		ChangeInfo changes = new ChangeInfo("Coming Soon", true, "");
-		changes.hardlight(0xCCCCCC);
+		ChangeInfo changes = new ChangeInfo("Shutter-1.0.0", true, "");
+		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
 
-		changes.addButton( new ChangeButton(Icons.get(Icons.SHPX), "Overview",
-			"The next Shattered update will be v1.2.0, and will focus on a variety of smaller improvements, including working on proper support for desktop users in anticipation of the game's upcoming Steam release. Unfortunately I'm spread a bit thin right now with Steam and real-life obligations, so v1.2.0 will be light on content additions. I do hope to release it in less than 4 months though!\n\n" +
-			"Expect to hear more details about v1.2.0 in a future news post, likely in January."));
+		changes.addButton( new ChangeButton(Icons.get(Icons.INFO), "Developer Commentary",
+				"_-_ Released February 12th, 2022\n\n" +
+						"_-_ This is unofficial bugfix for Shattered PD"));
 
-		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.ENERGY), "Further Alchemy Tweaks",
-				"v1.1.0 focused pretty heavily on the alchemy system itself and exotic potions/scrolls, but there are definitely improvements to be made to other alchemy items too! Once the dust has settled a bit from 1.1.0 I intend to do a full evaluation and balance pass on alchemy produce. That may mean some nerfs, but I expect the majority of item changes from this will be buffs."));
-
-		changes.addButton( new ChangeButton(Icons.get(Icons.DISPLAY), "Desktop Enhancements",
-				"The other major focus for v1.2.0 will be new and enhanced features for desktop users! I wrote a blog post about this in detail already, but in summary I want to make it easier to install and run the desktop game, and improve the interface to better take advantage of mice, controllers, and larger screens."));
-
-		changes.addButton( new ChangeButton(Icons.get(Icons.AUDIO), "Boss Music",
-				"v1.1.0 includes a bunch of new music, but Kristjan and I aren't finished yet! We're currently working on a boss track for Yog-Dzewa, and might add some music for the other bosses too."));
-
-		changes.addButton( new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
-				"Lastly, there will be some smaller miscellaneous changes in v1.2.0 as well. Alchemy items will get the most adjustments, but I also plan to look into improvements to a few other items, such as the master thieves' armband. There will be the usual round of balance improvements too."));
-
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+				"_-_ Removed Warrior.\n" +
+						"_-_ Removed Berserker, Assassin and Warden.\n" +
+						"_-_ Removed Lethal Defense, Seer Shot and Rogue's Foresight.\n" +
+						"_-_ Removed the nerf of Mage's Staff and Studded Gloves.\n" +
+						"_-_ Removed Goo's OP pump-up attack.\n" +
+						"_-_ Removed annoying combinations of champion buffs and enemies.\n" +
+						"_-_ Removed useless items, such as Wealth, Runic Blade and Corruption.\n" +
+						"_-_ Removed existence of armor, it's useless anyway.\n" +
+						"_-_ Fixed armor ability being granted by DK instead of DM-300.\n" +
+						"_-_ Yog-Dzewa is vulnerable to Dread.\n" +
+						"_-_ Fixed the existence of languages other than English.\n" +
+						"_-_ Fixed some enchantments being not considered as curses.\n" +
+						"_-_ Removed stewed meat."));
 	}
 
 	public static void add_v1_1_Changes( ArrayList<ChangeInfo> changeInfos ) {
