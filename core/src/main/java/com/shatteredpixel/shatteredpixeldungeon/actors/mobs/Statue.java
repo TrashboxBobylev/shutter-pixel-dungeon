@@ -177,11 +177,7 @@ public class Statue extends Mob {
 	}
 
 	public static Statue random(){
-		if (Random.Int(10) == 0){
-			return new ArmoredStatue();
-		} else {
-			return new Statue();
-		}
+		return new Statue();
 	}
 	
 }
