@@ -36,6 +36,9 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
+import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Viscosity;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.LloydsBeacon;
@@ -484,6 +487,22 @@ public class DwarfKing extends Mob {
 	public void die(Object cause) {
 
 		GameScene.bossSlain();
+
+		Ankh ankh = new Ankh();
+		ankh.bless();
+
+		if (Dungeon.level.solid[pos]){
+			Heap h = Dungeon.level.heaps.get(pos);
+			if (h != null) {
+				for (Item i : h.items) {
+					Dungeon.level.drop(i, pos + Dungeon.level.width());
+				}
+				h.destroy();
+			}
+			Dungeon.level.drop(ankh, pos + Dungeon.level.width()).sprite.drop(pos);
+		} else {
+			Dungeon.level.drop(ankh, pos).sprite.drop();
+		}
 
 		super.die( cause );
 
