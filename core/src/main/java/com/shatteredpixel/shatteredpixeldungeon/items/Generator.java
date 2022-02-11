@@ -186,23 +186,19 @@ public class Generator {
 					WandOfLivingEarth.class,
 					WandOfFrost.class,
 					WandOfPrismaticLight.class,
-					WandOfWarding.class,
-					WandOfTransfusion.class,
-					WandOfCorruption.class,
 					WandOfRegrowth.class };
-			WAND.probs = new float[]{ 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3 };
+			WAND.probs = new float[]{ 4, 4, 4, 4, 4, 3, 3, 3, 3, 3 };
 			
 			//see generator.randomWeapon
 			WEAPON.classes = new Class<?>[]{};
 			WEAPON.probs = new float[]{};
 			
 			WEP_T1.classes = new Class<?>[]{
-					WornShortsword.class,
 					Gloves.class,
 					Dagger.class,
 					MagesStaff.class
 			};
-			WEP_T1.probs = new float[]{ 1, 1, 1, 0 };
+			WEP_T1.probs = new float[]{ 1, 1, 0 };
 			
 			WEP_T2.classes = new Class<?>[]{
 					Shortsword.class,
@@ -217,21 +213,19 @@ public class Generator {
 					Sword.class,
 					Mace.class,
 					Scimitar.class,
-					RoundShield.class,
 					Sai.class,
 					Whip.class
 			};
-			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4 };
+			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4 };
 			
 			WEP_T4.classes = new Class<?>[]{
 					Longsword.class,
 					BattleAxe.class,
 					Flail.class,
-					RunicBlade.class,
 					AssassinsBlade.class,
 					Crossbow.class
 			};
-			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4, 4 };
+			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4 };
 			
 			WEP_T5.classes = new Class<?>[]{
 					Greatsword.class,
@@ -291,15 +285,12 @@ public class Generator {
 					RingOfAccuracy.class,
 					RingOfEvasion.class,
 					RingOfElements.class,
-					RingOfForce.class,
 					RingOfFuror.class,
 					RingOfHaste.class,
 					RingOfEnergy.class,
 					RingOfMight.class,
-					RingOfSharpshooting.class,
-					RingOfTenacity.class,
-					RingOfWealth.class};
-			RING.probs = new float[]{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+					RingOfSharpshooting.class};
+			RING.probs = new float[]{ 1, 1, 1, 1, 1, 1, 1, 1 };
 			
 			ARTIFACT.classes = new Class<?>[]{
 					CapeOfThorns.class,
