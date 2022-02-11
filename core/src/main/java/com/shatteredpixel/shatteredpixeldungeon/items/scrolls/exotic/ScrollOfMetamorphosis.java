@@ -162,9 +162,9 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 		//TODO could some of these be made more generic?
 		private static HashMap<Talent, HeroClass> restrictedTalents = new HashMap<>();
 		static {
-			restrictedTalents.put(Talent.IRON_WILL, HeroClass.WARRIOR);
-			restrictedTalents.put(Talent.RESTORED_WILLPOWER, HeroClass.WARRIOR);
-			restrictedTalents.put(Talent.RUNIC_TRANSFERENCE, HeroClass.WARRIOR);
+//			restrictedTalents.put(Talent.IRON_WILL, HeroClass.WARRIOR);
+//			restrictedTalents.put(Talent.RESTORED_WILLPOWER, HeroClass.WARRIOR);
+//			restrictedTalents.put(Talent.RUNIC_TRANSFERENCE, HeroClass.WARRIOR);
 
 			restrictedTalents.put(Talent.BACKUP_BARRIER, HeroClass.MAGE);
 			restrictedTalents.put(Talent.ENERGIZING_UPGRADE, HeroClass.MAGE);

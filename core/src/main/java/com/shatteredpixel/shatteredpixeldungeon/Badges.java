@@ -35,13 +35,7 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.FileUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Badges {
 	
@@ -596,9 +590,6 @@ public class Badges {
 			
 			if (badge == Badge.BOSS_SLAIN_1) {
 				switch (Dungeon.hero.heroClass) {
-				case WARRIOR:
-					badge = Badge.BOSS_SLAIN_1_WARRIOR;
-					break;
 				case MAGE:
 					badge = Badge.BOSS_SLAIN_1_MAGE;
 					break;
@@ -615,8 +606,7 @@ public class Badges {
 					saveNeeded = true;
 				}
 				
-				if (global.contains( Badge.BOSS_SLAIN_1_WARRIOR ) &&
-					global.contains( Badge.BOSS_SLAIN_1_MAGE ) &&
+				if (global.contains( Badge.BOSS_SLAIN_1_MAGE ) &&
 					global.contains( Badge.BOSS_SLAIN_1_ROGUE ) &&
 					global.contains( Badge.BOSS_SLAIN_1_HUNTRESS)) {
 					
@@ -630,12 +620,6 @@ public class Badges {
 			} else
 			if (badge == Badge.BOSS_SLAIN_3) {
 				switch (Dungeon.hero.subClass) {
-				case GLADIATOR:
-					badge = Badge.BOSS_SLAIN_3_GLADIATOR;
-					break;
-				case BERSERKER:
-					badge = Badge.BOSS_SLAIN_3_BERSERKER;
-					break;
 				case WARLOCK:
 					badge = Badge.BOSS_SLAIN_3_WARLOCK;
 					break;
@@ -687,9 +671,6 @@ public class Badges {
 		
 		Badge badge = null;
 		switch (Dungeon.hero.heroClass) {
-		case WARRIOR:
-			badge = Badge.MASTERY_WARRIOR;
-			break;
 		case MAGE:
 			badge = Badge.MASTERY_MAGE;
 			break;
@@ -746,9 +727,6 @@ public class Badges {
 		displayBadge( badge );
 
 		switch (Dungeon.hero.heroClass) {
-		case WARRIOR:
-			badge = Badge.VICTORY_WARRIOR;
-			break;
 		case MAGE:
 			badge = Badge.VICTORY_MAGE;
 			break;
