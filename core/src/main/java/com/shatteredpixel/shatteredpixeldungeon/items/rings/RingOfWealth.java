@@ -29,7 +29,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Honeypot;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
@@ -248,17 +247,11 @@ public class RingOfWealth extends Ring {
 		//each upgrade increases depth used for calculating drops by 1
 		int floorset = (Dungeon.depth + level)/5;
 		switch (Random.Int(5)){
-			default: case 0: case 1:
+			default: case 0: case 1: case 2:
 				Weapon w = Generator.randomWeapon(floorset);
 				if (!w.hasGoodEnchant() && Random.Int(10) < level)      w.enchant();
 				else if (w.hasCurseEnchant())                           w.enchant(null);
 				result = w;
-				break;
-			case 2:
-				Armor a = Generator.randomArmor(floorset);
-				if (!a.hasGoodGlyph() && Random.Int(10) < level)        a.inscribe();
-				else if (a.hasCurseGlyph())                             a.inscribe(null);
-				result = a;
 				break;
 			case 3:
 				result = Generator.random(Generator.Category.RING);

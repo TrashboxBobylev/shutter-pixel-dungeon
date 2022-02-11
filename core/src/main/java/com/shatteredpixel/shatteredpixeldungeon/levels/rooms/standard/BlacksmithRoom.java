@@ -55,7 +55,7 @@ public class BlacksmithRoom extends StandardRoom {
 			} while (level.map[pos] != Terrain.EMPTY_SP);
 			level.drop(
 				Generator.random( Random.oneOf(
-					Generator.Category.ARMOR,
+					Generator.Category.WEAPON,
 					Generator.Category.WEAPON,
 					Generator.Category.MISSILE
 				) ), pos );

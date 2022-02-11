@@ -27,26 +27,16 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ConfusionGas;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ParalyticGas;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Regrowth;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.*;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WarpBeacon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.GoldenMimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Sheep;
-import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
-import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
+import com.shatteredpixel.shatteredpixeldungeon.effects.*;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -364,7 +354,7 @@ public class CursedWand {
 				mimic.alignment = Char.Alignment.ENEMY;
 				Item reward;
 				do {
-					reward = Generator.random(Random.oneOf(Generator.Category.WEAPON, Generator.Category.ARMOR,
+					reward = Generator.random(Random.oneOf(Generator.Category.WEAPON, Generator.Category.WEAPON,
 							Generator.Category.RING, Generator.Category.WAND));
 				} while (reward.level() < 1);
 				//play vfx/sfx manually as mimic isn't in the scene yet
@@ -420,7 +410,7 @@ public class CursedWand {
 				origin.detach(Dungeon.hero.belongings.backpack);
 				Item result;
 				do {
-					result = Generator.random(Random.oneOf(Generator.Category.WEAPON, Generator.Category.ARMOR,
+					result = Generator.random(Random.oneOf(Generator.Category.WEAPON, Generator.Category.WEAPON,
 							Generator.Category.RING, Generator.Category.ARTIFACT));
 				} while (result.cursed);
 				if (result.isUpgradable()) result.upgrade();

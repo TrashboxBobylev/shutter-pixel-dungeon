@@ -46,7 +46,7 @@ public class Golem extends Mob {
 		EXP = 12;
 		maxLvl = 22;
 
-		loot = Random.oneOf(Generator.Category.WEAPON, Generator.Category.ARMOR);
+		loot = Random.oneOf(Generator.Category.WEAPON, Generator.Category.WEAPON);
 		lootChance = 0.125f; //initially, see rollToDropLoot
 
 		properties.add(Property.INORGANIC);
