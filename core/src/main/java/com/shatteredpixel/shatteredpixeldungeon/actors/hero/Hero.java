@@ -190,7 +190,7 @@ public class Hero extends Char {
 		}
 
 		if (hasTalent(Talent.STRONGMAN)){
-			strBonus += (int)Math.floor(STR * (0.03f + 0.05f*pointsInTalent(Talent.STRONGMAN)));
+			strBonus += (int)Math.floor(STR * (0.04f + 0.08f*pointsInTalent(Talent.STRONGMAN)));
 		}
 
 		return STR + strBonus;
