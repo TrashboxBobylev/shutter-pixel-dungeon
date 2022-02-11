@@ -533,7 +533,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, ENHANCED_RINGS, LIGHT_CLOAK);
 				break;
 			case HUNTRESS:
-				Collections.addAll(tierTalents, POINT_BLANK, SEER_SHOT);
+				Collections.addAll(tierTalents, POINT_BLANK, STRONGMAN);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -567,7 +567,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, ENDLESS_RAGE, BERSERKING_STAMINA, ENRAGED_CATALYST);
 				break;
 			case GLADIATOR:
-				Collections.addAll(tierTalents, CLEAVE, LETHAL_DEFENSE, ENHANCED_COMBO);
+				Collections.addAll(tierTalents, CLEAVE, LETHAL_MOMENTUM, ENHANCED_COMBO);
 				break;
 			case BATTLEMAGE:
 				Collections.addAll(tierTalents, EMPOWERED_STRIKE, MYSTICAL_CHARGE, EXCESS_CHARGE);
