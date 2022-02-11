@@ -26,10 +26,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3FileHandle;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3NativesLoader;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Preferences;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.SharedLibraryLoader;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
@@ -40,7 +38,6 @@ import com.shatteredpixel.shatteredpixeldungeon.services.updates.Updates;
 import com.watabou.noosa.Game;
 import com.watabou.utils.FileUtils;
 import com.watabou.utils.Point;
-
 import org.lwjgl.util.tinyfd.TinyFileDialogs;
 
 import java.io.PrintWriter;
@@ -130,14 +127,14 @@ public class DesktopLauncher {
 		String basePath = "";
 		if (SharedLibraryLoader.isWindows) {
 			if (System.getProperties().getProperty("os.name").equals("Windows XP")) {
-				basePath = "Application Data/.shatteredpixel/Shattered Pixel Dungeon/";
+				basePath = "Application Data/.shatteredpixel/Shutter Pixel Dungeon/";
 			} else {
-				basePath = "AppData/Roaming/.shatteredpixel/Shattered Pixel Dungeon/";
+				basePath = "AppData/Roaming/.shatteredpixel/Shutter Pixel Dungeon/";
 			}
 		} else if (SharedLibraryLoader.isMac) {
-			basePath = "Library/Application Support/Shattered Pixel Dungeon/";
+			basePath = "Library/Application Support/Shutter Pixel Dungeon/";
 		} else if (SharedLibraryLoader.isLinux) {
-			basePath = ".shatteredpixel/shattered-pixel-dungeon/";
+			basePath = ".shatteredpixel/shutter-pixel-dungeon/";
 		}
 
 		//copy over prefs from old file location from legacy desktop codebase
