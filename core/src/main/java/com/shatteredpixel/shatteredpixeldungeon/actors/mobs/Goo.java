@@ -39,7 +39,6 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.GooSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BossHealthBar;
-import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Camera;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
@@ -168,7 +167,7 @@ public class Goo extends Mob {
 			spend( attackDelay() );
 
 			return true;
-		} else if (pumpedUp >= 2 || Random.Int( (HP*2 <= HT) ? 2 : 5 ) > 0) {
+		} else {
 
 			boolean visible = Dungeon.level.heroFOV[pos];
 
@@ -188,23 +187,6 @@ public class Goo extends Mob {
 
 			return !visible;
 
-		} else {
-
-			pumpedUp++;
-			if (Dungeon.isChallenged(Challenges.STRONGER_BOSSES)){
-				pumpedUp++;
-			}
-
-			((GooSprite)sprite).pumpUp( pumpedUp );
-
-			if (Dungeon.level.heroFOV[pos]) {
-				sprite.showStatus( CharSprite.NEGATIVE, Messages.get(this, "!!!") );
-				GLog.n( Messages.get(this, "pumpup") );
-			}
-
-			spend( attackDelay() );
-
-			return true;
 		}
 	}
 
