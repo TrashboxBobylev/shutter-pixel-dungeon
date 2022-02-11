@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
@@ -42,6 +43,11 @@ public class Slime extends Mob {
 		maxLvl = 9;
 		
 		lootChance = 0.2f; //by default, see rollToDropLoot()
+	}
+
+	{
+		immunities.add(ChampionEnemy.Blazing.class);
+		immunities.add(ChampionEnemy.Giant.class);
 	}
 	
 	@Override

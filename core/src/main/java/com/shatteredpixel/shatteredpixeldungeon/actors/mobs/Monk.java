@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Imp;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -49,6 +50,12 @@ public class Monk extends Mob {
 		lootChance = 0.083f;
 
 		properties.add(Property.UNDEAD);
+	}
+
+	{
+		immunities.add(ChampionEnemy.Projecting.class);
+		immunities.add(ChampionEnemy.Blessed.class);
+		immunities.add(ChampionEnemy.Growing.class);
 	}
 	
 	@Override
