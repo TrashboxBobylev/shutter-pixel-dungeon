@@ -30,7 +30,7 @@ import com.watabou.utils.Random;
 
 public class Repulsion extends Armor.Glyph {
 
-	private static ItemSprite.Glowing WHITE = new ItemSprite.Glowing( 0xFFFFFF );
+	private static ItemSprite.Glowing WHITE = new ItemSprite.Glowing( 0x000000 );
 	
 	@Override
 	public int proc( Armor armor, Char attacker, Char defender, int damage) {
@@ -46,6 +46,11 @@ public class Repulsion extends Armor.Glyph {
 		}
 		
 		return damage;
+	}
+
+	@Override
+	public boolean curse() {
+		return true;
 	}
 
 	@Override

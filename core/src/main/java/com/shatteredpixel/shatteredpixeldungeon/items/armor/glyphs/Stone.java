@@ -28,7 +28,7 @@ import com.watabou.utils.GameMath;
 
 public class Stone extends Armor.Glyph {
 
-	private static ItemSprite.Glowing GREY = new ItemSprite.Glowing( 0x222222 );
+	private static ItemSprite.Glowing GREY = new ItemSprite.Glowing( 0x000000 );
 
 	@Override
 	public int proc(Armor armor, Char attacker, Char defender, int damage) {
@@ -52,6 +52,11 @@ public class Stone extends Armor.Glyph {
 		damage = (int)Math.ceil(damage * hitChance);
 		
 		return damage;
+	}
+
+	@Override
+	public boolean curse() {
+		return true;
 	}
 	
 	private boolean testing = false;

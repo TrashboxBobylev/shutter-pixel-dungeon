@@ -33,7 +33,7 @@ import com.watabou.utils.Random;
 
 public class Lucky extends Weapon.Enchantment {
 
-	private static ItemSprite.Glowing GREEN = new ItemSprite.Glowing( 0x00FF00 );
+	private static ItemSprite.Glowing GREEN = new ItemSprite.Glowing( 0x000000 );
 	
 	@Override
 	public int proc( Weapon weapon, Char attacker, Char defender, int damage ) {
@@ -54,6 +54,11 @@ public class Lucky extends Weapon.Enchantment {
 	public static Item genLoot(){
 		//80% common, 20% uncommon, 0% rare
 		return RingOfWealth.genConsumableDrop(-5);
+	}
+
+	@Override
+	public boolean curse() {
+		return true;
 	}
 
 	public static void showFlare( Visual vis ){
