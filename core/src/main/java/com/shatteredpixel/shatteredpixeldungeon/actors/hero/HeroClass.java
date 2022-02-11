@@ -81,7 +81,7 @@ public enum HeroClass {
 
 		Waterskin waterskin = new Waterskin();
 		waterskin.collect();
-		for (int l = 0; l < 15; l++){
+		for (int l = 0; l < 18; l++){
 			new PotionOfExperience().apply(hero);
 		}
 

@@ -108,7 +108,7 @@ public class WndHeroInfo extends WndTabbed {
 			});
 		}
 
-		if (Badges.isUnlocked(Badges.Badge.BOSS_SLAIN_4)) {
+		if (Badges.isUnlocked(Badges.Badge.BOSS_SLAIN_3)) {
 			abilityInfo = new ArmorAbilityInfoTab(cl);
 			add(abilityInfo);
 			abilityInfo.setSize(WIDTH, MIN_HEIGHT);

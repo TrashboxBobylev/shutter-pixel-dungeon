@@ -170,7 +170,7 @@ public enum Talent {
 	int maxPoints;
 
 	// tiers 1/2/3/4 start at levels 2/7/13/21
-	public static int[] tierLevelThresholds = new int[]{0, 2, 7, 13, 21, 31};
+	public static int[] tierLevelThresholds = new int[]{0, 2, 7, 13, 18, 28};
 
 	Talent( int icon ){
 		this(icon, 2);
@@ -217,6 +217,12 @@ public enum Talent {
 
 	public String desc(){
 		return Messages.get(this, name() + ".desc");
+	}
+
+	public static int getMaxPoints(int tier) {
+		int max = tierLevelThresholds[tier+1] - tierLevelThresholds[tier];
+		if(tier == 3) max += 3;
+		return max;
 	}
 
 	public static void onTalentUpgraded( Hero hero, Talent talent){
