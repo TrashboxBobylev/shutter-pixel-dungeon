@@ -55,7 +55,7 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 
 public enum HeroClass {
 	MAGE( HeroSubClass.BATTLEMAGE, HeroSubClass.WARLOCK ),
-	ROGUE( HeroSubClass.ASSASSIN, HeroSubClass.BERSERKER ),
+	ROGUE( HeroSubClass.ASSASSIN ),
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.GLADIATOR );
 
 	private HeroSubClass[] subClasses;

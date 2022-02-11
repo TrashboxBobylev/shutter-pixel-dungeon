@@ -88,7 +88,6 @@ public class Badges {
 		ALL_POTIONS_IDENTIFIED      ( 50 ),
 		ALL_SCROLLS_IDENTIFIED      ( 51 ),
 		DEATH_FROM_GLYPH            ( 52 ),
-		BOSS_SLAIN_1_WARRIOR,
 		BOSS_SLAIN_1_MAGE,
 		BOSS_SLAIN_1_ROGUE,
 		BOSS_SLAIN_1_HUNTRESS,
@@ -117,20 +116,16 @@ public class Badges {
 		VICTORY                     ( 78 ),
 		YASD                        ( 79, true ),
 		BOSS_SLAIN_3_GLADIATOR,
-		BOSS_SLAIN_3_BERSERKER,
 		BOSS_SLAIN_3_WARLOCK,
 		BOSS_SLAIN_3_BATTLEMAGE,
 		BOSS_SLAIN_3_FREERUNNER,
-		BOSS_SLAIN_3_ASSASSIN,
 		BOSS_SLAIN_3_SNIPER,
-		BOSS_SLAIN_3_WARDEN,
 		BOSS_SLAIN_3_ALL_SUBCLASSES ( 80, true ),
 		GAMES_PLAYED_2              ( 81, true ),
 
 		//platinum
 		HAPPY_END                   ( 96 ),
 		ALL_ITEMS_IDENTIFIED        ( 97, true ),
-		VICTORY_WARRIOR,
 		VICTORY_MAGE,
 		VICTORY_ROGUE,
 		VICTORY_HUNTRESS,
@@ -629,14 +624,11 @@ public class Badges {
 				case FREERUNNER:
 					badge = Badge.BOSS_SLAIN_3_FREERUNNER;
 					break;
-				case ASSASSIN:
-					badge = Badge.BOSS_SLAIN_3_ASSASSIN;
-					break;
 				case SNIPER:
 					badge = Badge.BOSS_SLAIN_3_SNIPER;
 					break;
-				case WARDEN:
-					badge = Badge.BOSS_SLAIN_3_WARDEN;
+				case GLADIATOR:
+					badge = Badge.BOSS_SLAIN_3_GLADIATOR;
 					break;
 				default:
 					return;
@@ -648,13 +640,10 @@ public class Badges {
 				}
 				
 				if (global.contains( Badge.BOSS_SLAIN_3_GLADIATOR ) &&
-					global.contains( Badge.BOSS_SLAIN_3_BERSERKER ) &&
 					global.contains( Badge.BOSS_SLAIN_3_WARLOCK ) &&
 					global.contains( Badge.BOSS_SLAIN_3_BATTLEMAGE ) &&
 					global.contains( Badge.BOSS_SLAIN_3_FREERUNNER ) &&
-					global.contains( Badge.BOSS_SLAIN_3_ASSASSIN ) &&
-					global.contains( Badge.BOSS_SLAIN_3_SNIPER ) &&
-					global.contains( Badge.BOSS_SLAIN_3_WARDEN )) {
+					global.contains( Badge.BOSS_SLAIN_3_SNIPER )) {
 					
 					badge = Badge.BOSS_SLAIN_3_ALL_SUBCLASSES;
 					if (!global.contains( badge )) {
@@ -696,21 +685,15 @@ public class Badges {
 	}
 	
 	public static void validateMageUnlock(){
-		if (Statistics.upgradesUsed >= 1 && !global.contains(Badge.UNLOCK_MAGE)){
-			displayBadge( Badge.UNLOCK_MAGE );
-		}
+
 	}
 	
 	public static void validateRogueUnlock(){
-		if (Statistics.sneakAttacks >= 10 && !global.contains(Badge.UNLOCK_ROGUE)){
-			displayBadge( Badge.UNLOCK_ROGUE );
-		}
+
 	}
 	
 	public static void validateHuntressUnlock(){
-		if (Statistics.thrownAssists >= 15 && !global.contains(Badge.UNLOCK_HUNTRESS)){
-			displayBadge( Badge.UNLOCK_HUNTRESS );
-		}
+
 	}
 	
 	public static void validateMasteryCombo( int n ) {
@@ -743,8 +726,7 @@ public class Badges {
 			saveNeeded = true;
 		}
 		
-		if (global.contains( Badge.VICTORY_WARRIOR ) &&
-			global.contains( Badge.VICTORY_MAGE ) &&
+		if (global.contains( Badge.VICTORY_MAGE ) &&
 			global.contains( Badge.VICTORY_ROGUE ) &&
 			global.contains( Badge.VICTORY_HUNTRESS )) {
 			
