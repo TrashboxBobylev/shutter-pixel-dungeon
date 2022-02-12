@@ -482,6 +482,8 @@ public class YogDzewa extends Mob {
 	}
 
 	{
+		if (Dungeon.isChallenged(Challenges.STRONGER_BOSSES))
+			immunities.add(Dread.class);
 		immunities.add( Terror.class );
 		immunities.add( Amok.class );
 		immunities.add( Charm.class );
