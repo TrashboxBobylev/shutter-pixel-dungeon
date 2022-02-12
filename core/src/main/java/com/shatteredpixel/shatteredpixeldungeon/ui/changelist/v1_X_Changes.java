@@ -43,12 +43,13 @@ public class v1_X_Changes {
 						"_-_ Removed Goo's OP pump-up attack.\n" +
 						"_-_ Removed annoying combinations of champion buffs and enemies.\n" +
 						"_-_ Removed useless items, such as Wealth, Runic Blade and Corruption.\n" +
-						"_-_ Removed existence of armor, it's useless anyway.\n" +
+						"_-_ Removed most of existence of armor, it's useless anyway.\n" +
 						"_-_ Fixed armor ability being granted by DK instead of DM-300.\n" +
 						"_-_ Yog-Dzewa is vulnerable to Dread.\n" +
 						"_-_ Fixed the existence of languages other than English.\n" +
 						"_-_ Fixed some enchantments being not considered as curses.\n" +
-						"_-_ Removed stewed meat."));
+						"_-_ Removed stewed meat.\n" +
+						"_-_ Fixed squiggle having too much evasion."));
 	}
 
 	public static void add_v1_1_Changes( ArrayList<ChangeInfo> changeInfos ) {

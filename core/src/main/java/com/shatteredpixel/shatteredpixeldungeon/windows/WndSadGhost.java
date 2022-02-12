@@ -27,7 +27,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Ghost;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -90,11 +89,7 @@ public class WndSadGhost extends Window {
 		btnWeapon.setRect( (WIDTH - BTN_GAP) / 2 - BTN_SIZE, message.top() + message.height() + BTN_GAP, BTN_SIZE, BTN_SIZE );
 		add( btnWeapon );
 
-		RewardButton btnArmor = new RewardButton( Ghost.Quest.armor );
-		btnArmor.setRect( btnWeapon.right() + BTN_GAP, btnWeapon.top(), BTN_SIZE, BTN_SIZE );
-		add(btnArmor);
-
-		resize(WIDTH, (int) btnArmor.bottom() + BTN_GAP);
+		resize(WIDTH, (int) btnWeapon.bottom() + BTN_GAP);
 	}
 	
 	private void selectReward( Item reward ) {
@@ -105,8 +100,6 @@ public class WndSadGhost extends Window {
 
 		if (reward instanceof Weapon && Ghost.Quest.enchant != null){
 			((Weapon) reward).enchant(Ghost.Quest.enchant);
-		} else if (reward instanceof Armor && Ghost.Quest.glyph != null){
-			((Armor) reward).inscribe(Ghost.Quest.glyph);
 		}
 		
 		reward.identify();

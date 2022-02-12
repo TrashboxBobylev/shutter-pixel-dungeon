@@ -23,18 +23,9 @@ package com.shatteredpixel.shatteredpixeldungeon.scenes;
 
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Archs;
-import com.shatteredpixel.shatteredpixeldungeon.ui.ExitButton;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
-import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
-import com.shatteredpixel.shatteredpixeldungeon.ui.ScrollPane;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
+import com.shatteredpixel.shatteredpixeldungeon.ui.*;
 import com.watabou.input.PointerEvent;
-import com.watabou.noosa.Camera;
-import com.watabou.noosa.ColorBlock;
-import com.watabou.noosa.Group;
-import com.watabou.noosa.Image;
-import com.watabou.noosa.PointerArea;
+import com.watabou.noosa.*;
 import com.watabou.noosa.ui.Component;
 import com.watabou.utils.DeviceCompat;
 
@@ -115,6 +106,14 @@ public class AboutScene extends PixelScene {
 				"https://www.youtube.com/channel/UCL1e7SgzSWbD_DQxB_5YcLA");
 		kristjan.setRect(alex.right() - colWidth/4f, alex.bottom() + 5, colWidth/2f, 0);
 		content.add(kristjan);
+		CreditsBlock trashbox = new CreditsBlock(false, 0x0040ff,
+				"Made bugfix:",
+				Icons.INFO.get(),
+				"Trashbox Bobylev",
+				"/u/TrashboxBobylev",
+				"https://reddit.com/u/TrashboxBobylev");
+		trashbox.setRect(kristjan.right() - colWidth/4f, kristjan.bottom() + 5, colWidth/2f, 0);
+		content.add(trashbox);
 
 		//*** Pixel Dungeon Credits ***
 
@@ -126,9 +125,9 @@ public class AboutScene extends PixelScene {
 				"pixeldungeon.watabou.ru",
 				"http://pixeldungeon.watabou.ru");
 		if (landscape()){
-			wata.setRect(shpx.left(), kristjan.bottom() + 8, colWidth, 0);
+			wata.setRect(shpx.left(), trashbox.bottom() + 8, colWidth, 0);
 		} else {
-			wata.setRect(shpx.left(), kristjan.bottom() + 8, colWidth, 0);
+			wata.setRect(shpx.left(), trashbox.bottom() + 8, colWidth, 0);
 		}
 		content.add(wata);
 
