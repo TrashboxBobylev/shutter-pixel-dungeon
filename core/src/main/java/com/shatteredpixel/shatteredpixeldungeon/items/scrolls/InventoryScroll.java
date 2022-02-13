@@ -22,6 +22,8 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.scrolls;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -112,6 +114,7 @@ public abstract class InventoryScroll extends Scroll {
 				
 				((InventoryScroll)curItem).onItemSelected( item );
 				((InventoryScroll)curItem).readAnimation();
+				Talent.onUpgradeScrollUsed( Dungeon.hero );
 				
 				Sample.INSTANCE.play( Assets.Sounds.READ );
 				
