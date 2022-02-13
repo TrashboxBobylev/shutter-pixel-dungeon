@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 
@@ -41,7 +43,8 @@ public class Adrenaline extends FlavourBuff {
 
 	@Override
 	public float iconFadePercent() {
-		return Math.max(0, (DURATION - visualcooldown()) / DURATION);
+		float duration = target instanceof Hero ? 2+2*((Hero)target).pointsInTalent(Talent.INVIGORATING_MEAL) : DURATION;
+		return Math.max(0, (duration - visualcooldown()) / duration);
 	}
 	
 	@Override

@@ -545,6 +545,7 @@ public class Hero extends Char {
 	}
 	
 	public float attackDelay() {
+		float del = super.attackDelay();
 		if (buff(Talent.LethalMomentumTracker.class) != null){
 			buff(Talent.LethalMomentumTracker.class).detach();
 			return 0;
@@ -552,13 +553,13 @@ public class Hero extends Char {
 
 		if (belongings.weapon() != null) {
 			
-			return belongings.weapon().delayFactor( this );
+			return belongings.weapon().delayFactor( this )*del;
 			
 		} else {
 			//Normally putting furor speed on unarmed attacks would be unnecessary
 			//But there's going to be that one guy who gets a furor+force ring combo
 			//This is for that one guy, you shall get your fists of fury!
-			return 1f/RingOfFuror.attackSpeedMultiplier(this);
+			return 1f/(RingOfFuror.attackSpeedMultiplier(this)*del);
 		}
 	}
 

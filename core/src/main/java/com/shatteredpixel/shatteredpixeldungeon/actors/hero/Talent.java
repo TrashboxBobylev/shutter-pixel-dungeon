@@ -305,7 +305,7 @@ public enum Talent {
 		}
 		if (hero.hasTalent(INVIGORATING_MEAL)){
 			//effectively 1/2 turns of haste
-			Buff.prolong( hero, Haste.class, 0.67f+hero.pointsInTalent(INVIGORATING_MEAL));
+			Buff.prolong( hero, Adrenaline.class, 2+2*hero.pointsInTalent(INVIGORATING_MEAL));
 		}
 	}
 
