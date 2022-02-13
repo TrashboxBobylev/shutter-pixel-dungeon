@@ -27,7 +27,28 @@ public class v1_X_Changes {
 	}
 
 	public static void add_Coming_Soon( ArrayList<ChangeInfo> changeInfos ) {
-		ChangeInfo changes = new ChangeInfo("Shutter-1.0.0", true, "");
+		ChangeInfo changes = new ChangeInfo("Shutter-1.1.0", true, "");
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes.addButton( new ChangeButton(Icons.get(Icons.INFO), "Developer Commentary",
+				"_-_ Released February 13th, 2022\n\n" +
+						"_-_ This release adheres to Huntress enjoyers."));
+
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+				"_-_ Fixed skeleton explosions.\n" +
+						"_-_ Fixed Yog's lasers being much weaker than they should be.\n" +
+						"_-_ Fixed Mystical and Energized Upgrade not working on every scroll.\n" +
+						"_-_ Redesigned Nature's Aid to give as much barkskin as possible.\n" +
+						"_-_ Replaced Nature's Bounty with Hearty Meal.\n" +
+						"_-_ Nerfed Lethal Momentum to use 3 points.\n" +
+						"_-_ Replaced Restored Nature with Bullseye.\n" +
+						"_-_ Fixed Invigorating Meal not giving Adrenaline.\n" +
+						"_-_ Fixed Farsight not affecting Heightened Senses.\n" +
+						"_-_ Buffed Light Cloak and Point Blank.\n" +
+						"_-_ Spirit Bow is equippable with obtaining subclass."));
+
+		changes = new ChangeInfo("Shutter-1.0.0", true, "");
 		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
 

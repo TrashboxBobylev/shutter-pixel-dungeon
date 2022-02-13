@@ -14,8 +14,8 @@ allprojects {
         appName = 'Shutter Pixel Dungeon'
         appPackageName = 'com.trashboxbobylev.shutterpixeldungeon'
 
-        appVersionCode = 588
-        appVersionName = 'Shutter-1.0'
+        appVersionCode = 590
+        appVersionName = 'Shutter-1.1'
 
         appJavaCompatibility = JavaVersion.VERSION_1_8
 
