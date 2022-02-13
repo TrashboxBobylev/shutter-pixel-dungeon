@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -451,6 +452,9 @@ public class SpiritBow extends Weapon {
 						ch.damage( dmg, this );
 						Splash.at(ch.pos, 0xCC99FFFF, 2);
 						ch.sprite.flash();
+						if (user.subClass == HeroSubClass.GLADIATOR){
+							Buff.affect( user, Combo.class ).hit( ch);
+						}
 					}
 					user.sprite.zap( beam.collisionPos );
 					user.busy();
