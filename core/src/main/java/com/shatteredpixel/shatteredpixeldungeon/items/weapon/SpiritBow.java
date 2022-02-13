@@ -26,22 +26,28 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.*;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.MissileSprite;
+import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
@@ -424,7 +430,36 @@ public class SpiritBow extends Weapon {
 					}
 				}
 
-				super.cast(user, dst);
+				if (user.buff(HoldFast.class) != null){
+					Ballistica beam = new Ballistica(user.pos, cell, Ballistica.STOP_SOLID);
+					curUser.sprite.parent.add(new Beam.SpiritRay(curUser.sprite.center(), DungeonTilemap.raisedTileCenterToWorld( beam.collisionPos )));
+					ArrayList<Char> chars = new ArrayList<>();
+					for (int c : beam.subPath(1, beam.dist)) {
+
+						Char ch;
+						if ((ch = Actor.findChar( c )) != null) {
+
+							chars.add( ch );
+						}
+
+						CellEmitter.center( c ).burst( PurpleParticle.BURST, Random.IntRange( 1, 2 ) );
+					}
+
+					for (Char ch : chars) {
+						int dmg = Math.round(damageRoll(user)* (0.25f * (1 + user.pointsInTalent(Talent.HOLD_FAST))));
+						proc(user, ch, dmg);
+						ch.damage( dmg, this );
+						Splash.at(ch.pos, 0xCC99FFFF, 2);
+						ch.sprite.flash();
+					}
+					user.sprite.zap( beam.collisionPos );
+					user.busy();
+					throwSound();
+					final float delay = castDelay(user, dst);
+					user.spendAndNext(delay);
+				} else {
+					super.cast(user, dst);
+				}
 			}
 		}
 	}

@@ -465,10 +465,6 @@ public class Hero extends Char {
 			}
 			if (wepDr > 0) dr += wepDr;
 		}
-
-		if (buff(HoldFast.class) != null){
-			dr += Random.NormalIntRange(0, 2*pointsInTalent(Talent.HOLD_FAST));
-		}
 		
 		return dr;
 	}

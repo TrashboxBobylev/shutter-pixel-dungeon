@@ -66,6 +66,13 @@ public class Beam extends Image {
 		}
 	}
 
+	public static class SpiritRay extends Beam{
+		public SpiritRay(PointF s, PointF e){
+			super(s, e, Effects.Type.LIGHT_RAY, 0.75f);
+			hardlight(0x99ffff);
+		}
+	}
+
 	public static class HealthRay extends Beam{
 		public HealthRay(PointF s, PointF e){
 			super(s, e, Effects.Type.HEALTH_RAY, 0.75f);

@@ -21,8 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
@@ -48,12 +46,12 @@ public class HoldFast extends Buff {
 
 	@Override
 	public int icon() {
-		return BuffIndicator.ARMOR;
+		return BuffIndicator.MARK;
 	}
 
 	@Override
 	public void tintIcon(Image icon) {
-		icon.hardlight(1.9f, 2.4f, 3.25f);
+		icon.hardlight(0xb2f2ff);
 	}
 
 	@Override
@@ -63,7 +61,7 @@ public class HoldFast extends Buff {
 
 	@Override
 	public String desc() {
-		return Messages.get(this, "desc", 2*Dungeon.hero.pointsInTalent(Talent.HOLD_FAST));
+		return Messages.get(this, "desc");
 	}
 
 
