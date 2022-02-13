@@ -21,18 +21,12 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
-import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
-import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.SkeletonSprite;
-import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
-import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 public class Skeleton extends Mob {
@@ -60,36 +54,6 @@ public class Skeleton extends Mob {
 	@Override
 	public int damageRoll() {
 		return Random.NormalIntRange( 2, 10 );
-	}
-	
-	@Override
-	public void die( Object cause ) {
-		
-		super.die( cause );
-		
-		if (cause == Chasm.class) return;
-		
-		boolean heroKilled = false;
-		for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
-			Char ch = findChar( pos + PathFinder.NEIGHBOURS8[i] );
-			if (ch != null && ch.isAlive()) {
-				int damage = Random.NormalIntRange(6, 12);
-				damage = Math.max( 0,  damage - (ch.drRoll() + ch.drRoll()) );
-				ch.damage( damage, this );
-				if (ch == Dungeon.hero && !ch.isAlive()) {
-					heroKilled = true;
-				}
-			}
-		}
-		
-		if (Dungeon.level.heroFOV[pos]) {
-			Sample.INSTANCE.play( Assets.Sounds.BONES );
-		}
-		
-		if (heroKilled) {
-			Dungeon.fail( getClass() );
-			GLog.n( Messages.get(this, "explo_kill") );
-		}
 	}
 
 	@Override
