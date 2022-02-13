@@ -124,7 +124,7 @@ public enum Talent {
 	//Sniper T3
 	FARSIGHT(107, 3), SHARED_ENCHANTMENT(108, 3), SHARED_UPGRADES(109, 3),
 	//Warden T3
-	DURABLE_TIPS(110, 3), BARKSKIN(111, 3), SHIELDING_DEW(112, 3),
+	DURABLE_TIPS(110, 3), BARKSKIN(99, 2), SHIELDING_DEW(112, 3),
 	//Spectral Blades T4
 	FAN_OF_BLADES(113, 4), PROJECTING_BLADES(114, 4), SPIRIT_BLADES(115, 4),
 	//Natures Power T4
@@ -269,13 +269,17 @@ public enum Talent {
 
 	public static void onFoodEaten( Hero hero, float foodVal, Item foodSource ){
 		if (hero.hasTalent(HEARTY_MEAL)){
-			//3/5 HP healed, when hero is below 25% health
+			//5/8 HP healed, when hero is below 25% health
 			if (hero.HP <= hero.HT/4) {
-				hero.HP = Math.min(hero.HP + 1 + 2 * hero.pointsInTalent(HEARTY_MEAL), hero.HT);
-				hero.sprite.emitter().burst(Speck.factory(Speck.HEALING), 1+hero.pointsInTalent(HEARTY_MEAL));
-			//2/3 HP healed, when hero is below 50% health
+				hero.HP = Math.min(hero.HP + 2 + 3 * hero.pointsInTalent(HEARTY_MEAL), hero.HT);
+				hero.sprite.emitter().burst(Speck.factory(Speck.HEALING), 3*hero.pointsInTalent(HEARTY_MEAL));
+			//4/6 HP healed, when hero is below 50% health
 			} else if (hero.HP <= hero.HT/2){
-				hero.HP = Math.min(hero.HP + 1 + hero.pointsInTalent(HEARTY_MEAL), hero.HT);
+				hero.HP = Math.min(hero.HP + 2 + 2*hero.pointsInTalent(HEARTY_MEAL), hero.HT);
+				hero.sprite.emitter().burst(Speck.factory(Speck.HEALING), 2*hero.pointsInTalent(HEARTY_MEAL));
+			//3/4 HP healed, when hero is above 50% health
+			} else {
+				hero.HP = Math.min(hero.HP + 2 + hero.pointsInTalent(HEARTY_MEAL), hero.HT);
 				hero.sprite.emitter().burst(Speck.factory(Speck.HEALING), hero.pointsInTalent(HEARTY_MEAL));
 			}
 		}
@@ -487,7 +491,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, CACHED_RATIONS, THIEFS_INTUITION, SUCKER_PUNCH, PROTECTIVE_SHADOWS);
 				break;
 			case HUNTRESS:
-				Collections.addAll(tierTalents, NATURES_BOUNTY, SURVIVALISTS_INTUITION, FOLLOWUP_STRIKE, NATURES_AID);
+				Collections.addAll(tierTalents, HEARTY_MEAL, SURVIVALISTS_INTUITION, FOLLOWUP_STRIKE, BARKSKIN);
 				break;
 		}
 		for (Talent talent : tierTalents){
