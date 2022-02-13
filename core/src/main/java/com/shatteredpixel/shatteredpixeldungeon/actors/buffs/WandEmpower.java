@@ -44,7 +44,7 @@ public class WandEmpower extends Buff {
 
 	@Override
 	public float iconFadePercent() {
-		return Math.max(0, (3-left) / 3f);
+		return Math.max(0, (5-left) / 5f);
 	}
 
 	@Override

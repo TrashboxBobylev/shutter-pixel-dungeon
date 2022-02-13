@@ -289,8 +289,8 @@ public enum Talent {
 			}
 		}
 		if (hero.hasTalent(EMPOWERING_MEAL)){
-			//2/3 bonus wand damage for next 3 zaps
-			Buff.affect( hero, WandEmpower.class).set(1 + hero.pointsInTalent(EMPOWERING_MEAL), 3);
+			//2/3 bonus wand damage for next 3/5 zaps
+			Buff.affect( hero, WandEmpower.class).set(1 + hero.pointsInTalent(EMPOWERING_MEAL), 1 + hero.pointsInTalent(EMPOWERING_MEAL)*2);
 			ScrollOfRecharging.charge( hero );
 		}
 		if (hero.hasTalent(ENERGIZING_MEAL)){
