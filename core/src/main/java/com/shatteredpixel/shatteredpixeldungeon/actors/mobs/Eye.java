@@ -122,7 +122,7 @@ public class Eye extends Mob {
 			return super.doAttack(enemy);
 		} else if (!beamCharged){
 			((EyeSprite)sprite).charge( enemy.pos );
-			spend( attackDelay()*2f );
+			spend( attackDelay() );
 			beamCharged = true;
 			return true;
 		} else {
@@ -159,6 +159,7 @@ public class Eye extends Mob {
 		beamCooldown = Random.IntRange(4, 6);
 
 		boolean terrainAffected = false;
+		boolean damagedSomething = false;
 
 		for (int pos : beam.subPath(1, beam.dist)) {
 
@@ -177,6 +178,7 @@ public class Eye extends Mob {
 
 			if (hit( this, ch, true )) {
 				ch.damage( Random.NormalIntRange( 30, 50 ), new DeathGaze() );
+				damagedSomething = true;
 
 				if (Dungeon.level.heroFOV[pos]) {
 					ch.sprite.flash();
@@ -198,6 +200,9 @@ public class Eye extends Mob {
 
 		beam = null;
 		beamTarget = -1;
+		if (!damagedSomething){
+			beamCooldown = 0;
+		}
 	}
 
 	//generates an average of 1 dew, 0.25 seeds, and 0.25 stones
