@@ -83,7 +83,7 @@ public class SpiritBow extends Weapon {
 		actions.add(AC_SHOOT);
 		return actions;
 	}
-	
+
 	@Override
 	public void execute(Hero hero, String action) {
 		
