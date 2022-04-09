@@ -143,7 +143,7 @@ public class CrystalPathRoom extends SpecialRoom {
 				case 3:
 					item = Generator.random(Random.oneOf(
 							Generator.Category.WEAPON,
-							Generator.Category.ARMOR)
+							Generator.Category.WAND)
 					);
 					break;
 			}

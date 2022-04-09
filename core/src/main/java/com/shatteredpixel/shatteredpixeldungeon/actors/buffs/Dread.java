@@ -22,9 +22,9 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.YogDzewa;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
@@ -65,9 +65,10 @@ public class Dread extends Buff {
 			if (target instanceof Mob){
 				((Mob) target).EXP /= 2;
 			}
-			target.destroy();
 			if (target instanceof YogDzewa){
 				target.die(null);
+			} else {
+				target.destroy();
 			}
 			target.sprite.killAndErase();
 			Dungeon.level.mobs.remove(target);
