@@ -30,11 +30,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Freezing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.effects.BlobEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
-import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Honeypot;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfFrost;
@@ -48,7 +46,6 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
-import com.watabou.utils.Rect;
 
 public class MagicalFireRoom extends SpecialRoom {
 
@@ -211,7 +208,8 @@ public class MagicalFireRoom extends SpecialRoom {
 						//ignite adjacent chars
 						Char ch = Actor.findChar(cell);
 						if (ch != null && !ch.isImmune(getClass())) {
-							Buff.affect(ch, Burning.class).reignite(ch, 4f);
+							Buff.append(ch, Burning.class).reignite(ch, 4f);
+							Buff.append(ch, Burning.class).reignite(ch, 4f);
 						}
 					}
 
@@ -255,15 +253,6 @@ public class MagicalFireRoom extends SpecialRoom {
 		@Override
 		public String tileDesc() {
 			return Messages.get(this, "desc");
-		}
-
-		@Override
-		public void onBuildFlagMaps( Level l ) {
-			if (volume > 0){
-				for (int i=0; i < l.length(); i++) {
-					l.passable[i] = l.passable[i] && cur[i] == 0;
-				}
-			}
 		}
 	}
 
