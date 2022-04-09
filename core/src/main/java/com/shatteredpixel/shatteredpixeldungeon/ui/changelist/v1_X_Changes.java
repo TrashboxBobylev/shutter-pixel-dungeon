@@ -26,9 +26,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.BadgeBanner;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.WoollyBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -56,26 +53,50 @@ public class v1_X_Changes {
 
 	public static void add_Coming_Soon( ArrayList<ChangeInfo> changeInfos ) {
 
-		ChangeInfo changes = new ChangeInfo("Coming Soon", true, "");
-		changes.hardlight(0xCCCCCC);
+		ChangeInfo changes = new ChangeInfo("Shutter-1.1.0", true, "");
+		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
 
-		changes.addButton( new ChangeButton(Icons.get(Icons.SHPX), "Overview",
-			"The next Shattered update will be v1.3.0! Like v1.2.0, I'm aiming for v1.3.0 to be an update that focused on a variety of smaller improvements and additions. In particular I want this to be a smaller and faster update so that I can respond to the reception the game gets after the Steam release. That being said, I do hope to fulfill some long-requested feature additions with v1.3.0!\n\n" +
-			"Ideally I'll be sharing more info on v1.3.0 sometime around the end of April or beginning of May."));
+		changes.addButton( new ChangeButton(Icons.get(Icons.INFO), "Developer Commentary",
+				"_-_ Released February 13th, 2022\n\n" +
+						"_-_ This release adheres to Huntress enjoyers."));
 
-		changes.addButton( new ChangeButton(Icons.get(Icons.RANKINGS), "Seeded runs!",
-			"The most significant addition in v1.3.0 will be support for custom seeded runs, and possibly the addition of dailies/weeklies as well! One thing worth noting is that this update will not include online leaderboards for daily/weekly runs due to technical limitations, but I will be open to adding them in the future."));
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+				"_-_ Fixed skeleton explosions.\n" +
+						"_-_ Fixed Yog's lasers being much weaker than they should be.\n" +
+						"_-_ Fixed Mystical and Energized Upgrade not working on every scroll.\n" +
+						"_-_ Redesigned Nature's Aid to give as much barkskin as possible.\n" +
+						"_-_ Replaced Nature's Bounty with Hearty Meal.\n" +
+						"_-_ Nerfed Lethal Momentum to use 3 points.\n" +
+						"_-_ Replaced Restored Nature with Bullseye.\n" +
+						"_-_ Fixed Invigorating Meal not giving Adrenaline.\n" +
+						"_-_ Fixed Farsight not affecting Heightened Senses.\n" +
+						"_-_ Buffed Light Cloak and Point Blank.\n" +
+						"_-_ Spirit Bow is equippable with obtaining subclass."));
 
-		changes.addButton( new ChangeButton(Icons.get(Icons.DISPLAY_LAND), "UI/UX Improvements",
-			"I also plan to make more improvements to the game's UI/UX with an emphasis on Steam users. This won't be the core focus like it was in v1.3.0, but expect more interface improvements, tweaks based on feedback, and possibly some additions to help controller users better play with their more limited button count."));
+		changes = new ChangeInfo("Shutter-1.0.0", true, "");
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
 
-		changes.addButton( new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
-			"v1.3.0 will also include a variety of miscellaneous adjustments. This will include balance tweaks to items and game mechanics, and maybe another item rework. I'd like to also include some more badges focused around more specific accomplishments!"));
+		changes.addButton( new ChangeButton(Icons.get(Icons.INFO), "Developer Commentary",
+				"_-_ Released February 12th, 2022\n\n" +
+						"_-_ This is unofficial bugfix for Shattered PD"));
 
-		changes.addButton( new ChangeButton(Icons.get(Icons.ENTER), "Technical Improvements",
-			"Finally, I also hope to make some behind the scenes technical improvements to the way the game handles loading and storing floors of the dungeon. I plan to use this functionality in the near future to give quests their own sub-levels!"));
-
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+				"_-_ Removed Warrior.\n" +
+						"_-_ Removed Berserker, Assassin and Warden.\n" +
+						"_-_ Removed Lethal Defense, Seer Shot and Rogue's Foresight.\n" +
+						"_-_ Removed the nerf of Mage's Staff and Studded Gloves.\n" +
+						"_-_ Removed Goo's OP pump-up attack.\n" +
+						"_-_ Removed annoying combinations of champion buffs and enemies.\n" +
+						"_-_ Removed useless items, such as Wealth, Runic Blade and Corruption.\n" +
+						"_-_ Removed most of existence of armor, it's useless anyway.\n" +
+						"_-_ Fixed armor ability being granted by DK instead of DM-300.\n" +
+						"_-_ Yog-Dzewa is vulnerable to Dread.\n" +
+						"_-_ Fixed the existence of languages other than English.\n" +
+						"_-_ Fixed some enchantments being not considered as curses.\n" +
+						"_-_ Removed stewed meat.\n" +
+						"_-_ Fixed squiggle having too much evasion."));
 	}
 
 	public static void add_v1_2_Changes( ArrayList<ChangeInfo> changeInfos ) {
