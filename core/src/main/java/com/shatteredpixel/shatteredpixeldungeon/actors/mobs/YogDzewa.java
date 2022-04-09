@@ -47,12 +47,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.BossHealthBar;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Music;
-import com.watabou.utils.Bundle;
-import com.watabou.utils.Callback;
-import com.watabou.utils.GameMath;
-import com.watabou.utils.PathFinder;
-import com.watabou.utils.Random;
-import com.watabou.utils.Reflection;
+import com.watabou.utils.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -123,20 +118,20 @@ public class YogDzewa extends Mob {
 		if (Dungeon.isChallenged(Challenges.STRONGER_BOSSES)){
 			for (int i = 0; i < 6; i++){
 				if (i >= 4){
-					regularSummons.add(YogRipper.class);
+					regularSummons.add(YogScorpio.class);
 				}
 				if (i >= Statistics.spawnersAlive){
-					regularSummons.add(Larva.class);
+					regularSummons.add(DemonSpawner.class);
 				} else {
-					regularSummons.add( i % 2 == 0 ? YogEye.class : YogScorpio.class);
+					regularSummons.add(YogEye.class);
 				}
 			}
 		} else {
 			for (int i = 0; i < 6; i++){
 				if (i >= Statistics.spawnersAlive){
-					regularSummons.add(Larva.class);
-				} else {
 					regularSummons.add(YogRipper.class);
+				} else {
+					regularSummons.add(YogEye.class);
 				}
 			}
 		}
