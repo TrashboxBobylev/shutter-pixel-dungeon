@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
@@ -31,7 +32,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.TippedDart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -130,32 +130,8 @@ public class LiquidMetal extends Item {
 
 		@Override
 		public void onSelect( Item item ) {
-			if (item != null && item instanceof MissileWeapon) {
-				MissileWeapon m = (MissileWeapon)item;
-
-				int maxToUse = 5*(m.tier+1);
-				maxToUse *= Math.pow(2, m.level());
-
-				float durabilityPerMetal = 100 / (float)maxToUse;
-
-				//we remove a tiny amount here to account for rounding errors
-				float percentDurabilityLost = 0.999f - (m.durabilityLeft()/100f);
-				maxToUse = (int)Math.ceil(maxToUse*percentDurabilityLost);
-				float durPerUse = m.durabilityPerUse()/100f;
-				if (maxToUse == 0 ||
-						Math.ceil(m.durabilityLeft()/ m.durabilityPerUse()) >= Math.ceil(m.MAX_DURABILITY/ m.durabilityPerUse()) ){
-					GLog.w(Messages.get(LiquidMetal.class, "already_fixed"));
-					return;
-				} else if (maxToUse < quantity()) {
-					m.repair(maxToUse*durabilityPerMetal);
-					quantity(quantity()-maxToUse);
-					GLog.i(Messages.get(LiquidMetal.class, "apply", maxToUse));
-
-				} else {
-					m.repair(quantity()*durabilityPerMetal);
-					GLog.i(Messages.get(LiquidMetal.class, "apply", quantity()));
-					detachAll(Dungeon.hero.belongings.backpack);
-				}
+			if (item instanceof MissileWeapon) {
+				useToRepair((MissileWeapon) item);
 
 				curUser.sprite.operate(curUser.pos);
 				Sample.INSTANCE.play(Assets.Sounds.DRINK);
@@ -164,6 +140,28 @@ public class LiquidMetal extends Item {
 			}
 		}
 	};
+
+	public void useToRepair(MissileWeapon item) {
+		int maxToUse = 5*(item.tier+1);
+		maxToUse *= Math.pow(2, item.level());
+
+		float durabilityPerMetal = 100 / (float)maxToUse;
+
+		//we remove a tiny amount here to account for rounding errors
+		float percentDurabilityLost = 0.999f - (item.durabilityLeft()/100f);
+		maxToUse = (int)Math.ceil(maxToUse*percentDurabilityLost);
+		if (maxToUse == 0 || percentDurabilityLost < item.durabilityPerUse()/100f){
+			GLog.w(Messages.get(LiquidMetal.class, "already_fixed"));
+		} else if (maxToUse < quantity()) {
+			item.repair(maxToUse*durabilityPerMetal);
+			quantity(quantity()-maxToUse);
+			GLog.i(Messages.get(LiquidMetal.class, "apply", maxToUse));
+		} else {
+			item.repair(quantity()*durabilityPerMetal);
+			GLog.i(Messages.get(LiquidMetal.class, "apply", quantity()));
+			detachAll(Dungeon.hero.belongings.backpack);
+		}
+	}
 
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe {
 
@@ -208,6 +206,7 @@ public class LiquidMetal extends Item {
 				quantity += 0.25f + 0.0075f*m.durabilityLeft();
 				quantity *= Math.pow(2, Math.min(3, m.level()));
 				metalQuantity += Math.round((5*(m.tier+1))*quantity);
+				if (Dungeon.hero.pointsInTalent(Talent.AUTO_RELOAD) > 2) metalQuantity *= 1.60f;
 			}
 
 			return new LiquidMetal().quantity(metalQuantity);

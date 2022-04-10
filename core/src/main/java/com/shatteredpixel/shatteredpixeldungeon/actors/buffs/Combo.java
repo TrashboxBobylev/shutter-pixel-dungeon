@@ -35,7 +35,6 @@ import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
@@ -60,6 +59,10 @@ public class Combo extends Buff implements ActionIndicator.Action {
 	@Override
 	public int icon() {
 		return BuffIndicator.COMBO;
+	}
+
+	private static float baseComboTime() {
+		return 5f+(Dungeon.hero != null ? Dungeon.hero.pointsInTalent(Talent.SKILL) : 0);
 	}
 	
 	@Override
@@ -86,16 +89,22 @@ public class Combo extends Buff implements ActionIndicator.Action {
 	public String toString() {
 		return Messages.get(this, "name");
 	}
-	
+
 	public void hit( Char enemy ) {
 
-		count++;
-		comboTime = 5f;
+		if(Dungeon.hero.pointsInTalent(Talent.SKILL) == 3 && Random.Int(3) == 0) count++;
+		comboTime = baseComboTime();
 
 		if (!enemy.isAlive() || (enemy.buff(Corruption.class) != null && enemy.HP == enemy.HT)){
-			comboTime = Math.max(comboTime, 15*((Hero)target).pointsInTalent(Talent.CLEAVE));
+			Hero hero = (Hero)target;
+			int time = 15 * hero.pointsInTalent(Talent.CLEAVE);
+			comboTime = Math.max(comboTime, time);
 		}
+		incCombo();
+	}
 
+	public void incCombo() {
+		count++;
 		initialComboTime = comboTime;
 
 		if ((getHighestMove() != null)) {
@@ -104,11 +113,18 @@ public class Combo extends Buff implements ActionIndicator.Action {
 			Badges.validateMasteryCombo( count );
 
 			GLog.p( Messages.get(this, "combo", count) );
-			
+
 		}
 
 		BuffIndicator.refreshHero(); //refresh the buff visually on-hit
 
+	}
+
+	public void miss() {
+		if(((Hero)target).pointsInTalent(Talent.SKILL) >= 2 && Random.Int(3) == 0) {
+			comboTime = baseComboTime();
+			incCombo();
+		}
 	}
 
 	public void addTime( float time ){
@@ -311,8 +327,10 @@ public class Combo extends Buff implements ActionIndicator.Action {
 				dmgMulti = 0;
 				break;
 			case SLAM:
-				dmgBonus = Math.round(target.drRoll() * count / 5f);
-				break;
+				// reroll armor for gladiator
+				dmgBonus = target.drRoll();
+				if(hero.hasTalent(Talent.SKILL)) dmgBonus = Math.max(dmgBonus, target.drRoll());
+				dmgBonus = Math.round(dmgBonus * count / 5f);
 			case CRUSH:
 				dmgMulti = 0.25f * count;
 				break;
@@ -321,7 +339,7 @@ public class Combo extends Buff implements ActionIndicator.Action {
 				break;
 		}
 
-		if (hero.attack(enemy, dmgMulti, dmgBonus, Char.INFINITE_ACCURACY)){
+		if (hero.attack(enemy, dmgMulti, dmgBonus, Char.INFINITE_ACCURACY, hero.hasTalent(Talent.SKILL)?2:1)){
 			//special on-hit effects
 			switch (moveBeingUsed) {
 				case CLOBBER:

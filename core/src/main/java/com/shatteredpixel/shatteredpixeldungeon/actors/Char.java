@@ -251,8 +251,12 @@ public abstract class Char extends Actor {
 	final public boolean attack( Char enemy ){
 		return attack(enemy, 1f, 0f, 1f);
 	}
-	
-	public boolean attack( Char enemy, float dmgMulti, float dmgBonus, float accMulti ) {
+
+	final public boolean attack( Char enemy, float dmgMulti, float dmgBonus, float accMulti) {
+		return attack(enemy, dmgMulti, dmgBonus, accMulti, 1);
+	}
+
+	public boolean attack( Char enemy, float dmgMulti, float dmgBonus, float accMulti, int rolls) {
 
 		if (enemy == null) return false;
 		
@@ -290,16 +294,15 @@ public abstract class Char extends Actor {
 					dr = 0;
 				}
 			}
-			
-			int dmg;
+
+			int dmg = 0;
 			Preparation prep = buff(Preparation.class);
-			if (prep != null){
-				dmg = prep.damageRoll(this);
-				if (this == Dungeon.hero && Dungeon.hero.hasTalent(Talent.BOUNTY_HUNTER)) {
-					Buff.affect(Dungeon.hero, Talent.BountyHunterTracker.class, 0.0f);
+			while(rolls-- > 0) {
+				if (prep != null) {
+					dmg = Math.max(dmg, prep.damageRoll(this));
+				} else {
+					dmg = Math.max(dmg,damageRoll());
 				}
-			} else {
-				dmg = damageRoll();
 			}
 
 			dmg = Math.round(dmg*dmgMulti);
