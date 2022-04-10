@@ -62,6 +62,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+import static java.lang.Math.max;
+
 public enum Talent {
 
 	//Warrior T1
@@ -88,9 +91,9 @@ public enum Talent {
 	//Mage T3
 	EMPOWERING_SCROLLS(41, 3), ALLY_WARP(42, 3),
 	//Battlemage T3
-	EMPOWERED_STRIKE(43, 3), MYSTICAL_CHARGE(44, 3), EXCESS_CHARGE(45, 3),
+	EMPOWERED_STRIKE(43, 3), MYSTICAL_CHARGE(44, 3), EXCESS_CHARGE(45, 3), PYROMANIAC(31, 3),
 	//Warlock T3
-	SOUL_EATER(46, 3), SOUL_SIPHON(47, 3), NECROMANCERS_MINIONS(48, 3),
+	SOUL_EATER(46, 3), SOUL_SIPHON(47, 3), NECROMANCERS_MINIONS(48, 3), BANISHED(32, 3),
 	//Elemental Blast T4
 	BLAST_RADIUS(49, 4), ELEMENTAL_POWER(50, 4), REACTIVE_BARRIER(51, 4),
 	//Wild Magic T4
@@ -107,7 +110,7 @@ public enum Talent {
 	//Assassin T3
 	ENHANCED_LETHALITY(75, 3), ASSASSINS_REACH(76, 3), BOUNTY_HUNTER(77, 3),
 	//Freerunner T3
-	EVASIVE_ARMOR(78, 3), PROJECTILE_MOMENTUM(79, 3), SPEEDY_STEALTH(80, 3),
+	EVASIVE_ARMOR(78, 3), PROJECTILE_MOMENTUM(79, 3), SPEEDY_STEALTH(80, 3), FREERUNNER_EATING(30, 3),
 	//Smoke Bomb T4
 	HASTY_RETREAT(81, 4), BODY_REPLACEMENT(82, 4), SHADOW_STEP(83, 4),
 	//Death Mark T4
@@ -152,7 +155,7 @@ public enum Talent {
 	public static class RejuvenatingStepsCooldown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0f, 0.35f, 0.15f); }
-		public float iconFadePercent() { return Math.max(0, visualcooldown() / (15 - 5*Dungeon.hero.pointsInTalent(REJUVENATING_STEPS))); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / (15 - 5* hero.pointsInTalent(REJUVENATING_STEPS))); }
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
@@ -166,6 +169,35 @@ public enum Talent {
 	};
 	public static class SpiritBladesTracker extends FlavourBuff{};
 	public static class AutoReloadBuff extends FlavourBuff{};
+	public static abstract class Cooldown extends FlavourBuff {
+		public static <T extends Cooldown> void affectHero(Class<T> cls) {
+			if(cls == Cooldown.class) return;
+			T buff = Buff.affect(hero, cls);
+			buff.spend( buff.duration() );
+		}
+		public static <T extends Cooldown> void affectHero(Class<T> cls, float extraDuration) {
+			if(cls == Cooldown.class) return;
+			T buff = Buff.affect(hero, cls);
+			buff.spend( buff.duration() + extraDuration );
+		}
+		public abstract float duration();
+		public float iconFadePercent() { return max(0, visualcooldown() / duration()); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	}
+	public static class BanishedCooldown extends Cooldown {
+		public float duration() {
+			switch (hero.pointsInTalent(BANISHED)){
+				case 1: default:
+					return 270;
+				case 2:
+					return 240;
+				case 3:
+					return 210;
+			}
+		}
+		public int icon() { return BuffIndicator.CORRUPT; }
+	};
 
 	int icon;
 	int maxPoints;
@@ -187,7 +219,7 @@ public enum Talent {
 			if (Ratmogrify.useRatroicEnergy){
 				return 127;
 			}
-			HeroClass cls = Dungeon.hero != null ? Dungeon.hero.heroClass : GamesInProgress.selectedClass;
+			HeroClass cls = hero != null ? hero.heroClass : GamesInProgress.selectedClass;
 			switch (cls){
 //				case WARRIOR: default:
 //					return 26;
@@ -384,7 +416,7 @@ public enum Talent {
 			MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
 			if (staff != null){
 				staff.gainCharge(hero.pointsInTalent(ENERGIZING_UPGRADE)/2f, true);
-				ScrollOfRecharging.charge( Dungeon.hero );
+				ScrollOfRecharging.charge(Dungeon.hero);
 				SpellSprite.show( hero, SpellSprite.CHARGE );
 			}
 		}
@@ -392,7 +424,7 @@ public enum Talent {
 			CloakOfShadows cloak = hero.belongings.getItem(CloakOfShadows.class);
 			if (cloak != null){
 				cloak.overCharge(hero.pointsInTalent(MYSTICAL_UPGRADE)/2f);
-				ScrollOfRecharging.charge( Dungeon.hero );
+				ScrollOfRecharging.charge(Dungeon.hero);
 				SpellSprite.show( hero, SpellSprite.CHARGE );
 			}
 		}
@@ -575,13 +607,13 @@ public enum Talent {
 				Collections.addAll(tierTalents, CLEAVE, LETHAL_MOMENTUM, ENHANCED_COMBO, SKILL);
 				break;
 			case BATTLEMAGE:
-				Collections.addAll(tierTalents, EMPOWERED_STRIKE, MYSTICAL_CHARGE, EXCESS_CHARGE);
+				Collections.addAll(tierTalents, EMPOWERED_STRIKE, MYSTICAL_CHARGE, EXCESS_CHARGE, PYROMANIAC);
 				break;
 			case WARLOCK:
-				Collections.addAll(tierTalents, SOUL_EATER, SOUL_SIPHON, NECROMANCERS_MINIONS);
+				Collections.addAll(tierTalents, SOUL_EATER, SOUL_SIPHON, NECROMANCERS_MINIONS, BANISHED);
 				break;
 			case FREERUNNER:
-				Collections.addAll(tierTalents, EVASIVE_ARMOR, PROJECTILE_MOMENTUM, SPEEDY_STEALTH);
+				Collections.addAll(tierTalents, EVASIVE_ARMOR, PROJECTILE_MOMENTUM, SPEEDY_STEALTH, FREERUNNER_EATING);
 				break;
 			case SNIPER:
 				Collections.addAll(tierTalents, FARSIGHT, SHARED_ENCHANTMENT, SHARED_UPGRADES, AUTO_RELOAD);
