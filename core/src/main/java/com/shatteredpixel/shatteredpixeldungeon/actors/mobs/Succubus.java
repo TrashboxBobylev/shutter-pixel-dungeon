@@ -25,10 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Light;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.*;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -37,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.SuccubusSprite;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
@@ -133,7 +131,7 @@ public class Succubus extends Mob {
 			for (int n : PathFinder.NEIGHBOURS8) {
 				cell = route.collisionPos + n;
 				if (Dungeon.level.passable[cell]
-						&& Actor.findChar( cell ) == null
+						&& (Actor.findChar( cell ) == null || Actor.findChar( cell ) instanceof Snake)
 						&& (!properties().contains(Property.LARGE) || Dungeon.level.openSpace[cell])) {
 					candidates.add( cell );
 				}
@@ -147,6 +145,18 @@ public class Succubus extends Mob {
 		}
 		
 		ScrollOfTeleportation.appear( this, cell );
+		for (int i : PathFinder.NEIGHBOURS8){
+			if (Actor.findChar(cell + i) == null && Dungeon.level.passable[cell + i]){
+				Snake snake = new Snake();
+				snake.HP = snake.HT = 10;
+				snake.state = snake.HUNTING;
+				Buff.append(snake, LifeLink.class, 100f).object = id();
+				Buff.append(this, LifeLink.class, 100f).object = snake.id();
+				GameScene.add(snake);
+				ScrollOfTeleportation.appear( snake, cell );
+				Dungeon.level.occupyCell(snake);
+			}
+		}
 
 		blinkCooldown = Random.IntRange(4, 6);
 		return true;
