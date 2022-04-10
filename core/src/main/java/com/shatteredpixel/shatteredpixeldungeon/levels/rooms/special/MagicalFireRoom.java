@@ -209,7 +209,6 @@ public class MagicalFireRoom extends SpecialRoom {
 						Char ch = Actor.findChar(cell);
 						if (ch != null && !ch.isImmune(getClass())) {
 							Buff.append(ch, Burning.class).reignite(ch, 4f);
-							Buff.append(ch, Burning.class).reignite(ch, 4f);
 						}
 					}
 
@@ -223,12 +222,6 @@ public class MagicalFireRoom extends SpecialRoom {
 				return;
 			}
 
-		}
-
-		@Override
-		public void seed(Level level, int cell, int amount) {
-			super.seed(level, cell, amount);
-			level.passable[cell] = cur[cell] == 0 && (Terrain.flags[level.map[cell]] & Terrain.PASSABLE) != 0;
 		}
 
 		@Override

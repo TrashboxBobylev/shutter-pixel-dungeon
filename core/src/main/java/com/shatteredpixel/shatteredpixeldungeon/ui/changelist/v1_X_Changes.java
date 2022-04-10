@@ -53,7 +53,29 @@ public class v1_X_Changes {
 
 	public static void add_Coming_Soon( ArrayList<ChangeInfo> changeInfos ) {
 
-		ChangeInfo changes = new ChangeInfo("Shutter-1.1.0", true, "");
+		ChangeInfo changes = new ChangeInfo("Shutter-1.2.0", true, "");
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes.addButton( new ChangeButton(Icons.get(Icons.INFO), "Developer Commentary",
+				"_-_ Released April 10th, 2022\n\n" +
+						"_-_ This release makes important changes to difficulty."));
+
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+				"_-_ Fixed blocking enchantment not being a desirable choice.\n" +
+						"_-_ Fixed subclasses not having enough talents.\n" +
+						"_-_ Fixed golems being slower than they should.\n" +
+						"_-_ Fixed mastery potion being very limited.\n" +
+						"_-_ Fixed outdated engine version.\n" +
+						"_-_ Fixed Assassin being available instead of freerunner.\n" +
+						"_-_ Fixed Mage's Staff being too strong for non-true mages.\n" +
+						"_-_ Fixed badges being too easy to obtain.\n" +
+						"_-_ Fixed XP cap existence.\n" +
+						"_-_ Fixed Demon Halls enemies and Yog Dzewa being too weak.\n" +
+						"_-_ Fixed magical fire rooms not being solved by bruteforce.\n" +
+						"_-_ Fixed sacrifice rooms being not worth it."));
+
+		changes = new ChangeInfo("Shutter-1.1.0", true, "");
 		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
 
