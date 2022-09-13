@@ -256,7 +256,7 @@ public abstract class Char extends Actor {
 		return attack(enemy, 1f, 0f, 1f);
 	}
 
-	final public boolean attack( Char enemy, float dmgMulti, float dmgBonus, float accMulti) {
+	public boolean attack(Char enemy, float dmgMulti, float dmgBonus, float accMulti) {
 		return attack(enemy, dmgMulti, dmgBonus, accMulti, 1);
 	}
 
