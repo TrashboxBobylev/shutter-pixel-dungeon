@@ -40,9 +40,13 @@ import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Music;
 import com.watabou.utils.FileUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+
 public class WelcomeScene extends PixelScene {
 
-	private static final int LATEST_UPDATE = ShatteredPixelDungeon.vShu_1_2;
+	private static final int LATEST_UPDATE = ShatteredPixelDungeon.v1_3_0;
 
 	@Override
 	public void create() {
@@ -208,12 +212,24 @@ public class WelcomeScene extends PixelScene {
 						ShatteredPixelDungeon.reportException(e);
 					}
 				}
+				if (Rankings.INSTANCE.latestDaily != null){
+					try {
+						Rankings.INSTANCE.loadGameData(Rankings.INSTANCE.latestDaily);
+						Rankings.INSTANCE.saveGameData(Rankings.INSTANCE.latestDaily);
+					} catch (Exception e) {
+						//if we encounter a fatal per-record error, then clear that record
+						Rankings.INSTANCE.latestDaily = null;
+						ShatteredPixelDungeon.reportException(e);
+					}
+				}
+				Collections.sort(Rankings.INSTANCE.records, Rankings.scoreComparator);
 				Rankings.INSTANCE.save();
 			} catch (Exception e) {
 				//if we encounter a fatal error, then just clear the rankings
 				FileUtils.deleteFile( Rankings.RANKINGS_FILE );
 				ShatteredPixelDungeon.reportException(e);
 			}
+			Dungeon.daily = false;
 
 		}
 
@@ -225,6 +241,11 @@ public class WelcomeScene extends PixelScene {
 					Document.ADVENTURERS_GUIDE.readPage(page);
 				}
 			}
+		}
+
+		//defaults to false for older users
+		if (previousVersion <= ShatteredPixelDungeon.v1_2_3){
+			SPDSettings.quickSwapper(false);
 		}
 
 		SPDSettings.version(ShatteredPixelDungeon.versionCode);

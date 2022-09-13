@@ -21,9 +21,11 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Light;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle;
@@ -177,7 +179,9 @@ public class Eye extends Mob {
 			}
 
 			if (hit( this, ch, true )) {
-				ch.damage( Random.NormalIntRange( 30, 50 ), new DeathGaze() );
+				int dmg = Random.NormalIntRange( 30, 50 );
+				dmg = Math.round(dmg * AscensionChallenge.statModifier(this));
+				ch.damage( dmg, new DeathGaze() );
 				damagedSomething = true;
 
 				if (Dungeon.level.heroFOV[pos]) {
@@ -186,6 +190,7 @@ public class Eye extends Mob {
 				}
 
 				if (!ch.isAlive() && ch == Dungeon.hero) {
+					Badges.validateDeathFromEnemyMagic();
 					Dungeon.fail( getClass() );
 					GLog.n( Messages.get(this, "deathgaze_kill") );
 				}
@@ -223,10 +228,10 @@ public class Eye extends Mob {
 				}
 				break;
 			case 2:
-				loot = Generator.random(Generator.Category.SEED);
+				loot = Generator.randomUsingDefaults(Generator.Category.SEED);
 				break;
 			case 3:
-				loot = Generator.random(Generator.Category.STONE);
+				loot = Generator.randomUsingDefaults(Generator.Category.STONE);
 				break;
 		}
 		return loot;

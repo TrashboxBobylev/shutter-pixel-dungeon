@@ -44,6 +44,7 @@ import com.watabou.utils.Reflection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 
 public abstract class Scroll extends Item {
 	
@@ -51,7 +52,7 @@ public abstract class Scroll extends Item {
 	
 	protected static final float TIME_TO_READ	= 1f;
 
-	private static final HashMap<String, Integer> runes = new HashMap<String, Integer>() {
+	private static final LinkedHashMap<String, Integer> runes = new LinkedHashMap<String, Integer>() {
 		{
 			put("KAUNAN",ItemSpriteSheet.SCROLL_KAUNAN);
 			put("SOWILO",ItemSpriteSheet.SCROLL_SOWILO);

@@ -14,8 +14,8 @@ allprojects {
         appName = 'Shutter Pixel Dungeon'
         appPackageName = 'com.trashboxbobylev.shutterpixeldungeon'
 
-        appVersionCode = 622
-        appVersionName = '1.2.0'
+        appVersionCode = 648
+        appVersionName = '1.3.2'
 
         appJavaCompatibility = JavaVersion.VERSION_1_8
 
@@ -24,8 +24,8 @@ allprojects {
         appAndroidTargetSDK = 30
 
         gdxVersion = '1.11.0'
-        gdxControllersVersion = '2.2.1'
-        robovmVersion = '2.3.14'
+        gdxControllersVersion = '2.2.2'
+        robovmVersion = '2.3.16'
     }
     version = appVersionName
 

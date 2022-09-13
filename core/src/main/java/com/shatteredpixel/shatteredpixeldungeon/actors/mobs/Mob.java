@@ -49,6 +49,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
@@ -93,6 +94,7 @@ public abstract class Mob extends Char {
 	public int maxLvl = Hero.MAX_LEVEL;
 	
 	protected Char enemy;
+	protected int enemyID = -1; //used for save/restore
 	protected boolean enemySeen;
 	protected boolean alerted = false;
 
@@ -102,7 +104,9 @@ public abstract class Mob extends Char {
 	private static final String SEEN	= "seen";
 	private static final String TARGET	= "target";
 	private static final String MAX_LVL	= "max_lvl";
-	
+
+	private static final String ENEMY_ID	= "enemy_id";
+
 	@Override
 	public void storeInBundle( Bundle bundle ) {
 		
@@ -122,6 +126,10 @@ public abstract class Mob extends Char {
 		bundle.put( SEEN, enemySeen );
 		bundle.put( TARGET, target );
 		bundle.put( MAX_LVL, maxLvl );
+
+		if (enemy != null) {
+			bundle.put(ENEMY_ID, enemy.id() );
+		}
 	}
 	
 	@Override
@@ -147,6 +155,15 @@ public abstract class Mob extends Char {
 		target = bundle.getInt( TARGET );
 
 		if (bundle.contains(MAX_LVL)) maxLvl = bundle.getInt(MAX_LVL);
+
+		if (bundle.contains(ENEMY_ID)) {
+			enemyID = bundle.getInt(ENEMY_ID);
+		}
+	}
+
+	//mobs need to remember their targets after every actor is added
+	public void restoreEnemy(){
+		if (enemyID != -1 && enemy == null) enemy = (Char)Actor.findById(enemyID);
 	}
 	
 	public CharSprite sprite() {
@@ -553,17 +570,13 @@ public abstract class Mob extends Char {
 			return 0;
 		}
 	}
-	
-	protected boolean hitWithRanged = false;
-	
+
 	@Override
 	public int defenseProc( Char enemy, int damage ) {
 		
 		if (enemy instanceof Hero
-				&& ((Hero) enemy).belongings.weapon() instanceof MissileWeapon
-				&& !hitWithRanged){
-			hitWithRanged = true;
-			Statistics.thrownAssists++;
+				&& ((Hero) enemy).belongings.weapon() instanceof MissileWeapon){
+			Statistics.thrownAttacks++;
 			Badges.validateHuntressUnlock();
 		}
 		
@@ -609,6 +622,11 @@ public abstract class Mob extends Char {
 		return damage;
 	}
 
+	@Override
+	public float speed() {
+		return super.speed() * AscensionChallenge.enemySpeedModifier(this);
+	}
+
 	public final boolean surprisedBy( Char enemy ){
 		return surprisedBy( enemy, true);
 	}
@@ -650,14 +668,21 @@ public abstract class Mob extends Char {
 		super.destroy();
 		
 		Dungeon.level.mobs.remove( this );
-		
+
+		if (Dungeon.hero.buff(MindVision.class) != null){
+			Dungeon.observe();
+			GameScene.updateFog(pos, 2);
+		}
+
 		if (Dungeon.hero.isAlive()) {
 			
 			if (alignment == Alignment.ENEMY) {
 				Statistics.enemiesSlain++;
 				Badges.validateMonstersSlain();
 				Statistics.qualifiedForNoKilling = false;
-				
+
+				AscensionChallenge.processEnemyKill(this);
+
 				int exp = Dungeon.hero.lvl <= maxLvl ? EXP : 0;
 				if (exp > 0) {
 					Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(this, "exp", exp));
@@ -771,7 +796,7 @@ public abstract class Mob extends Char {
 		Item item;
 		if (loot instanceof Generator.Category) {
 
-			item = Generator.random( (Generator.Category)loot );
+			item = Generator.randomUsingDefaults( (Generator.Category)loot );
 
 		} else if (loot instanceof Class<?>) {
 

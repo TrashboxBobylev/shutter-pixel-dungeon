@@ -48,7 +48,7 @@ public class Blazing extends Weapon.Enchantment {
 			
 			if (defender.buff(Burning.class) != null){
 				Buff.affect(defender, Burning.class).reignite(defender, 8f);
-				int burnDamage = (int) (Random.NormalIntRange( 1, 3 + Dungeon.depth/4 ) * (1 + Dungeon.hero.pointsInTalent(Talent.PYROMANIAC)*0.175f));
+				int burnDamage = (int) (Random.NormalIntRange( 1, 3 + Dungeon.scalingDepth()/4 ) * (1 + Dungeon.hero.pointsInTalent(Talent.PYROMANIAC)*0.175f));
 				defender.damage( Math.round(burnDamage * 0.67f), this );
 			} else {
 				Buff.affect(defender, Burning.class).reignite(defender, 8f);
