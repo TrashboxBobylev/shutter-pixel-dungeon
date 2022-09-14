@@ -321,7 +321,7 @@ public abstract class Wand extends Item {
 		}
 
 		updateLevel();
-		curCharges = Math.min( curCharges + 1, maxCharges );
+		curCharges = Math.min( curCharges + 5, maxCharges );
 		updateQuickslot();
 		
 		return this;
@@ -366,12 +366,12 @@ public abstract class Wand extends Item {
 	}
 
 	public void updateLevel() {
-		maxCharges = Math.min( initialCharges() + level(), 10 );
+		maxCharges = Math.min( initialCharges() + level()*5, 50 );
 		curCharges = Math.min( curCharges, maxCharges );
 	}
 	
 	protected int initialCharges() {
-		return 2;
+		return 10;
 	}
 
 	protected int chargesPerCast() {
@@ -659,11 +659,11 @@ public abstract class Wand extends Item {
 	
 	public class Charger extends Buff {
 		
-		private static final float BASE_CHARGE_DELAY = 10f;
-		private static final float SCALING_CHARGE_ADDITION = 40f;
+		private static final float BASE_CHARGE_DELAY = 150f;
+		private static final float SCALING_CHARGE_ADDITION = 150f;
 		private static final float NORMAL_SCALE_FACTOR = 0.875f;
 
-		private static final float CHARGE_BUFF_BONUS = 0.25f;
+		private static final float CHARGE_BUFF_BONUS = 0.34f;
 
 		float scalingFactor = NORMAL_SCALE_FACTOR;
 		
@@ -695,15 +695,17 @@ public abstract class Wand extends Item {
 		}
 
 		private void recharge(){
-			int missingCharges = maxCharges - curCharges;
-			missingCharges = Math.max(0, missingCharges);
+			if (hero.heroClass == HeroClass.MAGE) {
+				int missingCharges = maxCharges - curCharges;
+				missingCharges = Math.max(0, missingCharges);
 
-			float turnsToCharge = (float) (BASE_CHARGE_DELAY
-					+ (SCALING_CHARGE_ADDITION * Math.pow(scalingFactor, missingCharges)));
+				float turnsToCharge = (float) (BASE_CHARGE_DELAY
+						+ (SCALING_CHARGE_ADDITION * Math.pow(scalingFactor, missingCharges)));
 
-			LockedFloor lock = target.buff(LockedFloor.class);
-			if (lock == null || lock.regenOn())
-				partialCharge += (1f/turnsToCharge) * RingOfEnergy.wandChargeMultiplier(target);
+				LockedFloor lock = target.buff(LockedFloor.class);
+				if (lock == null || lock.regenOn())
+					partialCharge += (1f / turnsToCharge) * RingOfEnergy.wandChargeMultiplier(target);
+			}
 
 			for (Recharging bonus : target.buffs(Recharging.class)){
 				if (bonus != null && bonus.remainder() > 0f) {
