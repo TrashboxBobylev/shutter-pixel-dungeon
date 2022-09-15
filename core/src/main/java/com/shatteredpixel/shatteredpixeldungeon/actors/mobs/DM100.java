@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
@@ -69,6 +70,15 @@ public class DM100 extends Mob implements Callback {
 	@Override
 	public int drRoll() {
 		return Random.NormalIntRange(0, 4);
+	}
+
+	@Override
+	public int defenseProc(Char enemy, int damage) {
+		if (Random.Int(3) == 0){
+			ScrollOfTeleportation.teleportChar(this);
+			return 0;
+		}
+		return super.defenseProc(enemy, damage);
 	}
 	
 	@Override

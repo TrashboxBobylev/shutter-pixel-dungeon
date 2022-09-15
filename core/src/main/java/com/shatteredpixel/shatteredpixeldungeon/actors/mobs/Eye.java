@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfDisintegration;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -115,6 +116,15 @@ public class Eye extends Mob {
 		if (beamCooldown > 0)
 			beamCooldown--;
 		return super.act();
+	}
+
+	@Override
+	public int defenseProc(Char enemy, int damage) {
+		if (Random.Int(3) == 0){
+			ScrollOfTeleportation.teleportChar(this);
+			return 0;
+		}
+		return super.defenseProc(enemy, damage);
 	}
 
 	@Override
