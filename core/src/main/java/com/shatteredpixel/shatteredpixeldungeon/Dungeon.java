@@ -23,13 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awareness;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Light;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSight;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.*;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.SpiritHawk;
@@ -49,20 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
-import com.shatteredpixel.shatteredpixeldungeon.levels.CavesLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.CityLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.DeadEndLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.HallsLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.LastLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
-import com.shatteredpixel.shatteredpixeldungeon.levels.CavesBossLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.CityBossLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.HallsBossLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.PrisonBossLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.PrisonLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.RegularLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.SewerBossLevel;
-import com.shatteredpixel.shatteredpixeldungeon.levels.SewerLevel;
+import com.shatteredpixel.shatteredpixeldungeon.levels.*;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret.SecretRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.SpecialRoom;
@@ -74,20 +55,12 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.shatteredpixel.shatteredpixeldungeon.utils.DungeonSeed;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndResurrect;
 import com.watabou.noosa.Game;
-import com.watabou.utils.Bundlable;
-import com.watabou.utils.Bundle;
-import com.watabou.utils.FileUtils;
-import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
-import com.watabou.utils.SparseArray;
+import com.watabou.utils.*;
 
 import java.io.IOException;
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 
 public class Dungeon {
 
@@ -260,6 +233,7 @@ public class Dungeon {
 	}
 
 	public static boolean isChallenged( int mask ) {
+		if (mask == Challenges.STRONGER_BOSSES) return true;
 		return (challenges & mask) != 0;
 	}
 	
