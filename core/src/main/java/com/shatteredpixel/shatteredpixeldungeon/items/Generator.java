@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MysteryMeat;
@@ -58,6 +59,8 @@ public class Generator {
 		MIS_T3  ( 0, 0, MissileWeapon.class ),
 		MIS_T4  ( 0, 0, MissileWeapon.class ),
 		MIS_T5  ( 0, 0, MissileWeapon.class ),
+
+		ARMOR(0,0,Armor.class),
 		
 		WAND	( 1, 1, Wand.class ),
 		RING	( 1, 0, Ring.class ),
