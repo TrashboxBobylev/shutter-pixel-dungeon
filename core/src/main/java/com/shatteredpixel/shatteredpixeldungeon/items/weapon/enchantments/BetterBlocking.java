@@ -38,6 +38,8 @@ public class BetterBlocking extends Weapon.Enchantment {
         float procChance = (level+1f)/(level+6f) * procChanceMultiplier(attacker);
         if (Random.Float() < procChance) {
 
+            float powerMulti = Math.max(1f, procChance);
+
             final Ballistica bolt = new Ballistica(attacker.pos, defender.pos, Ballistica.WONT_STOP);
 
             final ConeAOE cone = new ConeAOE(bolt, 6, 70, Ballistica.STOP_SOLID | Ballistica.IGNORE_SOFT_SOLID);
@@ -58,7 +60,7 @@ public class BetterBlocking extends Weapon.Enchantment {
                 }
 
                 for (Char ch : chars) {
-                    int dmg = Math.round(damage * 0.5f);
+                    int dmg = Math.round(damage * 0.5f * powerMulti);
                     weapon.proc(attacker, defender, dmg);
                     ch.damage(dmg, this);
                     Splash.at(ch.pos, 0xCC99FFFF, 2);
