@@ -46,7 +46,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.journal.RegionLorePage;
 import com.shatteredpixel.shatteredpixeldungeon.items.keys.GoldenKey;
 import com.shatteredpixel.shatteredpixeldungeon.items.keys.Key;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
-import com.shatteredpixel.shatteredpixeldungeon.journal.Journal;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
 import com.shatteredpixel.shatteredpixeldungeon.levels.builders.Builder;
 import com.shatteredpixel.shatteredpixeldungeon.levels.builders.FigureEightBuilder;
@@ -61,14 +60,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.SpecialRoom
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.EntranceRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.ExitRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.StandardRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.BlazingTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.BurningTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ChillingTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.DisintegrationTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ExplosiveTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.FrostTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.WornDartTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.*;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
@@ -497,15 +489,10 @@ public abstract class RegularLevel extends Level {
 
 			Document regionDoc;
 			switch( region ){
-				default: regionDoc = null; break;
-				case 1: regionDoc = Document.SEWERS_GUARD; break;
-				case 2: regionDoc = Document.PRISON_WARDEN; break;
-				case 3: regionDoc = Document.CAVES_EXPLORER; break;
-				case 4: regionDoc = Document.CITY_WARLOCK; break;
-				case 5: regionDoc = Document.HALLS_KING; break;
+				default: regionDoc = Document.BETTER_LORE; break;
 			}
 
-			if (regionDoc != null && !regionDoc.allPagesFound()) {
+			if (!regionDoc.allPagesFound()) {
 
 				Dungeon.LimitedDrops limit = limitedDocs.get(regionDoc);
 
@@ -555,11 +542,7 @@ public abstract class RegularLevel extends Level {
 
 	private static HashMap<Document, Dungeon.LimitedDrops> limitedDocs = new HashMap<>();
 	static {
-		limitedDocs.put(Document.SEWERS_GUARD, Dungeon.LimitedDrops.LORE_SEWERS);
-		limitedDocs.put(Document.PRISON_WARDEN, Dungeon.LimitedDrops.LORE_PRISON);
-		limitedDocs.put(Document.CAVES_EXPLORER, Dungeon.LimitedDrops.LORE_CAVES);
-		limitedDocs.put(Document.CITY_WARLOCK, Dungeon.LimitedDrops.LORE_CITY);
-		limitedDocs.put(Document.HALLS_KING, Dungeon.LimitedDrops.LORE_HALLS);
+		limitedDocs.put(Document.BETTER_LORE, Dungeon.LimitedDrops.LORE_SEWERS);
 	}
 	
 	public ArrayList<Room> rooms() {

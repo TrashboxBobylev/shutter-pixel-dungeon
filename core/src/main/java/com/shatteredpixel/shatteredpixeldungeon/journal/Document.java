@@ -39,11 +39,12 @@ public enum Document {
 	ALCHEMY_GUIDE(ItemSpriteSheet.ALCH_PAGE, false),
 
 	INTROS(Icons.STAIRS, true),
-	SEWERS_GUARD(ItemSpriteSheet.SEWER_PAGE, true),
-	PRISON_WARDEN(ItemSpriteSheet.PRISON_PAGE, true),
-	CAVES_EXPLORER(ItemSpriteSheet.CAVES_PAGE, true),
-	CITY_WARLOCK(ItemSpriteSheet.CITY_PAGE, true),
-	HALLS_KING(ItemSpriteSheet.HALLS_PAGE, true);
+	SEWERS_GUARD(ItemSpriteSheet.SEWER_PAGE, false),
+	PRISON_WARDEN(ItemSpriteSheet.PRISON_PAGE, false),
+	CAVES_EXPLORER(ItemSpriteSheet.CAVES_PAGE, false),
+	CITY_WARLOCK(ItemSpriteSheet.CITY_PAGE, false),
+	HALLS_KING(ItemSpriteSheet.HALLS_PAGE, false),
+	BETTER_LORE(ItemSpriteSheet.LORE_PAGE, true);
 	
 	Document( int sprite, boolean lore ){
 		pageIcon = null;
@@ -303,6 +304,17 @@ public enum Document {
 		HALLS_KING.pagesStates.put("new_king",                  debug ? READ : NOT_FOUND);
 		HALLS_KING.pagesStates.put("thing",                     debug ? READ : NOT_FOUND);
 		HALLS_KING.pagesStates.put("attrition",                 debug ? READ : NOT_FOUND);
+
+		BETTER_LORE.pagesStates.put("page1",                    debug ? READ : NOT_FOUND);
+		BETTER_LORE.pagesStates.put("page2",                    debug ? READ : NOT_FOUND);
+		BETTER_LORE.pagesStates.put("page3",                    debug ? READ : NOT_FOUND);
+		BETTER_LORE.pagesStates.put("page4",                    debug ? READ : NOT_FOUND);
+		BETTER_LORE.pagesStates.put("page5",                    debug ? READ : NOT_FOUND);
+		BETTER_LORE.pagesStates.put("page6",                    debug ? READ : NOT_FOUND);
+		BETTER_LORE.pagesStates.put("page7",                    debug ? READ : NOT_FOUND);
+		BETTER_LORE.pagesStates.put("page8",                    debug ? READ : NOT_FOUND);
+		BETTER_LORE.pagesStates.put("page9",                    debug ? READ : NOT_FOUND);
+		BETTER_LORE.pagesStates.put("page10",                    debug ? READ : NOT_FOUND);
 
 	}
 	

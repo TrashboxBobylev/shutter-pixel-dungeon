@@ -33,6 +33,7 @@ public class RegionLorePage {
 			case CAVES_EXPLORER:            return new RegionLorePage.Caves();
 			case CITY_WARLOCK:              return new RegionLorePage.City();
 			case HALLS_KING:                return new RegionLorePage.Halls();
+			case BETTER_LORE:               return new RegionLorePage.ActuallyGoodLore();
 		}
 	}
 
@@ -88,6 +89,17 @@ public class RegionLorePage {
 		@Override
 		public Document document() {
 			return Document.HALLS_KING;
+		}
+	}
+
+	public static class ActuallyGoodLore extends DocumentPage {
+		{
+			image = ItemSpriteSheet.LORE_PAGE;
+		}
+
+		@Override
+		public Document document() {
+			return Document.BETTER_LORE;
 		}
 	}
 
