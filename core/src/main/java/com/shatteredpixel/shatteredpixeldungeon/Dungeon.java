@@ -96,7 +96,14 @@ public class Dungeon {
 		VELVET_POUCH,
 		SCROLL_HOLDER,
 		POTION_BANDOLIER,
-		MAGICAL_HOLSTER;
+		MAGICAL_HOLSTER,
+
+		//lore documents
+		LORE_SEWERS,
+		LORE_PRISON,
+		LORE_CAVES,
+		LORE_CITY,
+		LORE_HALLS;
 
 		public int count = 0;
 
@@ -160,6 +167,7 @@ public class Dungeon {
 	public static int version;
 
 	public static boolean daily;
+	public static boolean dailyReplay;
 	public static String customSeedText = "";
 	public static long seed;
 	
@@ -170,10 +178,11 @@ public class Dungeon {
 		mobsToChampion = -1;
 
 		if (daily) {
-			seed = SPDSettings.lastDaily();
+			//Ensures that daily seeds are not in the range of user-enterable seeds
+			seed = SPDSettings.lastDaily() + DungeonSeed.TOTAL_SEEDS;
 			DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT, Locale.ROOT);
 			format.setTimeZone(TimeZone.getTimeZone("UTC"));
-			customSeedText = format.format(new Date(seed));
+			customSeedText = format.format(new Date(SPDSettings.lastDaily()));
 		} else if (!SPDSettings.customSeed().isEmpty()){
 			customSeedText = SPDSettings.customSeed();
 			seed = DungeonSeed.convertFromText(customSeedText);
@@ -403,7 +412,7 @@ public class Dungeon {
 		level.addRespawner();
 		
 		for(Mob m : level.mobs){
-			if (m.pos == hero.pos){
+			if (m.pos == hero.pos && !Char.hasProp(m, Char.Property.IMMOVABLE)){
 				//displace mob
 				for(int i : PathFinder.NEIGHBOURS8){
 					if (Actor.findChar(m.pos+i) == null && level.passable[m.pos + i]){
@@ -484,6 +493,7 @@ public class Dungeon {
 	private static final String SEED		= "seed";
 	private static final String CUSTOM_SEED	= "custom_seed";
 	private static final String DAILY	    = "daily";
+	private static final String DAILY_REPLAY= "daily_replay";
 	private static final String CHALLENGES	= "challenges";
 	private static final String MOBS_TO_CHAMPION	= "mobs_to_champion";
 	private static final String HERO		= "hero";
@@ -508,6 +518,7 @@ public class Dungeon {
 			bundle.put( SEED, seed );
 			bundle.put( CUSTOM_SEED, customSeedText );
 			bundle.put( DAILY, daily );
+			bundle.put( DAILY_REPLAY, dailyReplay );
 			bundle.put( CHALLENGES, challenges );
 			bundle.put( MOBS_TO_CHAMPION, mobsToChampion );
 			bundle.put( HERO, hero );
@@ -585,7 +596,7 @@ public class Dungeon {
 			saveGame( GamesInProgress.curSlot );
 			saveLevel( GamesInProgress.curSlot );
 
-			GamesInProgress.set( GamesInProgress.curSlot, depth, challenges, seed, customSeedText, daily, hero );
+			GamesInProgress.set( GamesInProgress.curSlot );
 
 		}
 	}
@@ -610,6 +621,7 @@ public class Dungeon {
 		seed = bundle.contains( SEED ) ? bundle.getLong( SEED ) : DungeonSeed.randomSeed();
 		customSeedText = bundle.getString( CUSTOM_SEED );
 		daily = bundle.getBoolean( DAILY );
+		dailyReplay = bundle.getBoolean( DAILY_REPLAY );
 
 		Actor.clear();
 		Actor.restoreNextID( bundle );
@@ -745,6 +757,7 @@ public class Dungeon {
 		info.seed = bundle.getLong( SEED );
 		info.customSeed = bundle.getString( CUSTOM_SEED );
 		info.daily = bundle.getBoolean( DAILY );
+		info.dailyReplay = bundle.getBoolean( DAILY_REPLAY );
 
 		Hero.preview( info, bundle.getBundle( HERO ) );
 		Statistics.preview( info, bundle );

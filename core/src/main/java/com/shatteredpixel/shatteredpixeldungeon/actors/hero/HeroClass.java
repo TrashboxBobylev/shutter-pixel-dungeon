@@ -169,6 +169,10 @@ public enum HeroClass {
 		return Messages.get(HeroClass.class, name()+"_desc");
 	}
 
+	public String shortDesc(){
+		return Messages.get(HeroClass.class, name()+"_desc_short");
+	}
+
 	public HeroSubClass[] subClasses() {
 		return subClasses;
 	}
@@ -205,51 +209,13 @@ public enum HeroClass {
 				return Assets.Splashes.HUNTRESS;
 		}
 	}
-	
-	public String[] perks() {
-		switch (this) {
-			case MAGE: default:
-				return new String[]{
-						Messages.get(HeroClass.class, "mage_perk1"),
-						Messages.get(HeroClass.class, "mage_perk2"),
-						Messages.get(HeroClass.class, "mage_perk3"),
-						Messages.get(HeroClass.class, "mage_perk4"),
-						Messages.get(HeroClass.class, "mage_perk5"),
-				};
-			case ROGUE:
-				return new String[]{
-						Messages.get(HeroClass.class, "rogue_perk1"),
-						Messages.get(HeroClass.class, "rogue_perk2"),
-						Messages.get(HeroClass.class, "rogue_perk3"),
-						Messages.get(HeroClass.class, "rogue_perk4"),
-						Messages.get(HeroClass.class, "rogue_perk5"),
-				};
-			case HUNTRESS:
-				return new String[]{
-						Messages.get(HeroClass.class, "huntress_perk1"),
-						Messages.get(HeroClass.class, "huntress_perk2"),
-						Messages.get(HeroClass.class, "huntress_perk3"),
-						Messages.get(HeroClass.class, "huntress_perk4"),
-						Messages.get(HeroClass.class, "huntress_perk5"),
-				};
-		}
-	}
-	
+
 	public boolean isUnlocked(){
 		return true;
 	}
 	
 	public String unlockMsg() {
-		switch (this){
-			 default:
-				return "";
-			case MAGE:
-				return Messages.get(HeroClass.class, "mage_unlock");
-			case ROGUE:
-				return Messages.get(HeroClass.class, "rogue_unlock");
-			case HUNTRESS:
-				return Messages.get(HeroClass.class, "huntress_unlock");
-		}
+		return shortDesc() + "\n\n" + Messages.get(HeroClass.class, name()+"_unlock");
 	}
 
 }

@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
@@ -42,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.GooSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BossHealthBar;
 import com.watabou.noosa.Camera;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
@@ -189,6 +191,7 @@ public class Goo extends Mob {
 					((GooSprite)sprite).triggerEmitters();
 				}
 				attack( enemy );
+				Invisibility.dispel(this);
 				spend( attackDelay() );
 			}
 
@@ -217,6 +220,15 @@ public class Goo extends Mob {
 			sprite.idle();
 		}
 		return super.getCloser( target );
+	}
+
+	@Override
+	protected boolean getFurther(int target) {
+		if (pumpedUp != 0) {
+			pumpedUp = 0;
+			sprite.idle();
+		}
+		return super.getFurther( target );
 	}
 
 	@Override

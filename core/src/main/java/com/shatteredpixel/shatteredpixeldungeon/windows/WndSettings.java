@@ -45,9 +45,9 @@ public class WndSettings extends WndTabbed {
 	private static final int WIDTH_P	    = 122;
 	private static final int WIDTH_L	    = 223;
 
-	private static final int SLIDER_HEIGHT	= 23;
-	private static final int BTN_HEIGHT	    = 17;
-	private static final float GAP          = 2;
+	private static final int SLIDER_HEIGHT	= 21;
+	private static final int BTN_HEIGHT	    = 16;
+	private static final float GAP          = 1;
 
 	private DisplayTab  display;
 	private UITab       ui;
@@ -182,6 +182,7 @@ public class WndSettings extends WndTabbed {
 		ColorBlock sep2;
 		OptionSlider optBrightness;
 		OptionSlider optVisGrid;
+		OptionSlider optFollowIntensity;
 
 		@Override
 		protected void createChildren() {
@@ -276,6 +277,16 @@ public class WndSettings extends WndTabbed {
 			optVisGrid.setSelectedValue(SPDSettings.visualGrid());
 			add(optVisGrid);
 
+			optFollowIntensity = new OptionSlider(Messages.get(this, "camera_follow"),
+					Messages.get(this, "low"), Messages.get(this, "high"), 1, 4) {
+				@Override
+				protected void onChange() {
+					SPDSettings.cameraFollow(getSelectedValue());
+				}
+			};
+			optFollowIntensity.setSelectedValue(SPDSettings.cameraFollow());
+			add(optFollowIntensity);
+
 		}
 
 		@Override
@@ -285,7 +296,7 @@ public class WndSettings extends WndTabbed {
 
 			title.setPos((width - title.width())/2, bottom + GAP);
 			sep1.size(width, 1);
-			sep1.y = title.bottom() + 2*GAP;
+			sep1.y = title.bottom() + 3*GAP;
 
 			bottom = sep1.y + 1;
 
@@ -325,7 +336,9 @@ public class WndSettings extends WndTabbed {
 				optVisGrid.setRect(0, optBrightness.bottom() + GAP, width, SLIDER_HEIGHT);
 			}
 
-			height = optVisGrid.bottom();
+			optFollowIntensity.setRect(0, optVisGrid.bottom() + GAP, width, SLIDER_HEIGHT);
+
+			height = optFollowIntensity.bottom();
 		}
 
 	}
@@ -341,8 +354,6 @@ public class WndSettings extends WndTabbed {
 		CheckBox chkFlipTags;
 		ColorBlock sep2;
 		CheckBox chkFont;
-		ColorBlock sep3;
-		RedButton btnKeyBindings;
 
 		@Override
 		protected void createChildren() {
@@ -566,7 +577,7 @@ public class WndSettings extends WndTabbed {
 		protected void layout() {
 			title.setPos((width - title.width())/2, y + GAP);
 			sep1.size(width, 1);
-			sep1.y = title.bottom() + 2*GAP;
+			sep1.y = title.bottom() + 3*GAP;
 
 			height = sep1.y + 1;
 
@@ -595,27 +606,10 @@ public class WndSettings extends WndTabbed {
 			}
 
 			sep2.size(width, 1);
-			sep2.y = height + 2;
+			sep2.y = height + GAP;
 
 			chkFont.setRect(0, sep2.y + 1 + GAP, width, BTN_HEIGHT);
-
-			if (btnKeyBindings != null){
-				if (width > 200){
-					chkFont.setSize(width/2-1, BTN_HEIGHT);
-					sep3.size(1, BTN_HEIGHT + 2*GAP);
-					sep3.x = chkFont.right() + 0.5f;
-					sep3.y = sep2.y+1;
-					PixelScene.align(sep3);
-					btnKeyBindings.setRect(chkFont.right()+2, chkFont.top(), width/2 - 1, BTN_HEIGHT);
-				} else {
-					sep3.size(width, 1);
-					sep3.y = chkFont.bottom() + 2;
-					btnKeyBindings.setRect(0, sep3.y + 1 + GAP, width, BTN_HEIGHT);
-				}
-				height = btnKeyBindings.bottom();
-			} else {
-				height = chkFont.bottom();
-			}
+			height = chkFont.bottom();
 		}
 
 	}
@@ -706,7 +700,7 @@ public class WndSettings extends WndTabbed {
 		protected void layout() {
 			title.setPos((width - title.width())/2, y + GAP);
 			sep1.size(width, 1);
-			sep1.y = title.bottom() + 2*GAP;
+			sep1.y = title.bottom() + 3*GAP;
 
 			height = sep1.y+1;
 
@@ -814,7 +808,7 @@ public class WndSettings extends WndTabbed {
 		protected void layout() {
 			title.setPos((width - title.width())/2, y + GAP);
 			sep1.size(width, 1);
-			sep1.y = title.bottom() + 2*GAP;
+			sep1.y = title.bottom() + 3*GAP;
 
 			float pos;
 			if (width > 200 && chkUpdates != null){
@@ -939,7 +933,7 @@ public class WndSettings extends WndTabbed {
 		protected void layout() {
 			title.setPos((width - title.width())/2, y + GAP);
 			sep1.size(width, 1);
-			sep1.y = title.bottom() + 2*GAP;
+			sep1.y = title.bottom() + 3*GAP;
 
 			if (width > 200) {
 				optMusic.setRect(0, sep1.y + 1 + GAP, width/2-1, SLIDER_HEIGHT);

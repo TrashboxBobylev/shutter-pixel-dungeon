@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.*;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Pushing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
+import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.SpawnerSprite;
@@ -84,6 +85,10 @@ public class DemonSpawner extends Mob {
 			spawnRecorded = true;
 		}
 
+		if (Dungeon.level.heroFOV[pos]){
+			Notes.add( Notes.Landmark.DEMON_SPAWNER );
+		}
+
 		spawnCooldown--;
 		if (spawnCooldown <= 0){
 			ArrayList<Integer> candidates = new ArrayList<>();
@@ -132,6 +137,7 @@ public class DemonSpawner extends Mob {
 	public void die(Object cause) {
 		if (spawnRecorded){
 			Statistics.spawnersAlive--;
+			Notes.remove(Notes.Landmark.DEMON_SPAWNER);
 		}
 		GLog.h(Messages.get(this, "on_death"));
 		super.die(cause);

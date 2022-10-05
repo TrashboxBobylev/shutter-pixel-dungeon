@@ -109,13 +109,14 @@ public abstract class Shaman extends Mob {
 		}
 		return super.defenseProc(enemy, damage);
 	}
-	
+
 	//used so resistances can differentiate between melee and magical attacks
 	public static class EarthenBolt{}
 	
 	private void zap() {
 		spend( 1f );
-		
+
+		Invisibility.dispel(this);
 		if (hit( this, enemy, true )) {
 			
 			if (Random.Int( 2 ) == 0) {

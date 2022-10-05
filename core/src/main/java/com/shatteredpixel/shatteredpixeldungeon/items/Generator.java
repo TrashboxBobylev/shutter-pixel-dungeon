@@ -200,10 +200,11 @@ public class Generator {
 			
 			WEP_T1.classes = new Class<?>[]{
 					Gloves.class,
+					MagesStaff.class,
 					Dagger.class,
-					MagesStaff.class
+					Gloves.class
 			};
-			WEP_T1.probs = new float[]{ 1, 1, 0 };
+			WEP_T1.probs = new float[]{ 1, 0, 1, 1 };
 			
 			WEP_T2.classes = new Class<?>[]{
 					Shortsword.class,
@@ -241,7 +242,20 @@ public class Generator {
 					Gauntlet.class
 			};
 			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4 };
-
+			
+			//see Generator.randomArmor
+			ARMOR.classes = new Class<?>[]{
+					ClothArmor.class,
+					LeatherArmor.class,
+					MailArmor.class,
+					ScaleArmor.class,
+					PlateArmor.class,
+					WarriorArmor.class,
+					MageArmor.class,
+					RogueArmor.class,
+					HuntressArmor.class};
+			ARMOR.probs = new float[]{ 1, 1, 1, 1, 1, 0, 0, 0, 0 };
+			
 			//see Generator.randomMissile
 			MISSILE.classes = new Class<?>[]{};
 			MISSILE.probs = new float[]{};
@@ -288,6 +302,7 @@ public class Generator {
 			
 			RING.classes = new Class<?>[]{
 					RingOfAccuracy.class,
+					RingOfArcana.class,
 					RingOfEvasion.class,
 					RingOfElements.class,
 					RingOfFuror.class,
@@ -298,21 +313,19 @@ public class Generator {
 			RING.probs = new float[]{ 1, 1, 1, 1, 1, 1, 1, 1 };
 			
 			ARTIFACT.classes = new Class<?>[]{
-					CapeOfThorns.class,
+					AlchemistsToolkit.class,
 					ChaliceOfBlood.class,
 					CloakOfShadows.class,
+					DriedRose.class,
+					EtherealChains.class,
 					HornOfPlenty.class,
 					MasterThievesArmband.class,
 					SandalsOfNature.class,
 					TalismanOfForesight.class,
 					TimekeepersHourglass.class,
-					UnstableSpellbook.class,
-					AlchemistsToolkit.class,
-					DriedRose.class,
-					LloydsBeacon.class,
-					EtherealChains.class
+					UnstableSpellbook.class
 			};
-			ARTIFACT.defaultProbs = new float[]{ 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1};
+			ARTIFACT.defaultProbs = new float[]{ 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1 };
 			ARTIFACT.probs = ARTIFACT.defaultProbs.clone();
 		}
 	}
