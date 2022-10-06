@@ -32,12 +32,10 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
-import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndKeyBindings;
 import com.watabou.input.GameAction;
 import com.watabou.noosa.Image;
-import com.watabou.utils.PathFinder;
 
 public class QuickSlotButton extends Button {
 	
@@ -322,20 +320,6 @@ public class QuickSlotButton extends Button {
 
 	//FIXME: this is currently very expensive, should either optimize ballistica or this, or both
 	public static int autoAim(Char target, Item item){
-
-		//first try to directly target
-		if (item.targetingPos(Dungeon.hero, target.pos) == target.pos) {
-			return target.pos;
-		}
-
-		//Otherwise pick nearby tiles to try and 'angle' the shot, auto-aim basically.
-		PathFinder.buildDistanceMap( target.pos, BArray.not( new boolean[Dungeon.level.length()], null ), 2 );
-		for (int i = 0; i < PathFinder.distance.length; i++) {
-			if (PathFinder.distance[i] < Integer.MAX_VALUE
-					&& item.targetingPos(Dungeon.hero, i) == target.pos)
-				return i;
-		}
-
 		//couldn't find a cell, give up.
 		return -1;
 	}
@@ -353,12 +337,6 @@ public class QuickSlotButton extends Button {
 	}
 	
 	public static void target( Char target ) {
-		if (target != null && target.alignment != Char.Alignment.ALLY) {
-			lastTarget = target;
-			
-			TargetHealthIndicator.instance.target( target );
-			InventoryPane.lastTarget = target;
-		}
 	}
 	
 	public static void cancel() {
