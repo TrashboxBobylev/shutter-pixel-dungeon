@@ -530,7 +530,6 @@ public enum Talent {
 				&& enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)
 				&& enemy.buff(SuckerPunchTracker.class) == null){
 			dmg += Random.IntRange(hero.pointsInTalent(Talent.SUCKER_PUNCH) , 2);
-			Buff.affect(enemy, SuckerPunchTracker.class);
 		}
 
 		if (hero.hasTalent(Talent.FOLLOWUP_STRIKE)) {
@@ -541,7 +540,6 @@ public enum Talent {
 				if (!(enemy instanceof Mob) || !((Mob) enemy).surprisedBy(hero)){
 					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG, 0.75f, 1.2f);
 				}
-				enemy.buff(FollowupStrikeTracker.class).detach();
 			}
 		}
 
