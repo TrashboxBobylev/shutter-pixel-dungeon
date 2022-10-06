@@ -38,7 +38,6 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
@@ -50,6 +49,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.MissileSprite;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Callback;
@@ -74,13 +74,17 @@ public class SpiritBow extends Weapon {
 	
 	public boolean sniperSpecial = false;
 	public float sniperSpecialBonusDamage = 0f;
+
+	public static final int REGULAR_SHOT_COST = 4;
+	public static final int SNIPER_SPECIAL_COST = 8;
 	
 	@Override
 	public ArrayList<String> actions(Hero hero) {
 		ArrayList<String> actions = super.actions(hero);
 		if (hero.subClass == HeroSubClass.NONE)
 			actions.remove(AC_EQUIP);
-		actions.add(AC_SHOOT);
+		if (Dungeon.gold >= REGULAR_SHOT_COST)
+			actions.add(AC_SHOOT);
 		return actions;
 	}
 
@@ -90,11 +94,14 @@ public class SpiritBow extends Weapon {
 		super.execute(hero, action);
 		
 		if (action.equals(AC_SHOOT)) {
-			
-			curUser = hero;
-			curItem = this;
-			GameScene.selectCell( shooter );
-			
+			if (Dungeon.gold >= REGULAR_SHOT_COST) {
+
+				curUser = hero;
+				curItem = this;
+				GameScene.selectCell(shooter);
+			} else {
+				GLog.n(Messages.get(SpiritBow.class, "no_gold"));
+			}
 		}
 	}
 
@@ -188,7 +195,7 @@ public class SpiritBow extends Weapon {
 	
 	@Override
 	public int min(int lvl) {
-		int dmg = 2 + Dungeon.hero.lvl/5
+		int dmg = 3 + Math.round(Dungeon.hero.lvl/3.333f)
 				+ RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
 				+ (curseInfusionBonus ? 1 + Dungeon.hero.lvl/30 : 0);
 		return Math.max(0, dmg);
@@ -196,8 +203,8 @@ public class SpiritBow extends Weapon {
 	
 	@Override
 	public int max(int lvl) {
-		int dmg = 7 + (int)(Dungeon.hero.lvl/2.5f)
-				+ 2*RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
+		int dmg = 10 + (int)(Dungeon.hero.lvl/1.67f)
+				+ 3*RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
 				+ (curseInfusionBonus ? 2 + Dungeon.hero.lvl/15 : 0);
 		return Math.max(0, dmg);
 	}
@@ -412,6 +419,7 @@ public class SpiritBow extends Weapon {
 											user.spendAndNext(castDelay(user, dst));
 											sniperSpecial = false;
 											flurryCount = -1;
+											Dungeon.gold -= SNIPER_SPECIAL_COST;
 										}
 
 										if (flurryActor != null){
@@ -448,6 +456,10 @@ public class SpiritBow extends Weapon {
 				});
 				
 			} else {
+
+				if (sniperSpecial){
+					Dungeon.gold -= SNIPER_SPECIAL_COST;
+				}
 
 				if (user.hasTalent(Talent.SEER_SHOT)
 						&& user.buff(Talent.SeerShotCooldown.class) == null){
@@ -501,6 +513,7 @@ public class SpiritBow extends Weapon {
 		@Override
 		public void onSelect( Integer target ) {
 			if (target != null) {
+				Dungeon.gold -= REGULAR_SHOT_COST;
 				knockArrow().cast(curUser, target);
 			}
 		}
