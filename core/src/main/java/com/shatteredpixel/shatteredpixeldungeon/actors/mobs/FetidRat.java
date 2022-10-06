@@ -81,7 +81,13 @@ public class FetidRat extends Rat {
 
 		Ghost.Quest.process();
 	}
-	
+
+	@Override
+	public void move(int step, boolean travelling) {
+		super.move(step, travelling);
+		GameScene.add(Blob.seed(pos, 20, StenchGas.class));
+	}
+
 	{
 		immunities.add( StenchGas.class );
 	}

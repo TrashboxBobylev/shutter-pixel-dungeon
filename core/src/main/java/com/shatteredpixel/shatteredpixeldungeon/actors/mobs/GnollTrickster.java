@@ -27,7 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Ghost;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -65,6 +65,11 @@ public class GnollTrickster extends Gnoll {
 	}
 
 	@Override
+	public float attackDelay() {
+		return super.attackDelay()*0.5f;
+	}
+
+	@Override
 	protected boolean canAttack( Char enemy ) {
 		Ballistica attack = new Ballistica( pos, enemy.pos, Ballistica.PROJECTILE);
 		return !Dungeon.level.adjacent(pos, enemy.pos) && attack.collisionPos == enemy.pos;
@@ -85,8 +90,9 @@ public class GnollTrickster extends Gnoll {
 					GameScene.add(Blob.seed(enemy.pos, 4, Fire.class));
 				Buff.affect(enemy, Burning.class).reignite( enemy );
 
-			} else
-				Buff.affect( enemy, Poison.class).set((effect-2) );
+			} else {
+				Buff.affect(enemy, Cripple.class, 3);
+			}
 
 		}
 		return damage;
