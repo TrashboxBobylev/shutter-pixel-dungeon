@@ -25,7 +25,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.CeremonialCandle;
@@ -70,19 +69,6 @@ public class Wandmaker extends NPC {
 			Notes.add( Notes.Landmark.WANDMAKER );
 		}
 		return super.act();
-	}
-	
-	@Override
-	public int defenseSkill( Char enemy ) {
-		return INFINITE_EVASION;
-	}
-	
-	@Override
-	public void damage( int dmg, Object src ) {
-	}
-	
-	@Override
-	public void add( Buff buff ) {
 	}
 	
 	@Override

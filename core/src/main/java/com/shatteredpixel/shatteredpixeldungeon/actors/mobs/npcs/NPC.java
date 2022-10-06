@@ -26,10 +26,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 public abstract class NPC extends Mob {
 
 	{
-		HP = HT = 1;
-		EXP = 0;
+		HP = HT = 50;
+		EXP = 10;
 
-		alignment = Alignment.NEUTRAL;
+		alignment = Alignment.ENEMY;
 		state = PASSIVE;
 	}
 

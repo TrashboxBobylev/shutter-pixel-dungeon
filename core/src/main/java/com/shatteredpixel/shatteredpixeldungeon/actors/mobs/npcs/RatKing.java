@@ -24,7 +24,6 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.Ratmogrify;
 import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -44,11 +43,6 @@ public class RatKing extends NPC {
 	}
 	
 	@Override
-	public int defenseSkill( Char enemy ) {
-		return INFINITE_EVASION;
-	}
-	
-	@Override
 	public float speed() {
 		return 2f;
 	}
@@ -56,14 +50,6 @@ public class RatKing extends NPC {
 	@Override
 	protected Char chooseEnemy() {
 		return null;
-	}
-	
-	@Override
-	public void damage( int dmg, Object src ) {
-	}
-	
-	@Override
-	public void add( Buff buff ) {
 	}
 	
 	@Override

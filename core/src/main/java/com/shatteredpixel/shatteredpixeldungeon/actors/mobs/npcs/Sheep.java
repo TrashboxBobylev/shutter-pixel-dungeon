@@ -38,6 +38,9 @@ public class Sheep extends NPC {
 
 	{
 		spriteClass = SheepSprite.class;
+		alignment = Alignment.NEUTRAL;
+		HP = 1;
+		EXP = 0;
 	}
 
 	public float lifespan;

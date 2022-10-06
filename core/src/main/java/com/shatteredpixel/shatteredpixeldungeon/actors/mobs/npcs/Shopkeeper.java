@@ -25,7 +25,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
@@ -64,17 +63,13 @@ public class Shopkeeper extends NPC {
 		spend( TICK );
 		return super.act();
 	}
-	
+
 	@Override
-	public void damage( int dmg, Object src ) {
+	public void die(Object cause) {
+		super.die(cause);
 		flee();
 	}
-	
-	@Override
-	public void add( Buff buff ) {
-		flee();
-	}
-	
+
 	public void flee() {
 		destroy();
 
