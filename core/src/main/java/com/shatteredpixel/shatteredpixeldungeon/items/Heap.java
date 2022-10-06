@@ -40,12 +40,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.journal.DocumentPage;
 import com.shatteredpixel.shatteredpixeldungeon.items.journal.Guidebook;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
@@ -202,10 +200,7 @@ public class Heap implements Bundlable {
 		boolean evaporated = false;
 		
 		for (Item item : items.toArray( new Item[0] )) {
-			if (item instanceof Scroll && !item.unique) {
-				items.remove( item );
-				burnt = true;
-			} else if (item instanceof Dewdrop) {
+			if (item instanceof Dewdrop) {
 				items.remove( item );
 				evaporated = true;
 			} else if (item instanceof MysteryMeat || item instanceof FrozenCarpaccio) {
@@ -220,6 +215,9 @@ public class Heap implements Bundlable {
 				} else {
 					burnt = true;
 				}
+			} else {
+				items.remove( item );
+				burnt = true;
 			}
 		}
 		
