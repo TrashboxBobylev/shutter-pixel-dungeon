@@ -664,6 +664,8 @@ public abstract class Mob extends Char {
 		
 		super.damage( dmg, src );
 	}
+
+	boolean killedByHero = false;
 	
 	
 	@Override
@@ -687,11 +689,13 @@ public abstract class Mob extends Char {
 
 				AscensionChallenge.processEnemyKill(this);
 
-				int exp = Dungeon.hero.lvl <= maxLvl ? EXP : 0;
-				if (exp > 0) {
-					Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(this, "exp", exp));
+				if (killedByHero) {
+					int exp = Dungeon.hero.lvl <= maxLvl ? EXP : 0;
+					if (exp > 0) {
+						Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(this, "exp", exp));
+					}
+					Dungeon.hero.earnExp(exp, getClass());
 				}
-				Dungeon.hero.earnExp(exp, getClass());
 			}
 		}
 	}
@@ -718,6 +722,8 @@ public abstract class Mob extends Char {
 		if (Dungeon.hero.isAlive() && !Dungeon.level.heroFOV[pos]) {
 			GLog.i( Messages.get(this, "died") );
 		}
+
+		if (cause instanceof Hero) killedByHero = true;
 
 		boolean soulMarked = buff(SoulMark.class) != null;
 
