@@ -22,7 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Quarterstaff extends MeleeWeapon {
@@ -30,19 +30,18 @@ public class Quarterstaff extends MeleeWeapon {
 	{
 		image = ItemSpriteSheet.QUARTERSTAFF;
 		hitSound = Assets.Sounds.HIT_CRUSH;
-		hitSoundPitch = 1f;
+		hitSoundPitch = 0.8f;
 
 		tier = 2;
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  4*(tier+1) +    //12 base, down from 15
-				lvl*(tier+1);   //scaling unchanged
+		return  5*(tier) +    //10 base, down from 15
+				lvl*(tier);   //+2, down from +3
 	}
 
-	@Override
-	public int defenseFactor( Char owner ) {
-		return 2;	//2 extra defence
+	public String statsInfo(){
+		return Messages.get(this, "stats_desc", 25 * (buffedLvl()+1));
 	}
 }
