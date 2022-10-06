@@ -718,12 +718,14 @@ public abstract class Wand extends Item {
 		}
 
 		private void recharge(){
-			if (hero.heroClass == HeroClass.MAGE) {
+			if (hero.heroClass == HeroClass.MAGE || hero.heroClass == HeroClass.BEST_CHARACTER) {
 				int missingCharges = maxCharges - curCharges;
 				missingCharges = Math.max(0, missingCharges);
 
 				float turnsToCharge = (float) (BASE_CHARGE_DELAY
 						+ (SCALING_CHARGE_ADDITION * Math.pow(scalingFactor, missingCharges)));
+
+				if (hero.heroClass == HeroClass.BEST_CHARACTER) turnsToCharge /= 2;
 
 				LockedFloor lock = target.buff(LockedFloor.class);
 				if (lock == null || lock.regenOn())

@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.*;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.Ratmogrify;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.SpectralBlades;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.SpiritHawk;
@@ -38,6 +39,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibility;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
@@ -52,11 +54,18 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.watabou.utils.DeviceCompat;
 
 public enum HeroClass {
 	MAGE( HeroSubClass.BATTLEMAGE, HeroSubClass.WARLOCK ),
 	ROGUE( HeroSubClass.FREERUNNER ),
-	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.GLADIATOR );
+	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.GLADIATOR ),
+	BEST_CHARACTER(HeroSubClass.FREERUNNER, HeroSubClass.SNIPER){
+		@Override
+		public boolean isUnlocked() {
+			return DeviceCompat.isDebug() || Badges.isUnlocked(Badges.Badge.VICTORY);
+		}
+	};
 
 	private HeroSubClass[] subClasses;
 
@@ -94,6 +103,10 @@ public enum HeroClass {
 
 			case HUNTRESS:
 				initHuntress( hero );
+				break;
+
+			case BEST_CHARACTER:
+				initBestCharacter( hero );
 				break;
 		}
 
@@ -161,6 +174,30 @@ public enum HeroClass {
 		new ScrollOfLullaby().identify();
 	}
 
+	private static void initBestCharacter( Hero hero ) {
+
+		MagesStaff staff;
+
+		staff = new MagesStaff(new WandOfMagicMissile());
+
+		(hero.belongings.weapon = staff).identify();
+		hero.belongings.weapon.activate(hero);
+
+		SpiritBow bow = new SpiritBow();
+		bow.identify().collect();
+
+		CloakOfShadows cloak = new CloakOfShadows();
+		(hero.belongings.artifact = cloak).identify();
+		hero.belongings.artifact.activate( hero );
+
+		Dungeon.quickslot.setSlot(0, bow);
+		Dungeon.quickslot.setSlot(1, cloak);
+		Dungeon.quickslot.setSlot(2, cloak);
+
+		new PotionOfHealing().identify();
+		new ScrollOfUpgrade().identify();
+	}
+
 	public String title() {
 		return Messages.get(HeroClass.class, name());
 	}
@@ -185,6 +222,8 @@ public enum HeroClass {
 				return new ArmorAbility[]{new SmokeBomb(), new DeathMark(), new ShadowClone()};
 			case HUNTRESS:
 				return new ArmorAbility[]{new SpectralBlades(), new NaturesPower(), new SpiritHawk()};
+			case BEST_CHARACTER:
+				return new ArmorAbility[]{new NaturesPower(), new SmokeBomb(), new Ratmogrify()};
 		}
 	}
 
@@ -196,6 +235,8 @@ public enum HeroClass {
 				return Assets.Sprites.ROGUE;
 			case HUNTRESS:
 				return Assets.Sprites.HUNTRESS;
+			case BEST_CHARACTER:
+				return Assets.Sprites.BEST_CHARACTER;
 		}
 	}
 
@@ -207,6 +248,8 @@ public enum HeroClass {
 				return Assets.Splashes.ROGUE;
 			case HUNTRESS:
 				return Assets.Splashes.HUNTRESS;
+			case BEST_CHARACTER:
+				return Assets.Splashes.BEST_CHARACTER;
 		}
 	}
 

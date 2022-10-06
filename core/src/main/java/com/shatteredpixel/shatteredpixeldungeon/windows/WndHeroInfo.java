@@ -63,6 +63,9 @@ public class WndHeroInfo extends WndTabbed {
 			case HUNTRESS:
 				tabIcon = new ItemSprite(ItemSpriteSheet.SPIRIT_BOW, null);
 				break;
+			case BEST_CHARACTER:
+				tabIcon = new ItemSprite(ItemSpriteSheet.DART, null);
+				break;
 		}
 
 		int finalHeight = MIN_HEIGHT;
@@ -176,6 +179,14 @@ public class WndHeroInfo extends WndTabbed {
 							new Image(Assets.Environment.TILES_SEWERS, 112, 96, 16, 16),
 							new ItemSprite(ItemSpriteSheet.GLOVES),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
+					break;
+				case BEST_CHARACTER:
+					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.SPIRIT_BOW),
+							new ItemSprite(ItemSpriteSheet.ARTIFACT_CLOAK),
+							new Image(Assets.Environment.TILES_SEWERS, 112, 96, 16, 16),
+							Icons.get(Icons.STAIRS),
+							new ItemSprite(ItemSpriteSheet.MAGES_STAFF),
+							new ItemSprite(ItemSpriteSheet.SCROLL_TIWAZ)};
 					break;
 			}
 			for (Image im : icons) {

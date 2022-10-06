@@ -580,6 +580,9 @@ public enum Talent {
 			case HUNTRESS:
 				Collections.addAll(tierTalents, HEARTY_MEAL, SURVIVALISTS_INTUITION, FOLLOWUP_STRIKE, BARKSKIN);
 				break;
+			case BEST_CHARACTER:
+				Collections.addAll(tierTalents, HEARTY_MEAL, SURVIVALISTS_INTUITION, TEST_SUBJECT, BARKSKIN, PROTECTIVE_SHADOWS);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -603,6 +606,9 @@ public enum Talent {
 			case HUNTRESS:
 				Collections.addAll(tierTalents, INVIGORATING_MEAL, HOLD_FAST, REJUVENATING_STEPS, HEIGHTENED_SENSES, DURABLE_PROJECTILES);
 				break;
+			case BEST_CHARACTER:
+				Collections.addAll(tierTalents, INVIGORATING_MEAL, HOLD_FAST, REJUVENATING_STEPS, SILENT_STEPS, SHIELD_BATTERY, HEIGHTENED_SENSES);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -625,6 +631,9 @@ public enum Talent {
 				break;
 			case HUNTRESS:
 				Collections.addAll(tierTalents, POINT_BLANK, STRONGMAN);
+				break;
+			case BEST_CHARACTER:
+				Collections.addAll(tierTalents, EMPOWERING_SCROLLS, STRONGMAN, LIGHT_CLOAK);
 				break;
 		}
 		for (Talent talent : tierTalents){
