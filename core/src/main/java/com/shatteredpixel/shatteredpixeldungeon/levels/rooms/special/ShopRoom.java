@@ -25,24 +25,9 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Shopkeeper;
-import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
-import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
-import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
-import com.shatteredpixel.shatteredpixeldungeon.items.Honeypot;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.MerchantsBeacon;
-import com.shatteredpixel.shatteredpixeldungeon.items.Stylus;
-import com.shatteredpixel.shatteredpixeldungeon.items.Torch;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.LeatherArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.MailArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.ScaleArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
-import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
-import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
-import com.shatteredpixel.shatteredpixeldungeon.items.bags.PotionBandolier;
-import com.shatteredpixel.shatteredpixeldungeon.items.bags.ScrollHolder;
-import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
+import com.shatteredpixel.shatteredpixeldungeon.items.bags.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.SmallRation;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
@@ -157,25 +142,21 @@ public class ShopRoom extends SpecialRoom {
 		case 6: default:
 			w = (MeleeWeapon) Generator.random(Generator.wepTiers[1]);
 			itemsToSpawn.add( Generator.random(Generator.misTiers[1]).quantity(2).identify(false) );
-			itemsToSpawn.add( new LeatherArmor().identify(false) );
 			break;
 			
 		case 11:
 			w = (MeleeWeapon) Generator.random(Generator.wepTiers[2]);
 			itemsToSpawn.add( Generator.random(Generator.misTiers[2]).quantity(2).identify(false) );
-			itemsToSpawn.add( new MailArmor().identify(false) );
 			break;
 			
 		case 16:
 			w = (MeleeWeapon) Generator.random(Generator.wepTiers[3]);
 			itemsToSpawn.add( Generator.random(Generator.misTiers[3]).quantity(2).identify(false) );
-			itemsToSpawn.add( new ScaleArmor().identify(false) );
 			break;
 
 		case 20: case 21:
 			w = (MeleeWeapon) Generator.random(Generator.wepTiers[4]);
 			itemsToSpawn.add( Generator.random(Generator.misTiers[4]).quantity(2).identify(false) );
-			itemsToSpawn.add( new PlateArmor().identify(false) );
 			itemsToSpawn.add( new Torch() );
 			itemsToSpawn.add( new Torch() );
 			itemsToSpawn.add( new Torch() );
