@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
@@ -73,6 +74,8 @@ public class Dewdrop extends Item {
 	public static boolean consumeDew(int quantity, Hero hero, boolean force){
 		//20 drops for a full heal
 		int heal = Math.round( hero.HT * 0.05f * quantity );
+		if (Dungeon.isChallenged(Challenges.NO_ARMOR))
+			heal /= 3;
 
 		int effect = Math.min( hero.HT - hero.HP, heal );
 		int shield = 0;

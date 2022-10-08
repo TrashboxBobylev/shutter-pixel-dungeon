@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.ChaliceOfBlood;
@@ -38,7 +39,7 @@ public class Regeneration extends Buff {
 	
 	@Override
 	public boolean act() {
-		if (target.isAlive()) {
+		if (target.isAlive() && !Dungeon.isChallenged(Challenges.NO_ARMOR)) {
 
 			if (target.HP < regencap() && !((Hero)target).isStarving()) {
 				LockedFloor lock = target.buff(LockedFloor.class);

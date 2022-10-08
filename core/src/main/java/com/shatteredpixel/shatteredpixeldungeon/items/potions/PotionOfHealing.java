@@ -51,7 +51,10 @@ public class PotionOfHealing extends Potion {
 		if (ch == Dungeon.hero && Dungeon.isChallenged(Challenges.NO_HEALING)){
 			pharmacophobiaProc(Dungeon.hero);
 		} else {
-			Buff.affect(ch, Healing.class).setHeal((int) (0.5f * ch.HT + 10), 0.25f, 0);
+			int amount = (int) (0.5f * ch.HT + 10);
+			if (Dungeon.isChallenged(Challenges.NO_ARMOR))
+				amount /= 3;
+			Buff.affect(ch, Healing.class).setHeal(amount, 0.25f, 0);
 			if (ch == Dungeon.hero){
 				GLog.p( Messages.get(PotionOfHealing.class, "heal") );
 			}

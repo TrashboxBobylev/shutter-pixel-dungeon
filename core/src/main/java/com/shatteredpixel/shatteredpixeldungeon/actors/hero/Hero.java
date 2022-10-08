@@ -151,6 +151,8 @@ public class Hero extends Char {
 		super();
 
 		HP = HT = 15;
+		if (Dungeon.isChallenged(Challenges.NO_ARMOR))
+			HP = HT *= 4;
 		STR = STARTING_STR;
 		
 		belongings = new Belongings( this );
@@ -174,6 +176,8 @@ public class Hero extends Char {
 		if (buff(ElixirOfMight.HTBoost.class) != null){
 			HT += buff(ElixirOfMight.HTBoost.class).boost();
 		}
+		if (Dungeon.isChallenged(Challenges.NO_ARMOR))
+			HT *= 4;
 		
 		if (boostHP){
 			HP += Math.max(HT - curHT, 0);
