@@ -699,8 +699,8 @@ public abstract class Wand extends Item {
 	
 	public class Charger extends Buff {
 		
-		private static final float BASE_CHARGE_DELAY = 150f;
-		private static final float SCALING_CHARGE_ADDITION = 150f;
+		private static final float BASE_CHARGE_DELAY = 180f;
+		private static final float SCALING_CHARGE_ADDITION = 100f;
 		private static final float NORMAL_SCALE_FACTOR = 0.875f;
 
 		private static final float CHARGE_BUFF_BONUS = 0.34f;
@@ -735,14 +735,12 @@ public abstract class Wand extends Item {
 		}
 
 		private void recharge(){
-			if (hero.heroClass == HeroClass.MAGE || hero.heroClass == HeroClass.BEST_CHARACTER) {
-				int missingCharges = maxCharges - curCharges;
+			if (hero.belongings.weapon() instanceof Quarterstaff) {
+				int missingCharges = Math.round((maxCharges - curCharges)/2.5f);
 				missingCharges = Math.max(0, missingCharges);
 
 				float turnsToCharge = (float) (BASE_CHARGE_DELAY
 						+ (SCALING_CHARGE_ADDITION * Math.pow(scalingFactor, missingCharges)));
-
-				if (hero.heroClass == HeroClass.BEST_CHARACTER) turnsToCharge /= 2;
 
 				LockedFloor lock = target.buff(LockedFloor.class);
 				if (lock == null || lock.regenOn())
