@@ -406,7 +406,7 @@ public abstract class Wand extends Item {
 		return 10;
 	}
 
-	protected int chargesPerCast() {
+	public int chargesPerCast() {
 		return 1;
 	}
 	
@@ -427,7 +427,7 @@ public abstract class Wand extends Item {
 		particle.radiateXY(0.5f);
 	}
 
-	protected void wandUsed() {
+	public void wandUsed() {
 		if (!isIdentified()) {
 			float uses = Math.min( availableUsesToID, Talent.itemIDSpeedFactor(hero, this) );
 			availableUsesToID -= uses;

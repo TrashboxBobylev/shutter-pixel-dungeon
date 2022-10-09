@@ -873,6 +873,14 @@ public abstract class Char extends Actor {
 		if (this != Dungeon.hero) {
 			sprite.visible = Dungeon.level.heroFOV[pos];
 		}
+
+		if (Dungeon.level.adjacent(pos, Dungeon.hero.pos) &&
+			alignment == Alignment.ENEMY &&
+			Dungeon.hero.hasTalent(Talent.WAND_PRESERVATION) &&
+			Dungeon.hero.buff(Talent.MageRiposteCooldown.class) == null &&
+			Quarterstaff.lastWand != null){
+			Buff.affect(Dungeon.hero, Talent.MageRiposteTracker.class).enemy = this;
+		}
 		
 		Dungeon.level.occupyCell(this );
 	}

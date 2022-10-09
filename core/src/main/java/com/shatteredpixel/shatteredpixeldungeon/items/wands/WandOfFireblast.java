@@ -191,7 +191,7 @@ public class WandOfFireblast extends DamageWand {
 	}
 
 	@Override
-	protected int chargesPerCast() {
+    public int chargesPerCast() {
 		if (charger != null && charger.target.buff(WildMagic.WildMagicTracker.class) != null){
 			return 1;
 		}

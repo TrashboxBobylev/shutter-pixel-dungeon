@@ -173,7 +173,6 @@ public class ScrollOfMetamorphosis extends ExoticScroll {
 		//talents that can only be used by one hero class
 		private static HashMap<Talent, HeroClass> restrictedTalents = new HashMap<>();
 		static {
-			restrictedTalents.put(Talent.WAND_PRESERVATION, HeroClass.MAGE);
 		}
 
 		public static WndMetamorphReplace INSTANCE;

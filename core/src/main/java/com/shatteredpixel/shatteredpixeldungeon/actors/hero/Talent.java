@@ -40,13 +40,16 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.CursedWand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Quarterstaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
@@ -54,6 +57,7 @@ import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
@@ -281,6 +285,70 @@ public enum Talent {
 			super.restoreFromBundle(bundle);
 			level = bundle.getInt(LEVEL);
 		}
+	}
+
+	public static class MageRiposteTracker extends Buff{
+		{ actPriority = VFX_PRIO;}
+
+		public Char enemy;
+
+		@Override
+		public boolean act() {
+				target.sprite.zap(enemy.pos, () -> {
+					if (Quarterstaff.lastWand.tryToZap((Hero) target, enemy.pos)) {
+						((Hero) target).busy();
+						final Ballistica shot = new Ballistica( target.pos, enemy.pos, Quarterstaff.lastWand.collisionProperties(enemy.pos));
+
+						if (Quarterstaff.lastWand.cursed){
+							CursedWand.cursedZap(Quarterstaff.lastWand,
+									target,
+									new Ballistica(target.pos, enemy.pos, Ballistica.MAGIC_BOLT),
+									new Callback() {
+										@Override
+										public void call() {
+											Quarterstaff.lastWand.wandUsed();
+										}
+									});
+						} else {
+							Quarterstaff.lastWand.fx(shot, new Callback() {
+								public void call() {
+									Quarterstaff.lastWand.onZap(shot);
+									Quarterstaff.lastWand.wandUsed();
+									if (!enemy.isAlive()) Quarterstaff.lastWand.gainCharge(Quarterstaff.lastWand.chargesPerCast());
+									if (target.buff(MageRiposteDelayer.class) == null)
+										Buff.affect(target, MageRiposteDelayer.class);
+								}
+							});
+						}
+						Quarterstaff.lastWand.cursedKnown = true;
+					}
+					next();
+				});
+				detach();
+				return false;
+			}
+	}
+
+	public static class MageRiposteDelayer extends FlavourBuff{
+		{
+			actPriority = -100;
+		}
+
+		@Override
+		public void detach() {
+			super.detach();
+			if (target.buff(MageRiposteCooldown.class) == null)
+				Cooldown.affectHero(MageRiposteCooldown.class);
+		}
+	}
+
+	public static class MageRiposteCooldown extends Cooldown {
+		@Override
+		public float duration() {
+			return 85 - hero.pointsInTalent(WAND_PRESERVATION)*15;
+		}
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0x9328c9); }
 	}
 
 	int icon;

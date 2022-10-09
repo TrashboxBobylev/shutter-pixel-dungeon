@@ -25,12 +25,9 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
-import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
@@ -208,25 +205,25 @@ public class MagesStaff extends MeleeWeapon {
 
 		int oldStaffcharges = this.wand.curCharges;
 
-		if (owner == Dungeon.hero && Dungeon.hero.hasTalent(Talent.WAND_PRESERVATION)){
-			Talent.WandPreservationCounter counter = Buff.affect(Dungeon.hero, Talent.WandPreservationCounter.class);
-			if (counter.count() < 5 && Random.Float() < 0.34f + 0.33f*Dungeon.hero.pointsInTalent(Talent.WAND_PRESERVATION)){
-				counter.countUp(1);
-				this.wand.level(0);
-				if (!this.wand.collect()) {
-					Dungeon.level.drop(this.wand, owner.pos);
-				}
-				GLog.newLine();
-				GLog.p(Messages.get(this, "preserved"));
-			} else {
-				ArcaneResin resin = new ArcaneResin();
-				if (!resin.collect()) {
-					Dungeon.level.drop(resin, owner.pos);
-				}
-				GLog.newLine();
-				GLog.p(Messages.get(this, "preserved_resin"));
-			}
-		}
+//		if (owner == Dungeon.hero && Dungeon.hero.hasTalent(Talent.WAND_PRESERVATION)){
+//			Talent.WandPreservationCounter counter = Buff.affect(Dungeon.hero, Talent.WandPreservationCounter.class);
+//			if (counter.count() < 5 && Random.Float() < 0.34f + 0.33f*Dungeon.hero.pointsInTalent(Talent.WAND_PRESERVATION)){
+//				counter.countUp(1);
+//				this.wand.level(0);
+//				if (!this.wand.collect()) {
+//					Dungeon.level.drop(this.wand, owner.pos);
+//				}
+//				GLog.newLine();
+//				GLog.p(Messages.get(this, "preserved"));
+//			} else {
+//				ArcaneResin resin = new ArcaneResin();
+//				if (!resin.collect()) {
+//					Dungeon.level.drop(resin, owner.pos);
+//				}
+//				GLog.newLine();
+//				GLog.p(Messages.get(this, "preserved_resin"));
+//			}
+//		}
 
 		this.wand = null;
 
@@ -429,16 +426,8 @@ public class MagesStaff extends MeleeWeapon {
 					}
 
 					String bodyText = Messages.get(MagesStaff.class, "imbue_desc", newLevel);
-					int preservesLeft = Dungeon.hero.hasTalent(Talent.WAND_PRESERVATION) ? 5 : 0;
-					if (Dungeon.hero.buff(Talent.WandPreservationCounter.class) != null){
-						preservesLeft -= Dungeon.hero.buff(Talent.WandPreservationCounter.class).count();
-					}
-					if (Dungeon.hero.hasTalent(Talent.WAND_PRESERVATION)){
-						int preserveChance = Dungeon.hero.pointsInTalent(Talent.WAND_PRESERVATION) == 1 ? 67 : 100;
-						bodyText += "\n\n" + Messages.get(MagesStaff.class, "imbue_talent", preserveChance, preservesLeft);
-					} else {
-						bodyText += "\n\n" + Messages.get(MagesStaff.class, "imbue_lost");
-					}
+
+					bodyText += "\n\n" + Messages.get(MagesStaff.class, "imbue_lost");
 
 					GameScene.show(
 							new WndOptions(new ItemSprite(item),
