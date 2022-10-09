@@ -136,6 +136,9 @@ public abstract class Wand extends Item {
 
 	public static float powerMultiplier(){
 		float modifier = 1f;
+		if (hero.buff(ScrollEmpower.class) != null){
+			modifier += 0.6f;
+		}
 		if (hero.belongings.weapon() instanceof Quarterstaff){
 			modifier += 0.3f * (hero.belongings.weapon().buffedLvl() + 1);
 		}
@@ -380,10 +383,6 @@ public abstract class Wand extends Item {
 				if (lvl < maxBonusLevel) {
 					lvl = Math.min(lvl + bonus, maxBonusLevel);
 				}
-			}
-
-			if (charger.target.buff(ScrollEmpower.class) != null){
-				lvl += 3;
 			}
 
 			WandOfMagicMissile.MagicCharge buff = charger.target.buff(WandOfMagicMissile.MagicCharge.class);
