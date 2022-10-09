@@ -581,9 +581,9 @@ public enum Talent {
 
 	public static int onAttackProc( Hero hero, Char enemy, int dmg ){
 		if (hero.hasTalent(Talent.SUCKER_PUNCH)
-				&& enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)
 				&& enemy.buff(SuckerPunchTracker.class) == null){
-			dmg += Random.IntRange(hero.pointsInTalent(Talent.SUCKER_PUNCH) , 2);
+			dmg += Random.IntRange(hero.pointsInTalent(Talent.SUCKER_PUNCH), 2);
+			Buff.affect(enemy, SuckerPunchTracker.class);
 		}
 
 		if (hero.hasTalent(Talent.FOLLOWUP_STRIKE)) {
