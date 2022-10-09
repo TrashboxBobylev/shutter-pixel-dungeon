@@ -1386,6 +1386,13 @@ public class Hero extends Char {
 				Buff.affect(this, Momentum.class).gainStack();
 			}
 
+			float stealthValue = stealth();
+			if (pointsInTalent(Talent.SILENT_STEPS) > 1)
+				stealthValue /= 3f;
+			if (stealth() > 1f && Random.Float(6f) < stealthValue){
+				Buff.affect(this, Preparation.class).incrementPrep();
+			}
+
 			float speed = speed();
 			
 			sprite.move(pos, step);
@@ -1607,6 +1614,10 @@ public class Hero extends Char {
 		
 		if (belongings.armor() != null){
 			stealth = belongings.armor().stealthFactor(this, stealth);
+		}
+
+		if (heroClass == HeroClass.ROGUE){
+			stealth += 0.25f*Math.max(0, lvl-1);
 		}
 		
 		return stealth;

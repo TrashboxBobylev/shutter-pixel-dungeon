@@ -930,6 +930,7 @@ public abstract class Mob extends Char {
 				notice();
 				state = HUNTING;
 				target = enemy.pos;
+				Buff.detach(enemy, Preparation.class);
 			} else {
 				notice();
 				state = WANDERING;
@@ -973,6 +974,7 @@ public abstract class Mob extends Char {
 			alerted = true;
 			state = HUNTING;
 			target = enemy.pos;
+			Buff.detach(enemy, Preparation.class);
 			
 			if (alignment == Alignment.ENEMY && Dungeon.isChallenged( Challenges.SWARM_INTELLIGENCE )) {
 				for (Mob mob : Dungeon.level.mobs) {
@@ -1014,6 +1016,7 @@ public abstract class Mob extends Char {
 		@Override
 		public boolean act( boolean enemyInFOV, boolean justAlerted ) {
 			enemySeen = enemyInFOV;
+			if (enemySeen) Buff.detach(enemy, Preparation.class);
 			if (enemyInFOV && !isCharmedBy( enemy ) && canAttack( enemy )) {
 
 				target = enemy.pos;

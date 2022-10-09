@@ -315,6 +315,7 @@ public abstract class Char extends Actor {
 			while(rolls-- > 0) {
 				if (prep != null) {
 					dmg = Math.max(dmg, prep.damageRoll(this));
+					prep.detach();
 				} else {
 					dmg = Math.max(dmg,damageRoll());
 					if (this instanceof Mob)

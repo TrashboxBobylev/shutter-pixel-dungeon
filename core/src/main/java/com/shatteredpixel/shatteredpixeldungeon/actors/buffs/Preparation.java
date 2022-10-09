@@ -26,7 +26,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroAction;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Effects;
@@ -56,10 +55,10 @@ public class Preparation extends Buff implements ActionIndicator.Action {
 	}
 	
 	public enum AttackLevel{
-		LVL_1( 1, 0.10f, 1),
-		LVL_2( 3, 0.20f, 1),
-		LVL_3( 5, 0.35f, 2),
-		LVL_4( 9, 0.50f, 3);
+		LVL_1( 2, 0.10f, 1),
+		LVL_2( 4, 0.25f, 2),
+		LVL_3( 7, 0.45f, 3),
+		LVL_4( 12, 0.60f, 4);
 
 		final int turnsReq;
 		final float baseDmgBonus;
@@ -80,7 +79,7 @@ public class Preparation extends Buff implements ActionIndicator.Action {
 		};
 
 		public float KOThreshold(){
-			return KOThresholds[ordinal()][Dungeon.hero.pointsInTalent(Talent.ENHANCED_LETHALITY)];
+			return KOThresholds[ordinal()][Math.max(0, Dungeon.hero.lvl/6)];
 		}
 
 		//1st index is prep level, 2nd is talent level
@@ -92,7 +91,7 @@ public class Preparation extends Buff implements ActionIndicator.Action {
 		};
 
 		public int blinkDistance(){
-			return blinkRanges[ordinal()][Dungeon.hero.pointsInTalent(Talent.ASSASSINS_REACH)];
+			return blinkRanges[ordinal()][Math.max(0, Dungeon.hero.lvl/6)];
 		}
 		
 		public boolean canKO(Char defender){
@@ -129,16 +128,15 @@ public class Preparation extends Buff implements ActionIndicator.Action {
 	
 	@Override
 	public boolean act() {
-		if (target.invisible > 0){
-			turnsInvis++;
-			if (AttackLevel.getLvl(turnsInvis).blinkDistance() > 0 && target == Dungeon.hero){
-				ActionIndicator.setAction(this);
-			}
-			spend(TICK);
-		} else {
-			detach();
-		}
+		spend(TICK);
 		return true;
+	}
+
+	public void incrementPrep(){
+		turnsInvis++;
+		if (AttackLevel.getLvl(turnsInvis).blinkDistance() > 0 && target == Dungeon.hero){
+			ActionIndicator.setAction(this);
+		}
 	}
 	
 	@Override
@@ -226,6 +224,8 @@ public class Preparation extends Buff implements ActionIndicator.Action {
 			AttackLevel next = AttackLevel.values()[lvl.ordinal()+1];
 			desc += "\n" + Messages.get(this, "desc_invis_next", next.turnsReq);
 		}
+
+		desc += "\n\n" + Messages.get(this, "desc_dispel");
 		
 		return desc;
 	}
