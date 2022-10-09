@@ -203,7 +203,7 @@ public class Generator {
 			
 			WEP_T1.classes = new Class<?>[]{
 					Gloves.class,
-					MagesStaff.class,
+					Quarterstaff.class,
 					Dagger.class,
 					Gloves.class
 			};
@@ -213,10 +213,10 @@ public class Generator {
 					Shortsword.class,
 					HandAxe.class,
 					Spear.class,
-					Quarterstaff.class,
+					MagesStaff.class,
 					Dirk.class
 			};
-			WEP_T2.probs = new float[]{ 6, 5, 5, 4, 4 };
+			WEP_T2.probs = new float[]{ 6, 5, 5, 2, 4 };
 			
 			WEP_T3.classes = new Class<?>[]{
 					Sword.class,

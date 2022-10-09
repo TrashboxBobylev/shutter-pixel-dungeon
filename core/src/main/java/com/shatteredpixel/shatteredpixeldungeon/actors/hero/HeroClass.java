@@ -51,7 +51,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Quarterstaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.DeviceCompat;
@@ -132,14 +132,14 @@ public enum HeroClass {
 	}
 
 	private static void initMage( Hero hero ) {
-		MagesStaff staff;
 
-		staff = new MagesStaff(new WandOfMagicMissile());
-
-		(hero.belongings.weapon = staff).identify();
+		(hero.belongings.weapon = new Quarterstaff()).identify();
 		hero.belongings.weapon.activate(hero);
 
-		Dungeon.quickslot.setSlot(0, staff);
+		WandOfMagicMissile wand = new WandOfMagicMissile();
+		wand.identify().collect();
+
+		Dungeon.quickslot.setSlot(0, wand);
 
 		new ScrollOfUpgrade().identify();
 		new PotionOfLiquidFlame().identify();
@@ -176,22 +176,21 @@ public enum HeroClass {
 
 	private static void initBestCharacter( Hero hero ) {
 
-		MagesStaff staff;
-
-		staff = new MagesStaff(new WandOfMagicMissile());
-
-		(hero.belongings.weapon = staff).identify();
+		(hero.belongings.weapon = new Quarterstaff()).identify();
 		hero.belongings.weapon.activate(hero);
 
 		SpiritBow bow = new SpiritBow();
 		bow.identify().collect();
+
+		WandOfMagicMissile wand = new WandOfMagicMissile();
+		wand.identify().collect();
 
 		CloakOfShadows cloak = new CloakOfShadows();
 		(hero.belongings.artifact = cloak).identify();
 		hero.belongings.artifact.activate( hero );
 
 		Dungeon.quickslot.setSlot(0, bow);
-		Dungeon.quickslot.setSlot(1, cloak);
+		Dungeon.quickslot.setSlot(1, wand);
 		Dungeon.quickslot.setSlot(2, cloak);
 
 		new PotionOfHealing().identify();

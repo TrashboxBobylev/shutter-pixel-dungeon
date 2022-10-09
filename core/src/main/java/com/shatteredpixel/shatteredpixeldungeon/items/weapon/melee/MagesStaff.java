@@ -25,19 +25,16 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.ArcaneResin;
+import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -70,7 +67,7 @@ public class MagesStaff extends MeleeWeapon {
 		hitSound = Assets.Sounds.HIT;
 		hitSoundPitch = 1.1f;
 
-		tier = 1;
+		tier = 2;
 
 		defaultAction = AC_ZAP;
 		usesTargeting = true;
@@ -96,6 +93,40 @@ public class MagesStaff extends MeleeWeapon {
 		this.wand = wand;
 		updateWand(false);
 		wand.curCharges = wand.maxCharges;
+	}
+
+	@Override
+	public Item random() {
+		//+0: 75% (3/4)
+		//+1: 20% (4/20)
+		//+2: 5%  (1/20)
+		int n = 0;
+		if (Random.Int(4) == 0) {
+			n++;
+			if (Random.Int(5) == 0) {
+				n++;
+			}
+		}
+		level(n);
+
+		//30% chance to be cursed
+		//10% chance to be enchanted
+		float effectRoll = Random.Float();
+		if (effectRoll < 0.3f) {
+			enchant(Enchantment.randomCurse());
+			cursed = true;
+		} else if (effectRoll >= 0.9f){
+			enchant();
+		}
+
+		Wand wand = (Wand) Generator.random(Generator.Category.WAND);
+		wand.identify();
+		wand.cursed = false;
+		this.wand = wand;
+		updateWand(false);
+		wand.curCharges = wand.maxCharges;
+
+		return this;
 	}
 
 	@Override
@@ -143,38 +174,6 @@ public class MagesStaff extends MeleeWeapon {
 		} else {
 			return super.buffedLvl();
 		}
-	}
-
-	@Override
-	public int proc(Char attacker, Char defender, int damage) {
-		if (attacker instanceof Hero && ((Hero) attacker).hasTalent(Talent.MYSTICAL_CHARGE)){
-			Hero hero = (Hero) attacker;
-			for (Buff b : hero.buffs()){
-				if (b instanceof Artifact.ArtifactBuff && !((Artifact.ArtifactBuff) b).isCursed() ) {
-					((Artifact.ArtifactBuff) b).charge(hero, hero.pointsInTalent(Talent.MYSTICAL_CHARGE)/2f);
-				}
-			}
-		}
-
-		Talent.EmpoweredStrikeTracker empoweredStrike = attacker.buff(Talent.EmpoweredStrikeTracker.class);
-		if (empoweredStrike != null){
-			damage = Math.round( damage * (1f + Dungeon.hero.pointsInTalent(Talent.EMPOWERED_STRIKE)/6f));
-		}
-
-		if (wand != null &&
-				attacker instanceof Hero && ((Hero)attacker).subClass == HeroSubClass.BATTLEMAGE) {
-			if (wand.curCharges < wand.maxCharges) wand.partialCharge += 0.5f;
-			ScrollOfRecharging.charge((Hero)attacker);
-			wand.onHit(this, attacker, defender, damage);
-		}
-
-		if (empoweredStrike != null){
-			empoweredStrike.detach();
-			if (!(defender instanceof Mob) || !((Mob) defender).surprisedBy(attacker)){
-				Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG, 0.75f, 1.2f);
-			}
-		}
-		return super.proc(attacker, defender, damage);
 	}
 
 	@Override

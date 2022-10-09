@@ -55,7 +55,7 @@ public class WndHeroInfo extends WndTabbed {
 		Image tabIcon;
 		switch (cl){
 			case MAGE: default:
-				tabIcon = new ItemSprite(ItemSpriteSheet.MAGES_STAFF, null);
+				tabIcon = new ItemSprite(ItemSpriteSheet.QUARTERSTAFF, null);
 				break;
 			case ROGUE:
 				tabIcon = new ItemSprite(ItemSpriteSheet.ARTIFACT_CLOAK, null);
@@ -164,8 +164,9 @@ public class WndHeroInfo extends WndTabbed {
 
 			switch (cls){
 				case MAGE:
-					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.MAGES_STAFF),
+					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.QUARTERSTAFF),
 							new ItemSprite(ItemSpriteSheet.WAND_MAGIC_MISSILE),
+							new BuffIcon(BuffIndicator.UPGRADE, true),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
 				case ROGUE:
@@ -185,7 +186,7 @@ public class WndHeroInfo extends WndTabbed {
 							new ItemSprite(ItemSpriteSheet.ARTIFACT_CLOAK),
 							new Image(Assets.Environment.TILES_SEWERS, 112, 96, 16, 16),
 							Icons.get(Icons.STAIRS),
-							new ItemSprite(ItemSpriteSheet.MAGES_STAFF),
+							new ItemSprite(ItemSpriteSheet.QUARTERSTAFF),
 							new ItemSprite(ItemSpriteSheet.SCROLL_TIWAZ)};
 					break;
 			}

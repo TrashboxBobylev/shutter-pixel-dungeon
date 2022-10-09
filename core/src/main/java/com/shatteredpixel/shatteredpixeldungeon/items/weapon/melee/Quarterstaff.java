@@ -22,8 +22,19 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.noosa.audio.Sample;
 
 public class Quarterstaff extends MeleeWeapon {
 
@@ -32,16 +43,60 @@ public class Quarterstaff extends MeleeWeapon {
 		hitSound = Assets.Sounds.HIT_CRUSH;
 		hitSoundPitch = 0.8f;
 
-		tier = 2;
+		tier = 1;
+	}
+
+	public static Wand lastWand;
+	public static Class<? extends Wand> lastWandClass;
+
+	static {
+		lastWand = null;
+		lastWandClass = null;
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  5*(tier) +    //10 base, down from 15
-				lvl*(tier);   //+2, down from +3
+		return  8*(tier) +    //8 base, down from 10
+				lvl*(tier+1);   //scaling unchanged
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		if (lastWand != null &&
+				attacker instanceof Hero && ((Hero)attacker).subClass == HeroSubClass.BATTLEMAGE) {
+			ScrollOfRecharging.charge(attacker);
+			lastWand.onHit(this, attacker, defender, damage);
+		}
+
+		if (attacker instanceof Hero && ((Hero) attacker).hasTalent(Talent.MYSTICAL_CHARGE)){
+			Hero hero = (Hero) attacker;
+			for (Buff b : hero.buffs()){
+				if (b instanceof Artifact.ArtifactBuff && !((Artifact.ArtifactBuff) b).isCursed() ) {
+					((Artifact.ArtifactBuff) b).charge(hero, hero.pointsInTalent(Talent.MYSTICAL_CHARGE)/2f);
+				}
+			}
+		}
+
+		Talent.EmpoweredStrikeTracker empoweredStrike = attacker.buff(Talent.EmpoweredStrikeTracker.class);
+		if (empoweredStrike != null){
+			damage = Math.round( damage * (1f + Dungeon.hero.pointsInTalent(Talent.EMPOWERED_STRIKE)/6f));
+		}
+
+		if (empoweredStrike != null){
+			empoweredStrike.detach();
+			if (!(defender instanceof Mob) || !((Mob) defender).surprisedBy(attacker)){
+				Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG, 0.75f, 1.2f);
+			}
+		}
+
+		return super.proc(attacker, defender, damage);
 	}
 
 	public String statsInfo(){
-		return Messages.get(this, "stats_desc", 25 * (buffedLvl()+1));
+		String stats_desc = Messages.get(this, "stats_desc", 30 * (buffedVisiblyUpgraded() + 1));
+		if (Dungeon.hero.subClass == HeroSubClass.BATTLEMAGE && lastWand != null){
+			stats_desc += "\n\n" + Messages.get(lastWand, "bmage_desc");
+		}
+		return stats_desc;
 	}
 }

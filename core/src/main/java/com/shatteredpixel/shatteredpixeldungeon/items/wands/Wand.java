@@ -124,7 +124,7 @@ public abstract class Wand extends Item {
 
 	public abstract void onZap(Ballistica attack);
 
-	public abstract void onHit( MagesStaff staff, Char attacker, Char defender, int damage);
+	public abstract void onHit(Quarterstaff staff, Char attacker, Char defender, int damage);
 
 	//not affected by enchantment proc chance changers
 	public static float procChanceMultiplier( Char attacker ){
@@ -135,10 +135,23 @@ public abstract class Wand extends Item {
 	}
 
 	public static float powerMultiplier(){
+		float modifier = 1f;
 		if (hero.belongings.weapon() instanceof Quarterstaff){
-			return 1f + 0.25f * (hero.belongings.weapon().buffedLvl()+1);
+			modifier += 0.3f * (hero.belongings.weapon().buffedLvl() + 1);
 		}
-		return 1f;
+		if (hero.heroClass == HeroClass.MAGE){
+			modifier += 0.05f * Math.max(0, hero.lvl-1);
+			if (hero.subClass == HeroSubClass.BATTLEMAGE){
+				modifier *= 1.5f;
+			}
+		}
+		if (hero.heroClass == HeroClass.ROGUE){
+			modifier -= 0.015f * Math.max(0, hero.lvl-1);
+			if (hero.subClass == HeroSubClass.FREERUNNER){
+				modifier /= 1.25f;
+			}
+		}
+		return modifier;
 	}
 
 	public boolean tryToZap( Hero owner, int target ){
@@ -423,6 +436,9 @@ public abstract class Wand extends Item {
 			}
 		}
 
+		Quarterstaff.lastWand = this;
+		Quarterstaff.lastWandClass = getClass();
+
 		//inside staff
 		if (charger != null && charger.target == Dungeon.hero && !Dungeon.hero.belongings.contains(this)){
 			if (Dungeon.hero.hasTalent(Talent.EXCESS_CHARGE) && curCharges >= maxCharges){
@@ -450,14 +466,15 @@ public abstract class Wand extends Item {
 		if (charger != null
 				&& charger.target == hero){
 
+			if (hero.hasTalent(Talent.EMPOWERED_STRIKE)) {
+				Buff.prolong(hero, Talent.EmpoweredStrikeTracker.class, 10f);
+			}
+
 			//if the wand is owned by the hero, but not in their inventory, it must be in the staff
 			if (!hero.belongings.contains(this)) {
 				if (curCharges == 0 && hero.hasTalent(Talent.BACKUP_BARRIER)) {
 					//grants 3/5 shielding
 					Buff.affect(hero, Barrier.class).setShield(1 + 2 * hero.pointsInTalent(Talent.BACKUP_BARRIER));
-				}
-				if (hero.hasTalent(Talent.EMPOWERED_STRIKE)) {
-					Buff.prolong(hero, Talent.EmpoweredStrikeTracker.class, 10f);
 				}
 
 			//otherwise process logic for metamorphed backup barrier
@@ -590,7 +607,7 @@ public abstract class Wand extends Item {
 
 		@Override
 		public void onZap(Ballistica attack) {}
-		public void onHit(MagesStaff staff, Char attacker, Char defender, int damage) {}
+		public void onHit(Quarterstaff staff, Char attacker, Char defender, int damage) {}
 
 		@Override
 		public String info() {
