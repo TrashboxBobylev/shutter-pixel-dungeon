@@ -67,7 +67,7 @@ public class WandOfFireblast extends DamageWand {
 
 	//1x/2x/3x damage
 	public int max(int lvl){
-		return (int) ((4+0.8f*lvl) * chargesPerCast() * (1 + Dungeon.hero.pointsInTalent(Talent.PYROMANIAC)*0.175f) * powerMultiplier());
+		return (int) ((5+0.8f*lvl) * chargesPerCast() * (1 + Dungeon.hero.pointsInTalent(Talent.PYROMANIAC)*0.175f) * powerMultiplier());
 	}
 
 	ConeAOE cone;

@@ -103,7 +103,7 @@ public class WandOfCorruption extends Wand {
 				Statistics.qualifiedForBossChallengeBadge = false;
 			}
 
-			float corruptingPower = (2 + buffedLvl()/3f) * powerMultiplier();
+			float corruptingPower = (3 + buffedLvl()/3f) * powerMultiplier();
 			
 			//base enemy resistance is usually based on their exp, but in special cases it is based on other criteria
 			float enemyResist;
