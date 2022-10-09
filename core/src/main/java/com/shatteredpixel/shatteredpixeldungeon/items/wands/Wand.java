@@ -142,6 +142,10 @@ public abstract class Wand extends Item {
 		if (hero.belongings.weapon() instanceof Quarterstaff){
 			modifier += 0.3f * (hero.belongings.weapon().buffedLvl() + 1);
 		}
+		if (hero.buff(Talent.AcceleratingChargeTracker.class) != null){
+			modifier += (0.1f + 0.05f * Math.max(0, hero.pointsInTalent(Talent.EXCESS_CHARGE)-1))*
+					hero.buff(Talent.AcceleratingChargeTracker.class).level();
+		}
 		if (hero.heroClass == HeroClass.MAGE){
 			modifier += 0.05f * Math.max(0, hero.lvl-1);
 			if (hero.subClass == HeroSubClass.BATTLEMAGE){
@@ -437,13 +441,6 @@ public abstract class Wand extends Item {
 
 		Quarterstaff.lastWand = this;
 		Quarterstaff.lastWandClass = getClass();
-
-		//inside staff
-		if (charger != null && charger.target == Dungeon.hero && !Dungeon.hero.belongings.contains(this)){
-			if (Dungeon.hero.hasTalent(Talent.EXCESS_CHARGE) && curCharges >= maxCharges){
-				Buff.affect(Dungeon.hero, Barrier.class).setShield(Math.round(buffedLvl()*0.67f*Dungeon.hero.pointsInTalent(Talent.EXCESS_CHARGE)));
-			}
-		}
 		
 		curCharges -= cursed ? 1 : chargesPerCast();
 
@@ -459,6 +456,10 @@ public abstract class Wand extends Item {
 			ScrollEmpower empower = curUser.buff(ScrollEmpower.class);
 			if (empower != null){
 				empower.use();
+			}
+			Talent.AcceleratingChargeTracker charge = curUser.buff(Talent.AcceleratingChargeTracker.class);
+			if (charge != null){
+				charge.detach();
 			}
 		}
 

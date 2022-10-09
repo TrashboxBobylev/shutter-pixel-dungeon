@@ -228,6 +228,60 @@ public enum Talent {
 		}
 		public int icon() { return BuffIndicator.CORRUPT; }
 	};
+	public static class AcceleratingChargeTracker extends Buff {
+
+		{
+			type = buffType.POSITIVE;
+			announced = true;
+		}
+
+		public static float DURATION = 4f;
+
+		private int level = 0;
+
+		public void increment(){
+			this.level = Math.min(this.level + 1, 10);
+		}
+
+		public int level(){
+			return this.level;
+		}
+
+		@Override
+		public int icon() {
+			return BuffIndicator.UPGRADE;
+		}
+
+		@Override
+		public void tintIcon(Image icon) {
+			icon.hardlight(0.9f, 0.9f, 0f);
+		}
+
+		@Override
+		public float iconFadePercent() {
+			return Math.max(0, (10f - level) / 10f);
+		}
+
+		@Override
+		public String desc() {
+			return Messages.get(this, "desc",
+					(10 + 5 * Math.max(0, hero.pointsInTalent(Talent.EXCESS_CHARGE)-1))*level());
+		}
+
+		private static final String LEVEL = "level";
+
+		@Override
+		public void storeInBundle(Bundle bundle) {
+			super.storeInBundle(bundle);
+			bundle.put(LEVEL, level);
+		}
+
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+			super.restoreFromBundle(bundle);
+			level = bundle.getInt(LEVEL);
+		}
+	}
 
 	int icon;
 	int maxPoints;
