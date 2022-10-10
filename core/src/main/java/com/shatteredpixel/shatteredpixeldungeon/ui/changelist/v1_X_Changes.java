@@ -106,7 +106,8 @@ public class v1_X_Changes {
 							"_-_ Buffed Greataxe to be truly heavy.\n" +
 							"_-_ Reworked Sucker Punch to work for any attacks.\n" +
 							"_-_ Increased amount of monsters.\n" +
-							"_-_ Added obviously the best character."));
+							"_-_ Added obviously the best character.\n" +
+							"_-_ Added new lore."));
 
 
 		changes = new ChangeInfo("Shutter-1.2.0", true, "");
