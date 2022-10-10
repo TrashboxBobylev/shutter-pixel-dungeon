@@ -43,7 +43,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.CursedWand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Quarterstaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -580,25 +579,22 @@ public enum Talent {
 	public static void onUpgradeScrollUsed( Hero hero ){
 		if (hero.hasTalent(ENERGIZING_UPGRADE)){
 			if (hero.heroClass == HeroClass.MAGE) {
-				MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
-				if (staff != null) {
-					staff.gainCharge( hero.pointsInTalent(ENERGIZING_UPGRADE)/2f, true);
-				ScrollOfRecharging.charge(Dungeon.hero);
-				SpellSprite.show( hero, SpellSprite.CHARGE );}
+				hero.belongings.charge(0.33f*(1+hero.pointsInTalent(ENERGIZING_UPGRADE)));
+				SpellSprite.show( hero, SpellSprite.CHARGE );
 			} else {
-				Buff.affect(hero, Recharging.class, 4 + 8 * hero.pointsInTalent(ENERGIZING_UPGRADE));
+				Buff.affect(hero, Recharging.class, 2 + 2 * hero.pointsInTalent(ENERGIZING_UPGRADE));
 			}
 		}
 		if (hero.hasTalent(MYSTICAL_UPGRADE)){
 			if (hero.heroClass == HeroClass.ROGUE) {
 				CloakOfShadows cloak = hero.belongings.getItem(CloakOfShadows.class);
 				if (cloak != null) {
-					cloak.overCharge(hero.pointsInTalent(MYSTICAL_UPGRADE)/2f);
+					cloak.overCharge(0.5f+hero.pointsInTalent(MYSTICAL_UPGRADE)/3f);
 					ScrollOfRecharging.charge(Dungeon.hero);
 					SpellSprite.show(hero, SpellSprite.CHARGE, 0, 1, 1);
 				}
 			} else {
-				Buff.affect(hero, ArtifactRecharge.class).set( 2 + 4*hero.pointsInTalent(MYSTICAL_UPGRADE) ).ignoreHornOfPlenty = false;
+				Buff.affect(hero, ArtifactRecharge.class).set( 1 + 2*hero.pointsInTalent(MYSTICAL_UPGRADE) ).ignoreHornOfPlenty = false;
 				ScrollOfRecharging.charge(Dungeon.hero);
 				SpellSprite.show(hero, SpellSprite.CHARGE, 0, 1, 1);
 			}
