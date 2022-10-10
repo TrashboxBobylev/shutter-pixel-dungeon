@@ -40,6 +40,7 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
 
 import java.util.Arrays;
@@ -79,7 +80,7 @@ public class Preparation extends Buff implements ActionIndicator.Action {
 		};
 
 		public float KOThreshold(){
-			return KOThresholds[ordinal()][Math.max(0, Dungeon.hero.lvl/6)];
+			return KOThresholds[ordinal()][(int) GameMath.gate(0, Dungeon.hero.lvl/6f, 3)];
 		}
 
 		//1st index is prep level, 2nd is talent level
@@ -91,7 +92,7 @@ public class Preparation extends Buff implements ActionIndicator.Action {
 		};
 
 		public int blinkDistance(){
-			return blinkRanges[ordinal()][Math.max(0, Dungeon.hero.lvl/6)];
+			return blinkRanges[ordinal()][(int) GameMath.gate(0, Dungeon.hero.lvl/6f, 3)];
 		}
 		
 		public boolean canKO(Char defender){
