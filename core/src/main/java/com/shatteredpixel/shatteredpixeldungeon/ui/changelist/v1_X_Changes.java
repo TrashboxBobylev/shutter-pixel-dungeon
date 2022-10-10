@@ -37,17 +37,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfTransfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.ChangesScene;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ElementalSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.SpectralNecromancerSprite;
-import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIcon;
-import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
-import com.shatteredpixel.shatteredpixeldungeon.ui.TalentIcon;
-import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.*;
+import com.shatteredpixel.shatteredpixeldungeon.ui.*;
 import com.watabou.noosa.Image;
 
 import java.util.ArrayList;
@@ -55,6 +46,7 @@ import java.util.ArrayList;
 public class v1_X_Changes {
 
 	public static void addAllChanges( ArrayList<ChangeInfo> changeInfos ){
+		add_Shutter(changeInfos);
 		add_Coming_Soon(changeInfos);
 		add_v1_4_Changes(changeInfos);
 		add_v1_3_Changes(changeInfos);
@@ -63,9 +55,61 @@ public class v1_X_Changes {
 		add_v1_0_Changes(changeInfos);
 	}
 
-	public static void add_Coming_Soon( ArrayList<ChangeInfo> changeInfos ) {
+	public static void add_Shutter( ArrayList<ChangeInfo> changeInfos ){
+		ChangeInfo changes = new ChangeInfo("Shutter-1.3.0", true, "");
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+		changes.addButton( new ChangeButton(Icons.get(Icons.INFO), "Developer Commentary",
+				"_-_ Released October 10th, 2022\n\n" +
+						"_-_ This release shifts the paradigm of development to delivering interesting tweaks to Shattered."));
 
-		ChangeInfo changes = new ChangeInfo("Shutter-1.2.0", true, "");
+		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.QUARTERSTAFF), "Magic Rework",
+					"Wands and Mage were thoughtfully reworked to allow for more interesting gameplay.\n\n" +
+							"_-_ Wands no longer recharge passively, unless player has Quarterstaff.\n" +
+							"_-_ Increased max charges for each wand by 5x.\n" +
+							"_-_ Increased amount of charge Recharging provides per turn from 0.25 to 0.34.\n" +
+							"_-_ Mage's Staff is now a t2 weapon, Quarterstaff is t1 weapon and replaces Mage's Staff as starting weapon for Mage.\n" +
+							"_-_ Introduced magical power stat. It increases the amount of damage and power of misc effects for each wand in hero's inventory.\n" +
+							"_-_ Quarterstaff increases magical power by 30% per upgrade.\n" +
+							"_-_ Mage gains 5% additional magical power per level up, while Rogue loses 1.5% magical power per level up.\n" +
+							"_-_ _Battlemage_ has 1.5x magical power modifier, while _Freerunner_ has 0.8x magical power modifier.\n" +
+							"_-_ _Battlemage_ effects now work with last zapped wand instead of last imbued wand, to encourage using different wands.\n" +
+							"_-_ Reworked _Empowering Scrolls_ to boost magical power.\n" +
+							"_-_ Replaced _Excess Charge_ with _Accelerating Charge_ which temporarily boosts magical power after hitting enemies with quarterstaff.\n" +
+							"_-_ Replaced _Wand Preservation_ with _Fighting Wizardry_ which allows to zap wands instantly at approaching enemies.\n" +
+							"_-_ Significantly nerfed base damage of all wands to make room for magical power."));
+
+		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.ARTIFACT_CLOAK), "Stealth Rework",
+						"Stealth mechanics were briefly tweaked to allow for more usage:\n\n" +
+								"_-_ Rogue gains 0.25 stealth per level up.\n" +
+								"_-_ Preparation appears semi-randomly when walking unseen if hero's stealth is more than default.\n" +
+								"_-_ Preparation no longer detaches when hero is no longer invisible.\n" +
+								"_-_ Preparation detaches when enemy notices hero.\n" +
+								"_-_ Preparation power depends on hero's level."));
+
+		changes.addButton( new ChangeButton(Icons.get(Icons.CHALLENGE_ON), "Challenges",
+				"_-_ Reworked FiMA: now multiplies health by a lot, but removes natural regen and nerfs active healing." +
+						"_-_ Badder Bosses is now active by default and cannot be deactivated.\n" +
+						"_-_ Added Distant Resistance challenge: makes ranged attacks deal deferred damage."));
+
+		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
+							"_-_ Ethereal Chains disappear if fully used in one swing.\n" +
+							"_-_ Removed surprise attacks. They encourage boring kiting too much and are gimmicky af, while being a cheap way to cover ur ass after u make a mistake and end up in melee range of an enemy with no way to kill em safely.\n" +
+							"_-_ Potions of Healing only heal for 60% of their former value.\n" +
+							"_-_ Fire can burn anything, not just scroll and meat.\n" +
+							"_-_ Spirit Bow uses gold, but does 50% more damage.\n" +
+							"_-_ Follow-up Strike is no longer limited by just one hit.\n" +
+							"_-_ EXP is only rewarded from melee hits (not wands or debuffs).\n" +
+							"_-_ Buffed ghost quest enemies.\n" +
+							"_-_ Questgivers can be killed if necessary.\n" +
+							"_-_ Title screen music is more exciting.\n" +
+							"_-_ Buffed Greataxe to be truly heavy.\n" +
+							"_-_ Reworked Sucker Punch to work for any attacks.\n" +
+							"_-_ Increased amount of monsters.\n" +
+							"_-_ Added obviously the best character."));
+
+
+		changes = new ChangeInfo("Shutter-1.2.0", true, "");
 		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
 
@@ -91,6 +135,54 @@ public class v1_X_Changes {
 		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
 
+		changes.addButton( new ChangeButton(Icons.get(Icons.INFO), "Developer Commentary",
+				"_-_ Released February 13th, 2022\n\n" +
+						"_-_ This release adheres to Huntress enjoyers."));
+
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+				"_-_ Fixed skeleton explosions.\n" +
+						"_-_ Fixed Yog's lasers being much weaker than they should be.\n" +
+						"_-_ Fixed Mystical and Energized Upgrade not working on every scroll.\n" +
+						"_-_ Redesigned Nature's Aid to give as much barkskin as possible.\n" +
+						"_-_ Replaced Nature's Bounty with Hearty Meal.\n" +
+						"_-_ Nerfed Lethal Momentum to use 3 points.\n" +
+						"_-_ Replaced Restored Nature with Bullseye.\n" +
+						"_-_ Fixed Invigorating Meal not giving Adrenaline.\n" +
+						"_-_ Fixed Farsight not affecting Heightened Senses.\n" +
+						"_-_ Buffed Light Cloak and Point Blank.\n" +
+						"_-_ Spirit Bow is equippable with obtaining subclass."));
+
+		changes = new ChangeInfo("Shutter-1.0.0", true, "");
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes.addButton( new ChangeButton(Icons.get(Icons.INFO), "Developer Commentary",
+				"_-_ Released February 12th, 2022\n\n" +
+						"_-_ This is unofficial bugfix for Shattered PD"));
+
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+				"_-_ Removed Warrior.\n" +
+						"_-_ Removed Berserker, Assassin and Warden.\n" +
+						"_-_ Removed Lethal Defense, Seer Shot and Rogue's Foresight.\n" +
+						"_-_ Removed the nerf of Mage's Staff and Studded Gloves.\n" +
+						"_-_ Removed Goo's OP pump-up attack.\n" +
+						"_-_ Removed annoying combinations of champion buffs and enemies.\n" +
+						"_-_ Removed useless items, such as Wealth, Runic Blade and Corruption.\n" +
+						"_-_ Removed most of existence of armor, it's useless anyway.\n" +
+						"_-_ Fixed armor ability being granted by DK instead of DM-300.\n" +
+						"_-_ Yog-Dzewa is vulnerable to Dread.\n" +
+						"_-_ Fixed the existence of languages other than English.\n" +
+						"_-_ Fixed some enchantments being not considered as curses.\n" +
+						"_-_ Removed stewed meat.\n" +
+						"_-_ Fixed squiggle having too much evasion."));
+	}
+
+	public static void add_Coming_Soon( ArrayList<ChangeInfo> changeInfos ) {
+
+		ChangeInfo changes = new ChangeInfo("Coming Soon", true, "");
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
 		changes.addButton( new ChangeButton(Icons.get(Icons.SHPX), "Overview",
 			"The next Shattered update will be v2.0.0, which is going to focus almost entirely on adding a new hero!\n\n" +
 			"v2.0.0 will likely have a few blog posts as I make progress on implementing the new hero. Expect to see the first of those posts in November."));
@@ -107,7 +199,7 @@ public class v1_X_Changes {
 	}
 
 	public static void add_v1_4_Changes( ArrayList<ChangeInfo> changeInfos ) {
-		ChangeInfo changes = new ChangeInfo("v1.4-BETA", true, "");
+		ChangeInfo changes = new ChangeInfo("v1.4", true, "");
 		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
 
