@@ -138,23 +138,23 @@ public abstract class Wand extends Item {
 	public static float powerMultiplier(){
 		float modifier = 1f;
 		if (hero.buff(ScrollEmpower.class) != null){
-			modifier += 0.6f;
+			modifier += 0.75f;
 		}
 		if (hero.belongings.weapon() instanceof Quarterstaff){
-			modifier += 0.3f * (hero.belongings.weapon().buffedLvl() + 1);
+			modifier += 0.35f * (hero.belongings.weapon().buffedLvl() + 1);
 		}
 		if (hero.buff(Talent.AcceleratingChargeTracker.class) != null){
-			modifier += (0.1f + 0.05f * Math.max(0, hero.pointsInTalent(Talent.EXCESS_CHARGE)-1))*
+			modifier += (0.1f + 0.075f * Math.max(0, hero.pointsInTalent(Talent.EXCESS_CHARGE)-1))*
 					hero.buff(Talent.AcceleratingChargeTracker.class).level();
 		}
 		if (hero.heroClass == HeroClass.MAGE){
-			modifier += 0.05f * Math.max(0, hero.lvl-1);
+			modifier += 0.075f * Math.max(0, hero.lvl-1);
 			if (hero.subClass == HeroSubClass.BATTLEMAGE){
 				modifier *= 1.5f;
 			}
 		}
 		if (hero.heroClass == HeroClass.ROGUE){
-			modifier -= 0.015f * Math.max(0, hero.lvl-1);
+			modifier -= 0.0175f * Math.max(0, hero.lvl-1);
 			if (hero.subClass == HeroSubClass.FREERUNNER){
 				modifier /= 1.25f;
 			}

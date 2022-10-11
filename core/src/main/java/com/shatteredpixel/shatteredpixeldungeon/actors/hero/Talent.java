@@ -60,6 +60,7 @@ import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -268,7 +269,7 @@ public enum Talent {
 		@Override
 		public String desc() {
 			return Messages.get(this, "desc",
-					(10 + 5 * Math.max(0, hero.pointsInTalent(Talent.EXCESS_CHARGE)-1))*level());
+					new DecimalFormat("#.##").format((10 + 7.5f * Math.max(0, hero.pointsInTalent(Talent.EXCESS_CHARGE)-1))*level()));
 		}
 
 		private static final String LEVEL = "level";

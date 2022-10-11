@@ -55,7 +55,7 @@ public class Quarterstaff extends MeleeWeapon {
 
 	@Override
 	public int max(int lvl) {
-		return  8*(tier) +    //8 base, down from 10
+		return  7*(tier) +    //8 base, down from 10
 				lvl*(tier+1);   //scaling unchanged
 	}
 
@@ -95,7 +95,7 @@ public class Quarterstaff extends MeleeWeapon {
 	}
 
 	public String statsInfo(){
-		String stats_desc = Messages.get(this, "stats_desc", 30 * (buffedVisiblyUpgraded() + 1));
+		String stats_desc = Messages.get(this, "stats_desc", 35 * (buffedVisiblyUpgraded() + 1));
 		if (Dungeon.hero.subClass == HeroSubClass.BATTLEMAGE && lastWand != null){
 			stats_desc += "\n\n" + Messages.get(lastWand, "bmage_desc");
 		}
