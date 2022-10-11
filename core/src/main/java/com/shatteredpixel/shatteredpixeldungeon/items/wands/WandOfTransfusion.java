@@ -82,6 +82,7 @@ public class WandOfTransfusion extends Wand {
 				int selfDmg = Math.round(curUser.HT*0.05f);
 				
 				int healing = selfDmg + 3*buffedLvl();
+				healing *= Math.max(1f, Wand.powerMultiplier()/3f);
 				int shielding = (ch.HP + healing) - ch.HT;
 				if (shielding > 0){
 					healing -= shielding;
@@ -91,8 +92,10 @@ public class WandOfTransfusion extends Wand {
 				}
 				
 				ch.HP += healing;
-				
-				ch.sprite.emitter().burst(Speck.factory(Speck.HEALING), 2 + buffedLvl() / 2);
+
+				int particleAmount = 2 + buffedLvl() / 2;
+				particleAmount *= Math.max(1f, Wand.powerMultiplier()/3f);
+				ch.sprite.emitter().burst(Speck.factory(Speck.HEALING), particleAmount);
 				ch.sprite.showStatus(CharSprite.POSITIVE, "+%dHP", healing + shielding);
 				
 				if (!freeCharge) {

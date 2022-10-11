@@ -77,6 +77,8 @@ public class WandOfFireblast extends DamageWand {
 
 		ArrayList<Char> affectedChars = new ArrayList<>();
 		ArrayList<Integer> adjacentCells = new ArrayList<>();
+		int fireAmount = 1 + chargesPerCast();
+		fireAmount *= Math.max(1f, Wand.powerMultiplier()/3f);
 		for( int cell : cone.cells ){
 
 			//ignore caster cell
@@ -99,7 +101,7 @@ public class WandOfFireblast extends DamageWand {
 					Dungeon.level.heaps.get(cell).burn();
 				}
 			} else {
-				GameScene.add( Blob.seed( cell, 1+chargesPerCast(), Fire.class ) );
+				GameScene.add( Blob.seed( cell, fireAmount, Fire.class ) );
 			}
 
 			Char ch = Actor.findChar( cell );
@@ -120,7 +122,7 @@ public class WandOfFireblast extends DamageWand {
 				if (Dungeon.level.trueDistance(cell+i, bolt.collisionPos) < Dungeon.level.trueDistance(cell, bolt.collisionPos)
 						&& Dungeon.level.flamable[cell+i]
 						&& Fire.volumeAt(cell+i, Fire.class) == 0){
-					GameScene.add( Blob.seed( cell+i, 1+chargesPerCast(), Fire.class ) );
+					GameScene.add( Blob.seed( cell+i, fireAmount, Fire.class ) );
 				}
 			}
 		}
@@ -130,14 +132,16 @@ public class WandOfFireblast extends DamageWand {
 			ch.damage(damageRoll(), this);
 			if (ch.isAlive()) {
 				Buff.affect(ch, Burning.class).reignite(ch);
+				float debuffDuration = 2f;
+				debuffDuration *= Math.max(1f, Wand.powerMultiplier()/4f);
 				switch (chargesPerCast()) {
 					case 1:
 						break; //no effects
 					case 2:
-						Buff.affect(ch, Cripple.class, 4f);
+						Buff.affect(ch, Cripple.class, debuffDuration);
 						break;
 					case 3:
-						Buff.affect(ch, Paralysis.class, 4f);
+						Buff.affect(ch, Paralysis.class, debuffDuration);
 						break;
 				}
 			}
