@@ -56,7 +56,30 @@ public class v1_X_Changes {
 	}
 
 	public static void add_Shutter( ArrayList<ChangeInfo> changeInfos ){
-		ChangeInfo changes = new ChangeInfo("Shutter-1.3.0", true, "");
+		ChangeInfo changes = new ChangeInfo("Shutter-1.3.1", true, "");
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+		changes.addButton( new ChangeButton(Icons.get(Icons.INFO), "Developer Commentary",
+				"_-_ Released October 11th, 2022\n\n" +
+						"_-_ This release fixes inconsistencies and bugs found in previous version."));
+		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.QUARTERSTAFF), "Magic Tweaks",
+				"_-_ Buffed all sources of magical power.\n" +
+						"_-_ Added ring of mysticism which boosts magical power.\n" +
+						"_-_ Increased recharge speed of wands.\n" +
+						"_-_ Quarterstaff deals 7 base damage (from 8) and can no longer be found in bones.\n" +
+						"_-_ Mage's Staff deals 12 base damage (from 18) and can be found in bones.\n" +
+						"_-_ Magical power now affects particles and other misc effects of wands.\n" +
+						"_-_ Mobs killed by wands or debuffs now grant 1 exp instead of none.\n" +
+						"_-_ Nerfed Magic Missile's battlemage perk to grant way less charge.\n" +
+						"_-_ Quarterstaff now properly works with Wand of Disintegration perk."
+						));
+		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
+				"_-_ Removed +25% damage buff from monsters.\n" +
+						"_-_ Fixed NPC interactions: they actually work now, but you still can kill people.\n" +
+						"_-_ Nerfed Spirit Bow damage from 3-10(+0.3/+0.6) to 2-8(+0.25/+0.5). It also requires 5 gold to be used instead of 4."
+						));
+
+		changes = new ChangeInfo("Shutter-1.3.0", true, "");
 		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
 		changes.addButton( new ChangeButton(Icons.get(Icons.INFO), "Developer Commentary",
@@ -88,7 +111,7 @@ public class v1_X_Changes {
 								"_-_ Preparation power depends on hero's level."));
 
 		changes.addButton( new ChangeButton(Icons.get(Icons.CHALLENGE_ON), "Challenges",
-				"_-_ Reworked FiMA: now multiplies health by a lot, but removes natural regen and nerfs active healing." +
+				"_-_ Reworked FiMA: now multiplies health by a lot, but removes natural regen and nerfs active healing.\n" +
 						"_-_ Badder Bosses is now active by default and cannot be deactivated.\n" +
 						"_-_ Added Distant Resistance challenge: makes ranged attacks deal deferred damage."));
 
