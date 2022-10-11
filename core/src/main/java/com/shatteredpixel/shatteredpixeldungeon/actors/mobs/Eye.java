@@ -193,7 +193,6 @@ public class Eye extends Mob {
 			if (hit( this, ch, true )) {
 				int dmg = Random.NormalIntRange( 30, 50 );
 				dmg = Math.round(dmg * AscensionChallenge.statModifier(this));
-				dmg *= 1.25f;
 				ch.damage( dmg, new DeathGaze() );
 				damagedSomething = true;
 

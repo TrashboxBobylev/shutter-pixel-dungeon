@@ -124,7 +124,6 @@ public class Warlock extends Mob implements Callback {
 			
 			int dmg = Random.NormalIntRange( 12, 18 );
 			dmg = Math.round(dmg * AscensionChallenge.statModifier(this));
-			dmg *= 1.25f;
 			enemy.damage( dmg, new DarkBolt() );
 			
 			if (enemy == Dungeon.hero && !enemy.isAlive()) {
