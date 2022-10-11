@@ -26,7 +26,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -69,7 +68,6 @@ public class MagesStaff extends MeleeWeapon {
 		defaultAction = AC_ZAP;
 		usesTargeting = true;
 
-		unique = true;
 		bones = false;
 	}
 
@@ -79,7 +77,7 @@ public class MagesStaff extends MeleeWeapon {
 
 	@Override
 	public int max(int lvl) {
-		return  Math.round(6f*(tier+1)) +   //6 base damage, down from 10
+		return  Math.round(4f*(tier+1)) +   //6 base damage, down from 10
 				lvl*(tier+1);               //scaling unaffected
 	}
 
@@ -171,17 +169,6 @@ public class MagesStaff extends MeleeWeapon {
 		} else {
 			return super.buffedLvl();
 		}
-	}
-
-	@Override
-	public int reachFactor(Char owner) {
-		int reach = super.reachFactor(owner);
-		if (owner instanceof Hero
-				&& wand instanceof WandOfDisintegration
-				&& ((Hero)owner).subClass == HeroSubClass.BATTLEMAGE){
-			reach += Math.round(Wand.procChanceMultiplier(owner));
-		}
-		return reach;
 	}
 
 	@Override
@@ -334,10 +321,6 @@ public class MagesStaff extends MeleeWeapon {
 			info += "\n\n" + Messages.get(this, "has_wand", Messages.get(wand, "name"));
 			if ((!cursed && !hasCurseEnchant()) || !cursedKnown)    info += " " + wand.statsDesc();
 			else                                                    info += " " + Messages.get(this, "cursed_wand");
-
-			if (Dungeon.hero.subClass == HeroSubClass.BATTLEMAGE){
-				info += "\n\n" + Messages.get(wand, "bmage_desc");
-			}
 		}
 
 		return info;

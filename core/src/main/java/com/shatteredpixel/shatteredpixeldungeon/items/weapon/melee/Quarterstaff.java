@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfDisintegration;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
@@ -41,6 +42,7 @@ public class Quarterstaff extends MeleeWeapon {
 		image = ItemSpriteSheet.QUARTERSTAFF;
 		hitSound = Assets.Sounds.HIT_CRUSH;
 		hitSoundPitch = 0.8f;
+		unique = true;
 
 		tier = 1;
 	}
@@ -92,6 +94,18 @@ public class Quarterstaff extends MeleeWeapon {
 		}
 
 		return super.proc(attacker, defender, damage);
+	}
+
+
+	@Override
+	public int reachFactor(Char owner) {
+		int reach = super.reachFactor(owner);
+		if (owner instanceof Hero
+				&& lastWand instanceof WandOfDisintegration
+				&& ((Hero)owner).subClass == HeroSubClass.BATTLEMAGE){
+			reach += Math.round(Wand.procChanceMultiplier(owner));
+		}
+		return reach;
 	}
 
 	public String statsInfo(){
