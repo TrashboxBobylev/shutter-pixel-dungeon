@@ -150,7 +150,7 @@ public class Hero extends Char {
 	public Hero() {
 		super();
 
-		HP = HT = 15;
+		HP = HT = 20;
 		if (Dungeon.isChallenged(Challenges.NO_ARMOR))
 			HP = HT *= 4;
 		STR = STARTING_STR;
@@ -169,7 +169,7 @@ public class Hero extends Char {
 	public void updateHT( boolean boostHP ){
 		int curHT = HT;
 		
-		HT = 15 + 4*(lvl-1) + HTBoost;
+		HT = 20 + 5*(lvl-1) + HTBoost;
 		float multiplier = RingOfMight.HTMultiplier(this);
 		HT = Math.round(multiplier * HT);
 		
@@ -178,7 +178,7 @@ public class Hero extends Char {
 		}
 		if (Dungeon.isChallenged(Challenges.NO_ARMOR))
 			HT *= 4;
-		
+
 		if (boostHP){
 			HP += Math.max(HT - curHT, 0);
 		}
@@ -1619,7 +1619,7 @@ public class Hero extends Char {
 		if (heroClass == HeroClass.ROGUE){
 			stealth += 0.25f*Math.max(0, lvl-1);
 		}
-		
+
 		return stealth;
 	}
 	

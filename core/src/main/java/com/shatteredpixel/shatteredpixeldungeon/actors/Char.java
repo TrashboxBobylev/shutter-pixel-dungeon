@@ -33,7 +33,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.DeathMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Elemental;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Tengu;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.MirrorImage;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
@@ -319,8 +318,6 @@ public abstract class Char extends Actor {
 					prep.detach();
 				} else {
 					dmg = Math.max(dmg,damageRoll());
-					if (this instanceof Mob)
-						dmg *= 1.25f;
 				}
 			}
 
@@ -882,7 +879,7 @@ public abstract class Char extends Actor {
 			Quarterstaff.lastWand != null){
 			Buff.affect(Dungeon.hero, Talent.MageRiposteTracker.class).enemy = this;
 		}
-		
+
 		Dungeon.level.occupyCell(this );
 	}
 	
