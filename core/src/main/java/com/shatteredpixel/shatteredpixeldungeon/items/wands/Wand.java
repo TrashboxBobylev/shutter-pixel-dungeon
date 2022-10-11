@@ -701,8 +701,8 @@ public abstract class Wand extends Item {
 	
 	public class Charger extends Buff {
 		
-		private static final float BASE_CHARGE_DELAY = 130f;
-		private static final float SCALING_CHARGE_ADDITION = 100f;
+		private static final float BASE_CHARGE_DELAY = 150f;
+		private static final float SCALING_CHARGE_ADDITION = 95f;
 		private static final float NORMAL_SCALE_FACTOR = 0.875f;
 
 		private static final float CHARGE_BUFF_BONUS = 0.34f;

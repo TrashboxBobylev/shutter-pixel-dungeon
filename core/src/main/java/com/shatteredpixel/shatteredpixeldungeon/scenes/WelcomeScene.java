@@ -25,7 +25,6 @@ import com.shatteredpixel.shatteredpixeldungeon.*;
 import com.shatteredpixel.shatteredpixeldungeon.effects.BannerSprites;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Fireball;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
-import com.shatteredpixel.shatteredpixeldungeon.journal.Journal;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Archs;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
@@ -42,8 +41,6 @@ import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Music;
 import com.watabou.utils.FileUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 public class WelcomeScene extends PixelScene {
@@ -192,10 +189,7 @@ public class WelcomeScene extends PixelScene {
 				//TODO: change the messages here in accordance with the type of patch.
 				message = Messages.get(this, "patch_intro");
 				message += "\n";
-				//message += "\n" + Messages.get(this, "patch_balance");
-				message += "\n" + Messages.get(this, "patch_bugfixes");
-				message += "\n" + Messages.get(this, "patch_translations");
-
+				message += "\n" + Messages.get(this, "patch_balance");
 			}
 		} else {
 			message = Messages.get(this, "what_msg");

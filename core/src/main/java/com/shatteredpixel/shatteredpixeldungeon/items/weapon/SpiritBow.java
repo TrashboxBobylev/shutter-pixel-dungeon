@@ -75,7 +75,7 @@ public class SpiritBow extends Weapon {
 	public boolean sniperSpecial = false;
 	public float sniperSpecialBonusDamage = 0f;
 
-	public static final int REGULAR_SHOT_COST = 4;
+	public static final int REGULAR_SHOT_COST = 5;
 	public static final int SNIPER_SPECIAL_COST = 8;
 	
 	@Override
