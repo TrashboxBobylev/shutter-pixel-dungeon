@@ -1751,6 +1751,10 @@ public class Hero extends Char {
 			stealth = belongings.armor().stealthFactor(this, stealth);
 		}
 
+		if (buff(Invisibility.class) != null){
+			stealth += 1f;
+		}
+
 		if (heroClass == HeroClass.ROGUE){
 			stealth += 0.25f*Math.max(0, lvl-1);
 		}
