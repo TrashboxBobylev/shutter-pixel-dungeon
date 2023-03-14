@@ -478,6 +478,7 @@ public abstract class Wand extends Item {
 					//grants 3/5 shielding
 					Buff.affect(hero, Barrier.class).setShield(1 + 2 * hero.pointsInTalent(Talent.BACKUP_BARRIER));
 				}
+			}
 
 		}
 		Invisibility.dispel();
