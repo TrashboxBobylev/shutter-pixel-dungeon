@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -850,6 +850,7 @@ public class WndSettings extends WndTabbed {
 		CheckBox chkMuteSFX;
 		ColorBlock sep3;
 		CheckBox chkIgnoreSilent;
+		CheckBox chkMusicBG;
 
 		@Override
 		protected void createChildren() {
@@ -912,7 +913,7 @@ public class WndSettings extends WndTabbed {
 			chkMuteSFX.checked(!SPDSettings.soundFx());
 			add( chkMuteSFX );
 
-			if (DeviceCompat.isiOS() && Messages.lang() == Languages.ENGLISH){
+			if (DeviceCompat.isiOS()){
 
 				sep3 = new ColorBlock(1, 1, 0xFF000000);
 				add(sep3);
@@ -926,6 +927,21 @@ public class WndSettings extends WndTabbed {
 				};
 				chkIgnoreSilent.checked(SPDSettings.ignoreSilentMode());
 				add(chkIgnoreSilent);
+
+			} else if (DeviceCompat.isDesktop()){
+
+				sep3 = new ColorBlock(1, 1, 0xFF000000);
+				add(sep3);
+
+				chkMusicBG = new CheckBox( Messages.get(this, "music_bg") ){
+					@Override
+					protected void onClick() {
+						super.onClick();
+						SPDSettings.playMusicInBackground(checked());
+					}
+				};
+				chkMusicBG.checked(SPDSettings.playMusicInBackground());
+				add(chkMusicBG);
 			}
 		}
 
@@ -964,6 +980,12 @@ public class WndSettings extends WndTabbed {
 
 				chkIgnoreSilent.setRect(0, sep3.y + 1 + GAP, width, BTN_HEIGHT);
 				height = chkIgnoreSilent.bottom();
+			} else if (chkMusicBG != null){
+				sep3.size(width, 1);
+				sep3.y = chkMuteSFX.bottom() + GAP;
+
+				chkMusicBG.setRect(0, sep3.y + 1 + GAP, width, BTN_HEIGHT);
+				height = chkMusicBG.bottom();
 			}
 		}
 

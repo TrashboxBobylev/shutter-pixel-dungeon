@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -91,7 +91,7 @@ public class DwarfKing extends Mob {
 
 	@Override
 	public int drRoll() {
-		return Random.NormalIntRange(0, 10);
+		return super.drRoll() + Random.NormalIntRange(0, 10);
 	}
 
 	private int phase = 1;
@@ -134,6 +134,9 @@ public class DwarfKing extends Mob {
 		lastAbility = bundle.getInt( LAST_ABILITY );
 
 		if (phase == 2) properties.add(Property.IMMOVABLE);
+
+		BossHealthBar.assignBoss(this);
+		if (phase == 3) BossHealthBar.bleed(true);
 	}
 
 	@Override
@@ -430,7 +433,11 @@ public class DwarfKing extends Mob {
 
 	@Override
 	public boolean isInvulnerable(Class effect) {
-		return phase == 2 && effect != KingDamager.class;
+		if (effect == KingDamager.class){
+			return false;
+		} else {
+			return phase == 2 || super.isInvulnerable(effect);
+		}
 	}
 
 	@Override
@@ -510,14 +517,15 @@ public class DwarfKing extends Mob {
 		Ankh ankh = new Ankh();
 		ankh.bless();
 
-		if (Dungeon.level.solid[pos]){
-			Heap h = Dungeon.level.heaps.get(pos);
-			if (h != null) {
-				for (Item i : h.items) {
-					Dungeon.level.drop(i, pos + Dungeon.level.width());
-				}
-				h.destroy();
+		Heap h = Dungeon.level.heaps.get(CityBossLevel.throne);
+		if (h != null) {
+			for (Item i : h.items) {
+				Dungeon.level.drop(i, CityBossLevel.throne + Dungeon.level.width());
 			}
+			h.destroy();
+		}
+
+		if (Dungeon.level.solid[pos]){
 			Dungeon.level.drop(ankh, pos + Dungeon.level.width()).sprite.drop(pos);
 		} else {
 			Dungeon.level.drop(ankh, pos).sprite.drop();
@@ -556,6 +564,7 @@ public class DwarfKing extends Mob {
 
 	public static class DKGhoul extends Ghoul {
 		{
+			properties.add(Property.BOSS_MINION);
 			state = HUNTING;
 		}
 
@@ -568,12 +577,14 @@ public class DwarfKing extends Mob {
 
 	public static class DKMonk extends Monk {
 		{
+			properties.add(Property.BOSS_MINION);
 			state = HUNTING;
 		}
 	}
 
 	public static class DKWarlock extends Warlock {
 		{
+			properties.add(Property.BOSS_MINION);
 			state = HUNTING;
 		}
 
@@ -588,6 +599,7 @@ public class DwarfKing extends Mob {
 
 	public static class DKGolem extends Golem {
 		{
+			properties.add(Property.BOSS_MINION);
 			state = HUNTING;
 		}
 	}

@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,6 +47,7 @@ public enum Icons {
 	ROGUE,
 	HUNTRESS,
 	BEST_CHARACTER,
+	DUELIST,
 
 	//grey icons, mainly used for buttons, spacing for 16x16
 	EXIT,
@@ -169,6 +170,9 @@ public enum Icons {
 				break;
 			case BEST_CHARACTER:
 				icon.frame( icon.texture.uvRectBySize( 80, 16, 16, 16 ) );
+				break;
+			case DUELIST:
+				icon.frame( icon.texture.uvRectBySize( 80, 16, 13, 14 ) );
 				break;
 
 			case EXIT:
@@ -402,6 +406,8 @@ public enum Icons {
 			return get( HUNTRESS );
 		case BEST_CHARACTER:
 			return get(BEST_CHARACTER);
+		case DUELIST:
+			return get( Icons.DUELIST );
 		default:
 			return null;
 		}

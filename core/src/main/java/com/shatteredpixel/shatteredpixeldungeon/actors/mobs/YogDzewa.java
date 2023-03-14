@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -157,6 +157,9 @@ public class YogDzewa extends Mob {
 
 		throwItems();
 
+		sprite.hideAlert();
+		sprite.hideLost();
+
 		//mob logic
 		enemy = chooseEnemy();
 
@@ -176,6 +179,7 @@ public class YogDzewa extends Mob {
 			yell(Messages.get(this, "hope"));
 			summonCooldown = -15; //summon a burst of minions!
 			phase = 5;
+			BossHealthBar.bleed(true);
 		}
 
 		if (phase == 0){
@@ -209,14 +213,15 @@ public class YogDzewa extends Mob {
 				Invisibility.dispel(this);
 				for (Char ch : affected) {
 
+					if (ch == Dungeon.hero) {
+						Statistics.bossScores[4] -= 500;
+					}
+
 					if (hit( this, ch, true )) {
 						if (Dungeon.isChallenged(Challenges.STRONGER_BOSSES)) {
 							ch.damage(Random.NormalIntRange(90, 150), new Eye.DeathGaze());
 						} else {
 							ch.damage(Random.NormalIntRange(60, 90), new Eye.DeathGaze());
-						}
-						if (ch == Dungeon.hero) {
-							Statistics.bossScores[4] -= 500;
 						}
 						if (Dungeon.level.heroFOV[pos]) {
 							ch.sprite.flash();
@@ -316,6 +321,7 @@ public class YogDzewa extends Mob {
 					GameScene.add( summon );
 					Actor.addDelayed( new Pushing( summon, pos, summon.pos ), -1 );
 					summon.beckon(Dungeon.hero.pos);
+					Dungeon.level.occupyCell(summon);
 
 					summonCooldown += Random.NormalFloat(MIN_SUMMON_CD, MAX_SUMMON_CD);
 					summonCooldown -= (phase - 1);
@@ -350,7 +356,7 @@ public class YogDzewa extends Mob {
 
 	@Override
 	public boolean isInvulnerable(Class effect) {
-		return phase == 0 || findFist() != null;
+		return phase == 0 || findFist() != null || super.isInvulnerable(effect);
 	}
 
 	@Override
@@ -430,6 +436,7 @@ public class YogDzewa extends Mob {
 
 		GameScene.add(fist, 4);
 		Actor.addDelayed( new Pushing( fist, Dungeon.level.exit(), fist.pos ), -1 );
+		Dungeon.level.occupyCell(fist);
 	}
 
 	public void updateVisibility( Level level ){
@@ -458,6 +465,11 @@ public class YogDzewa extends Mob {
 
 	@Override
 	public void beckon( int cell ) {
+	}
+
+	@Override
+	public void clearEnemy() {
+		//do nothing
 	}
 
 	@Override
@@ -578,7 +590,10 @@ public class YogDzewa extends Mob {
 	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
 		phase = bundle.getInt(PHASE);
-		if (phase != 0) BossHealthBar.assignBoss(this);
+		if (phase != 0) {
+			BossHealthBar.assignBoss(this);
+			if (phase == 5) BossHealthBar.bleed(true);
+		}
 
 		abilityCooldown = bundle.getFloat(ABILITY_CD);
 		summonCooldown = bundle.getFloat(SUMMON_CD);
@@ -608,6 +623,7 @@ public class YogDzewa extends Mob {
 			maxLvl = -2;
 
 			properties.add(Property.DEMONIC);
+			properties.add(Property.BOSS_MINION);
 		}
 
 		@Override
@@ -622,21 +638,28 @@ public class YogDzewa extends Mob {
 
 		@Override
 		public int drRoll() {
-			return Random.NormalIntRange(0, 4);
+			return super.drRoll() + Random.NormalIntRange(0, 4);
 		}
 
 	}
 
 	//used so death to yog's ripper demons have their own rankings description
-	public static class YogRipper extends RipperDemon {}
+	public static class YogRipper extends RipperDemon {
+		{
+			maxLvl = -2;
+			properties.add(Property.BOSS_MINION);
+		}
+	}
 	public static class YogEye extends Eye {
 		{
 			maxLvl = -2;
+			properties.add(Property.BOSS_MINION);
 		}
 	}
 	public static class YogScorpio extends Scorpio {
 		{
 			maxLvl = -2;
+			properties.add(Property.BOSS_MINION);
 		}
 	}
 }
