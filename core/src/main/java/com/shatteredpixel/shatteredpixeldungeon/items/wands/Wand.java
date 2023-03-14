@@ -400,12 +400,11 @@ public abstract class Wand extends Item {
 	}
 
 	public void updateLevel() {
-		maxCharges = Math.min( initialCharges() + level()*5, 50 );
 		curCharges = Math.min( curCharges, maxCharges );
 	}
 	
 	protected int initialCharges() {
-		return 10;
+		return 30;
 	}
 
 	public int chargesPerCast() {
@@ -720,11 +719,10 @@ public abstract class Wand extends Item {
 	
 	public class Charger extends Buff {
 		
-		private static final float BASE_CHARGE_DELAY = 150f;
-		private static final float SCALING_CHARGE_ADDITION = 95f;
+		private static final float BASE_CHARGE_DELAY = 300f;
 		private static final float NORMAL_SCALE_FACTOR = 0.875f;
 
-		private static final float CHARGE_BUFF_BONUS = 0.34f;
+		private static final float CHARGE_BUFF_BONUS = 0.2f;
 
 		float scalingFactor = NORMAL_SCALE_FACTOR;
 
@@ -762,15 +760,9 @@ public abstract class Wand extends Item {
 
 		private void recharge(){
 			if (hero.belongings.weapon() instanceof Quarterstaff) {
-				int missingCharges = Math.round((maxCharges - curCharges)/2.5f);
-				missingCharges = Math.max(0, missingCharges);
-
-				float turnsToCharge = (float) (BASE_CHARGE_DELAY
-						+ (SCALING_CHARGE_ADDITION * Math.pow(scalingFactor, missingCharges)));
-
 				LockedFloor lock = target.buff(LockedFloor.class);
 				if (lock == null || lock.regenOn())
-					partialCharge += (1f / turnsToCharge) * RingOfEnergy.wandChargeMultiplier(target);
+					partialCharge += (1f / BASE_CHARGE_DELAY) * RingOfEnergy.wandChargeMultiplier(target);
 			}
 
 			for (Recharging bonus : target.buffs(Recharging.class)){

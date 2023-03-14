@@ -297,8 +297,7 @@ public class MagesStaff extends MeleeWeapon {
 		if (wand != null) {
 			int curCharges = wand.curCharges;
 			wand.level(level());
-			//gives the wand one additional max charge
-			wand.maxCharges = Math.min(wand.maxCharges + 5, 50);
+			wand.maxCharges = 35;
 			wand.curCharges = Math.min(curCharges + (levelled ? 5 : 0), wand.maxCharges);
 			updateQuickslot();
 		}
