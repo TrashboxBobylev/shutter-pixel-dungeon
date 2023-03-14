@@ -312,7 +312,7 @@ public class Generator {
 					RingOfEnergy.class,
 					RingOfMight.class,
 					RingOfSharpshooting.class};
-			RING.probs = new float[]{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+			RING.probs = new float[]{ 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 			
 			ARTIFACT.classes = new Class<?>[]{
 					AlchemistsToolkit.class,
