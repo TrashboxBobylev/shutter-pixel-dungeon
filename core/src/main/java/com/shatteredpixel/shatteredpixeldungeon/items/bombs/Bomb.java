@@ -186,7 +186,12 @@ public class Bomb extends Item {
 					dmg = Math.round(dmg*0.67f);
 				}
 
+				if (ch instanceof Hero)
+					dmg *= 2;
+
 				dmg -= ch.drRoll();
+				if (ch instanceof Hero)
+					dmg -= ch.drRoll();
 
 				if (dmg > 0) {
 					ch.damage(dmg, this);
