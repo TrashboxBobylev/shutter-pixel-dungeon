@@ -60,14 +60,23 @@ public class WandOfFireblast extends DamageWand {
 		collisionProperties = Ballistica.WONT_STOP;
 	}
 
-	//1/2/3 base damage with 1/2/3 scaling based on charges used
+	//0 base damage with 0.5/1/1.5 scaling based on charges used
 	public int min(int lvl){
-		return (int) ((0+lvl/4f) * chargesPerCast() * (1 + Dungeon.hero.pointsInTalent(Talent.PYROMANIAC)*0.175f) * powerMultiplier());
+		return (int) ((0+lvl/2f) * chargesPerCast() * (1 + Dungeon.hero.pointsInTalent(Talent.PYROMANIAC)*0.175f) * powerMultiplier());
 	}
 
-	//2/8/18 base damage with 2/4/6 scaling based on charges used
+	//1/6/12 base damage with 1/3/5 scaling based on charges used
 	public int max(int lvl){
-		return (int) ((5+0.8f*lvl) * chargesPerCast() * (1 + Dungeon.hero.pointsInTalent(Talent.PYROMANIAC)*0.175f) * powerMultiplier());
+		int baseDamage;
+		switch (chargesPerCast()){
+			case 1: default:
+				baseDamage = 1 + 1*lvl; break;
+			case 2:
+				baseDamage = 2*(3) + 3*lvl; break;
+			case 3:
+				baseDamage = 3*(4) + 5*lvl;
+		}
+		return (int) (baseDamage * (1 + Dungeon.hero.pointsInTalent(Talent.PYROMANIAC)*0.175f) * powerMultiplier());
 	}
 
 	ConeAOE cone;
