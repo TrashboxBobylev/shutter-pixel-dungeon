@@ -24,19 +24,11 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.*;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Transmuting;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
@@ -46,7 +38,6 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
@@ -62,14 +53,16 @@ public class MeleeWeapon extends Weapon {
 	@Override
 	public void activate(Char ch) {
 		super.activate(ch);
-		if (ch instanceof Hero && ((Hero) ch).heroClass == HeroClass.DUELIST){
+		if (ch instanceof Hero &&
+				(((Hero) ch).heroClass == HeroClass.DUELIST || ((Hero) ch).heroClass == HeroClass.BEST_CHARACTER)){
 			Buff.affect(ch, Charger.class);
 		}
 	}
 
 	@Override
 	public String defaultAction() {
-		if (Dungeon.hero != null && Dungeon.hero.heroClass == HeroClass.DUELIST){
+		if (Dungeon.hero != null &&
+				(Dungeon.hero.heroClass == HeroClass.DUELIST || Dungeon.hero.heroClass == HeroClass.BEST_CHARACTER)){
 			return AC_ABILITY;
 		} else {
 			return super.defaultAction();
@@ -79,7 +72,7 @@ public class MeleeWeapon extends Weapon {
 	@Override
 	public ArrayList<String> actions(Hero hero) {
 		ArrayList<String> actions = super.actions(hero);
-		if (isEquipped(hero) && hero.heroClass == HeroClass.DUELIST){
+		if (isEquipped(hero) && (hero.heroClass == HeroClass.DUELIST || hero.heroClass == HeroClass.BEST_CHARACTER)){
 			actions.add(AC_ABILITY);
 		}
 		return actions;
@@ -377,8 +370,9 @@ public class MeleeWeapon extends Weapon {
 			}
 		}
 
-		//the mage's staff has no ability as it can only be gained by the mage
-		if (Dungeon.hero.heroClass == HeroClass.DUELIST && !(this instanceof MagesStaff)){
+		//the quarterstaff has no ability as it can only be gained by the mage
+		if ((Dungeon.hero.heroClass == HeroClass.DUELIST ||
+				Dungeon.hero.heroClass == HeroClass.BEST_CHARACTER) && !(this instanceof Quarterstaff)){
 			info += "\n\n" + Messages.get(this, "ability_desc");
 		}
 		
