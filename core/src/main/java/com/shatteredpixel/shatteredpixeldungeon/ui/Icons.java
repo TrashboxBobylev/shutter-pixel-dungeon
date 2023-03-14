@@ -172,7 +172,7 @@ public enum Icons {
 				icon.frame( icon.texture.uvRectBySize( 80, 16, 16, 16 ) );
 				break;
 			case DUELIST:
-				icon.frame( icon.texture.uvRectBySize( 80, 16, 13, 14 ) );
+				icon.frame( icon.texture.uvRectBySize( 96, 16, 13, 14 ) );
 				break;
 
 			case EXIT:
