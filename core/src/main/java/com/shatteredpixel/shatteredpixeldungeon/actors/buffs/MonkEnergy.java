@@ -28,11 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Ghoul;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.RipperDemon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Wraith;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.YogDzewa;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.*;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
@@ -156,16 +152,6 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 			Hero hero = (Hero) target;
 			if (hero.hasTalent(Talent.UNENCUMBERED_SPIRIT)) {
 				int points = hero.pointsInTalent(Talent.UNENCUMBERED_SPIRIT);
-
-				if (hero.belongings.armor() != null){
-					if (hero.belongings.armor().tier <= 1 && points >= 3){
-						enGainMulti += 1.00f;
-					} else if (hero.belongings.armor().tier <= 2 && points >= 2){
-						enGainMulti += 0.50f;
-					} else if (hero.belongings.armor().tier <= 3 && points >= 1){
-						enGainMulti += 0.25f;
-					}
-				}
 
 				if (hero.belongings.weapon() instanceof MeleeWeapon
 						&& hero.buff(RingOfForce.BrawlersStance.class) == null){

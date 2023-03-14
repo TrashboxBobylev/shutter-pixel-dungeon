@@ -37,7 +37,6 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
@@ -59,11 +58,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
-import com.watabou.utils.Bundle;
-import com.watabou.utils.Callback;
-import com.watabou.utils.GameMath;
-import com.watabou.utils.PathFinder;
-import com.watabou.utils.Random;
+import com.watabou.utils.*;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -535,11 +530,7 @@ public enum Talent {
 		}
 
 		if (talent == UNENCUMBERED_SPIRIT && hero.pointsInTalent(talent) == 3){
-			Item toGive = new ClothArmor().identify();
-			if (!toGive.collect()){
-				Dungeon.level.drop(toGive, hero.pos).sprite.drop();
-			}
-			toGive = new Gloves().identify();
+			Item toGive = new Gloves().identify();
 			if (!toGive.collect()){
 				Dungeon.level.drop(toGive, hero.pos).sprite.drop();
 			}
