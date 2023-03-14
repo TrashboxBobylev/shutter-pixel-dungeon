@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
@@ -371,6 +372,20 @@ public class MagesStaff extends MeleeWeapon {
 			updateWand(false);
 		}
 		return super.enchant(ench);
+	}
+
+	@Override
+	public float abilityChargeUse(Hero hero) {
+		return 2*super.abilityChargeUse(hero);
+	}
+
+	@Override
+	protected void duelistAbility(Hero hero, Integer target) {
+		beforeAbilityUsed(hero);
+		Buff.prolong(hero, Quarterstaff.DefensiveStance.class, 5f); //4 turns as using the ability is instant
+		hero.sprite.operate(hero.pos);
+		hero.next();
+		afterAbilityUsed(hero);
 	}
 	
 	private final WndBag.ItemSelector itemSelector = new WndBag.ItemSelector() {

@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -33,7 +34,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfDisintegration;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.audio.Sample;
@@ -116,20 +116,6 @@ public class Quarterstaff extends MeleeWeapon {
 			stats_desc += "\n\n" + Messages.get(lastWand, "bmage_desc");
 		}
 		return stats_desc;
-	}
-
-	@Override
-	public float abilityChargeUse(Hero hero) {
-		return 2*super.abilityChargeUse(hero);
-	}
-
-	@Override
-	protected void duelistAbility(Hero hero, Integer target) {
-		beforeAbilityUsed(hero);
-		Buff.prolong(hero, DefensiveStance.class, 5f); //4 turns as using the ability is instant
-		hero.sprite.operate(hero.pos);
-		hero.next();
-		afterAbilityUsed(hero);
 	}
 
 	public static class DefensiveStance extends FlavourBuff {
