@@ -25,11 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.*;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Chains;
@@ -314,6 +310,7 @@ public class EtherealChains extends Artifact {
 			LockedFloor lock = target.buff(LockedFloor.class);
 			if (charge < chargeTarget
 					&& !cursed
+					&& charge > 0
 					&& target.buff(MagicImmune.class) == null
 					&& (lock == null || lock.regenOn())) {
 				//gains a charge in 40 - 2*missingCharge turns
@@ -337,7 +334,7 @@ public class EtherealChains extends Artifact {
 		}
 
 		public void gainExp( float levelPortion ) {
-			if (cursed || target.buff(MagicImmune.class) != null || levelPortion == 0) return;
+			if (cursed || target.buff(MagicImmune.class) != null || levelPortion == 0 || charge == 0) return;
 
 			exp += Math.round(levelPortion*100);
 
