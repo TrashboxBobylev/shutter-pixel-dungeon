@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -43,7 +44,6 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.MissileSprite;
-import com.shatteredpixel.shatteredpixeldungeon.ui.InventoryPane;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
@@ -67,6 +67,7 @@ public class Item implements Bundlable {
 	
 	public static final String AC_DROP		= "DROP";
 	public static final String AC_THROW		= "THROW";
+	public static final String AC_TAG       = "TAG";
 	
 	protected String defaultAction;
 	public boolean usesTargeting;
@@ -80,6 +81,7 @@ public class Item implements Bundlable {
 	public boolean dropsDownHeap = false;
 	
 	private int level = 0;
+	public boolean tagged = false;
 
 	public boolean levelKnown = false;
 	
@@ -101,11 +103,17 @@ public class Item implements Bundlable {
 			return Generator.Category.order( lhs ) - Generator.Category.order( rhs );
 		}
 	};
+
+	public int taggingCost(){
+		return 9000 + Challenges.activeChallenges()*500;
+	}
 	
 	public ArrayList<String> actions( Hero hero ) {
 		ArrayList<String> actions = new ArrayList<>();
 		actions.add( AC_DROP );
 		actions.add( AC_THROW );
+		if (Dungeon.gold >= taggingCost() && !tagged)
+			actions.add( AC_TAG );
 		return actions;
 	}
 
@@ -163,6 +171,13 @@ public class Item implements Bundlable {
 				doThrow(hero);
 			}
 			
+		} else if (action.equals( AC_TAG )) {
+			if (Dungeon.gold >= taggingCost() && !tagged &&
+					(hero.belongings.backpack.contains(this) || isEquipped(hero))){
+				hero.spendAndNext(TIME_TO_DROP);
+				tagged = true;
+				Dungeon.gold -= taggingCost();
+			}
 		}
 	}
 
@@ -474,6 +489,8 @@ public class Item implements Bundlable {
 	public int image() {
 		return image;
 	}
+
+	public static ItemSprite.Glowing TAGGED = new ItemSprite.Glowing( 0xFFD400, 0.25f );
 	
 	public ItemSprite.Glowing glowing() {
 		return null;
@@ -486,7 +503,9 @@ public class Item implements Bundlable {
 	}
 	
 	public String desc() {
-		return Messages.get(this, "desc");
+		return Messages.get(this, "desc") +
+				(!tagged && Dungeon.gold >= taggingCost() ?
+						"\n\n" + Messages.get(Item.class, "desc_tag", taggingCost()) : "");
 	}
 	
 	public int quantity() {
@@ -536,6 +555,7 @@ public class Item implements Bundlable {
 	private static final String CURSED_KNOWN	= "cursedKnown";
 	private static final String QUICKSLOT		= "quickslotpos";
 	private static final String KEPT_LOST       = "kept_lost";
+	private static final String TAGGING         = "tagged";
 	
 	@Override
 	public void storeInBundle( Bundle bundle ) {
@@ -548,6 +568,7 @@ public class Item implements Bundlable {
 			bundle.put( QUICKSLOT, Dungeon.quickslot.getSlot(this) );
 		}
 		bundle.put( KEPT_LOST, keptThoughLostInvent );
+		bundle.put( TAGGING, tagged);
 	}
 	
 	@Override
@@ -573,6 +594,7 @@ public class Item implements Bundlable {
 		}
 
 		keptThoughLostInvent = bundle.getBoolean( KEPT_LOST );
+		tagged = bundle.getBoolean( TAGGING);
 	}
 
 	public int targetingPos( Hero user, int dst ){
