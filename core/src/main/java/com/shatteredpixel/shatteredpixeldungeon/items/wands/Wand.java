@@ -39,7 +39,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMysticism;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.CurseInfusion;
@@ -762,7 +761,7 @@ public abstract class Wand extends Item {
 			if (hero.belongings.weapon() instanceof Quarterstaff) {
 				LockedFloor lock = target.buff(LockedFloor.class);
 				if (lock == null || lock.regenOn())
-					partialCharge += (1f / BASE_CHARGE_DELAY) * RingOfEnergy.wandChargeMultiplier(target);
+					partialCharge += (1f / BASE_CHARGE_DELAY);
 			}
 
 			for (Recharging bonus : target.buffs(Recharging.class)){
