@@ -443,6 +443,8 @@ public abstract class Wand extends Item {
 		Quarterstaff.lastWandClass = getClass();
 		
 		curCharges -= cursed ? 1 : chargesPerCast();
+		if (!cursed && this instanceof WandOfMagicMissile && Random.Int(4) == 0)
+			curCharges += chargesPerCast();
 
 		//remove magic charge at a higher priority, if we are benefiting from it are and not the
 		//wand that just applied it

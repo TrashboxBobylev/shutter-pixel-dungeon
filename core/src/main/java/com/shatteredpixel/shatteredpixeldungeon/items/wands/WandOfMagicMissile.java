@@ -84,14 +84,10 @@ public class WandOfMagicMissile extends DamageWand {
 		SpellSprite.show(attacker, SpellSprite.CHARGE);
 		for (Wand.Charger c : attacker.buffs(Wand.Charger.class)){
 			if (c.wand() != this){
-				c.gainCharge(0.2f * procChanceMultiplier(attacker));
+				c.gainCharge(0.15f * procChanceMultiplier(attacker));
 			}
 		}
 
-	}
-	
-	protected int initialCharges() {
-		return 15;
 	}
 
 	public static class MagicCharge extends FlavourBuff {
