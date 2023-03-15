@@ -25,16 +25,21 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AnkhInvulnerability;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
+import com.watabou.utils.Random;
 
 public class RunicBlade extends MeleeWeapon {
 
@@ -52,7 +57,34 @@ public class RunicBlade extends MeleeWeapon {
 	@Override
 	public int max(int lvl) {
 		return  5*(tier) +                	//20 base, down from 25
-				Math.round(lvl*(tier+2));	//+6 per level, up from +5
+				Math.round(lvl*(tier));	//+4 per level, down from +5
+	}
+
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		float chance = 0.33f + 0.08f*buffedLvl();
+		if (Random.Float() < chance && attacker instanceof Hero){
+			Wand wand = (Wand) Generator.random(Generator.Category.WAND);
+			wand.cursed = false;
+			wand.upgrade(buffedLvl());
+			curUser = (Hero) attacker;
+			Buff.affect(attacker, AnkhInvulnerability.class, delayFactor(attacker));
+
+			attacker.sprite.zap(defender.pos, () -> {
+				if (wand.tryToZap((Hero) attacker, defender.pos)) {
+					final Ballistica shot = new Ballistica( attacker.pos, defender.pos, wand.collisionProperties(defender.pos));
+
+					wand.fx(shot, new Callback() {
+						public void call() {
+							wand.onZap(shot);
+							wand.wandUsed();
+						}
+					});
+				}
+			});
+			return -1;
+		}
+		else return super.proc(attacker, defender, damage);
 	}
 
 	@Override

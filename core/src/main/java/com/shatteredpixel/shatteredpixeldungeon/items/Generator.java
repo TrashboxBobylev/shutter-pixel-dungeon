@@ -301,9 +301,10 @@ public class Generator {
 			MIS_T5.probs = new float[]{ 6, 5, 4 };
 
 			WEP_SACRIFICE.classes = new Class<?>[]{
-					RunicBlade.class
+					RunicBlade.class,
+					BurntPan.class
 			};
-			WEP_SACRIFICE.probs = new float[]{ 1};
+			WEP_SACRIFICE.probs = new float[]{ 1, 1 };
 			
 			FOOD.classes = new Class<?>[]{
 					Food.class,
