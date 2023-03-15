@@ -115,8 +115,9 @@ public class Generator {
 
 		static {
 			GOLD.classes = new Class<?>[]{
-					Gold.class };
-			GOLD.probs = new float[]{ 1 };
+					Gold.class,
+					EnergyCrystal.class};
+			GOLD.probs = new float[]{ 5, 1 };
 			
 			POTION.classes = new Class<?>[]{
 					PotionOfStrength.class, //2 drop every chapter, see Dungeon.posNeeded()
