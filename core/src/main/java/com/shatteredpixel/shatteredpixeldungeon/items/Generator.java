@@ -267,7 +267,7 @@ public class Generator {
 					ThrowingKnife.class,
 					ThrowingSpike.class
 			};
-			MIS_T1.probs = new float[]{ 6, 5 };
+			MIS_T1.probs = new float[]{ 6, 5, 5 };
 			
 			MIS_T2.classes = new Class<?>[]{
 					FishingSpear.class,
