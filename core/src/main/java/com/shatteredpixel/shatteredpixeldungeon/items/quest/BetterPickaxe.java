@@ -8,7 +8,6 @@ public class BetterPickaxe extends Pickaxe {
 
         levelKnown = true;
 
-        unique = true;
         bones = false;
 
         tier = 5;
@@ -18,6 +17,11 @@ public class BetterPickaxe extends Pickaxe {
     @Override
     public int STRReq(int lvl) {
         return super.STRReq(lvl) - 2;
+    }
+
+    @Override
+    public int value() {
+        return Math.round(super.value()*1.75f);
     }
 
     @Override
