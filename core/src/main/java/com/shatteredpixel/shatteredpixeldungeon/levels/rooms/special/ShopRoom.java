@@ -31,6 +31,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bags.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.SmallRation;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.BetterPickaxe;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
@@ -173,6 +175,16 @@ public class ShopRoom extends SpecialRoom {
 		itemsToSpawn.add( new Alchemize().quantity(Random.IntRange(2, 3)));
 
 		itemsToSpawn.add(ChooseBag(Dungeon.hero.belongings));
+
+		if (Dungeon.hero.belongings.getItem(Pickaxe.class) != null
+			&& !(Dungeon.hero.belongings.getItem(Pickaxe.class) instanceof BetterPickaxe)){
+			BetterPickaxe pick = new BetterPickaxe();
+			pick.enchant(null);
+			pick.cursed = false;
+			pick.level(0);
+			pick.identify(false);
+			itemsToSpawn.add(pick);
+		}
 
 
 		itemsToSpawn.add( new PotionOfHealing() );
