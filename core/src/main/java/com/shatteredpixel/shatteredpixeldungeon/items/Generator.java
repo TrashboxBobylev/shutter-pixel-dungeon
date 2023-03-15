@@ -62,6 +62,8 @@ public class Generator {
 
 		ARMOR(0,0,Armor.class),
 
+		WEP_SACRIFICE(0,0, Item.class),
+
 		WAND	( 1, 1, Wand.class ),
 		RING	( 1, 0, Ring.class ),
 		ARTIFACT( 0, 1, Artifact.class),
@@ -297,6 +299,11 @@ public class Generator {
 					ForceCube.class
 			};
 			MIS_T5.probs = new float[]{ 6, 5, 4 };
+
+			WEP_SACRIFICE.classes = new Class<?>[]{
+					RunicBlade.class
+			};
+			WEP_SACRIFICE.probs = new float[]{ 1};
 			
 			FOOD.classes = new Class<?>[]{
 					Food.class,

@@ -83,25 +83,34 @@ public class SacrificeRoom extends SpecialRoom {
 
 	public static Item prize( Level level ) {
 
-		//1 floor set higher than normal
-		Weapon prize = Generator.randomWeapon( (Dungeon.depth / 5) + 1);
+		if (Random.Float() < 0.5f){
+			Item prize = Generator.random(Generator.Category.WEP_SACRIFICE);
 
-		if (Challenges.isItemBlocked(prize)){
-			return new Gold().random();
-		}
-		prize.upgrade(2);
-
-		//if it isn't already cursed, give it a free upgrade
-		if (!prize.cursed){
 			prize.upgrade(2);
-			//curse the weapon, unless it has a glyph
-			if (!prize.hasGoodEnchant()){
-				prize.enchant(Weapon.Enchantment.randomCurse());
-			}
-		}
-		prize.cursed = prize.cursedKnown = true;
 
-		return prize;
+			return prize;
+		} else {
+
+			//1 floor set higher than normal
+			Weapon prize = Generator.randomWeapon((Dungeon.depth / 5) + 1);
+
+			if (Challenges.isItemBlocked(prize)) {
+				return new Gold().random();
+			}
+			prize.upgrade(2);
+
+			//if it isn't already cursed, give it a free upgrade
+			if (!prize.cursed) {
+				prize.upgrade(2);
+				//curse the weapon, unless it has a glyph
+				if (!prize.hasGoodEnchant()) {
+					prize.enchant(Weapon.Enchantment.randomCurse());
+				}
+			}
+			prize.cursed = prize.cursedKnown = true;
+
+			return prize;
+		}
 	}
 
 }
