@@ -86,7 +86,7 @@ public class SacrificeRoom extends SpecialRoom {
 		if (Random.Float() < 0.5f){
 			Item prize = Generator.random(Generator.Category.WEP_SACRIFICE);
 
-			prize.upgrade(2);
+			prize.upgrade(Dungeon.depth/5);
 
 			return prize;
 		} else {
