@@ -214,12 +214,14 @@ public class ItemSpriteSheet {
 	public static final int SPEAR           = WEP_TIER2+2;
 	public static final int QUARTERSTAFF    = WEP_TIER2+3;
 	public static final int DIRK            = WEP_TIER2+4;
+	public static final int PAN             = WEP_TIER2+5;
 	static{
 		assignItemRect(SHORTSWORD,      13, 13);
 		assignItemRect(HAND_AXE,        12, 14);
 		assignItemRect(SPEAR,           16, 16);
 		assignItemRect(QUARTERSTAFF,    16, 16);
 		assignItemRect(DIRK,            13, 14);
+		assignItemRect(PAN,             14, 14);
 	}
 
 	private static final int WEP_TIER3      =                               xy(1, 8);   //8 slots
@@ -249,7 +251,7 @@ public class ItemSpriteSheet {
 		assignItemRect(LONGSWORD,       15, 15);
 		assignItemRect(BATTLE_AXE,      16, 16);
 		assignItemRect(FLAIL,           14, 14);
-		assignItemRect(RUNIC_BLADE,     14, 14);
+		assignItemRect(RUNIC_BLADE,     16, 16);
 		assignItemRect(ASSASSINS_BLADE, 14, 15);
 		assignItemRect(CROSSBOW,        15, 15);
 	}
@@ -382,6 +384,7 @@ public class ItemSpriteSheet {
 	public static final int WAND_WARDING        = WANDS+10;
 	public static final int WAND_REGROWTH       = WANDS+11;
 	public static final int WAND_TRANSFUSION    = WANDS+12;
+	public static final int WAND_RED_WARDING    = WANDS+13;
 	static {
 		for (int i = WANDS; i < WANDS+16; i++)
 			assignItemRect(i, 14, 14);
