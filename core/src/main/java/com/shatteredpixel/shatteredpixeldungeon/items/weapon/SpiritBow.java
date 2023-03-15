@@ -75,15 +75,19 @@ public class SpiritBow extends Weapon {
 	public boolean sniperSpecial = false;
 	public float sniperSpecialBonusDamage = 0f;
 
-	public static final int REGULAR_SHOT_COST = 4;
+	private static final int REGULAR_SHOT_COST = 4;
 	public static final int SNIPER_SPECIAL_COST = 8;
-	
+
+	public int getRegularShotCost() {
+		return REGULAR_SHOT_COST;
+	}
+
 	@Override
 	public ArrayList<String> actions(Hero hero) {
 		ArrayList<String> actions = super.actions(hero);
 		if (hero.subClass == HeroSubClass.NONE)
 			actions.remove(AC_EQUIP);
-		if (Dungeon.gold >= REGULAR_SHOT_COST)
+		if (Dungeon.gold >= getRegularShotCost())
 			actions.add(AC_SHOOT);
 		return actions;
 	}
@@ -94,7 +98,7 @@ public class SpiritBow extends Weapon {
 		super.execute(hero, action);
 		
 		if (action.equals(AC_SHOOT)) {
-			if (Dungeon.gold >= REGULAR_SHOT_COST) {
+			if (Dungeon.gold >= getRegularShotCost()) {
 
 				curUser = hero;
 				curItem = this;
@@ -523,7 +527,7 @@ public class SpiritBow extends Weapon {
 		@Override
 		public void onSelect( Integer target ) {
 			if (target != null) {
-				Dungeon.gold -= REGULAR_SHOT_COST;
+				Dungeon.gold -= getRegularShotCost();
 				knockArrow().cast(curUser, target);
 			}
 		}

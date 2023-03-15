@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.*;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.PhantasticalBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.*;
 import com.shatteredpixel.shatteredpixeldungeon.plants.*;
@@ -302,9 +303,10 @@ public class Generator {
 
 			WEP_SACRIFICE.classes = new Class<?>[]{
 					RunicBlade.class,
-					BurntPan.class
+					BurntPan.class,
+					PhantasticalBow.class
 			};
-			WEP_SACRIFICE.probs = new float[]{ 1, 1 };
+			WEP_SACRIFICE.probs = new float[]{ 1, 1, 1 };
 			
 			FOOD.classes = new Class<?>[]{
 					Food.class,
