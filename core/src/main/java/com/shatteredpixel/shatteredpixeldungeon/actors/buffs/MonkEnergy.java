@@ -336,6 +336,12 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 									if (hero.buff(FlurryEmpowerTracker.class) != null){
 										hero.buff(FlurryEmpowerTracker.class).detach();
 									}
+									if (!enemy.isAlive()){
+										if (hero.hasTalent(Talent.ABILITY_PROTECTION)){
+											Buff.affect(hero, Barrier.class).setShield(
+													Math.round(hero.HT * (hero.pointsInTalent(Talent.ABILITY_PROTECTION) / 7f)));
+										}
+									}
 								}
 							});
 						} else {
@@ -348,6 +354,10 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 							}
 							if (hero.buff(FlurryEmpowerTracker.class) != null){
 								hero.buff(FlurryEmpowerTracker.class).detach();
+							}
+							if (hero.hasTalent(Talent.ABILITY_PROTECTION)){
+								Buff.affect(hero, Barrier.class).setShield(
+										Math.round(hero.HT * (hero.pointsInTalent(Talent.ABILITY_PROTECTION) / 7f)));
 							}
 						}
 					}
@@ -528,6 +538,11 @@ public class MonkEnergy extends Buff implements ActionIndicator.Action {
 
 							if (trajectory.dist > 0) {
 								Buff.affect(enemy, Paralysis.class, Math.min( 6, trajectory.dist));
+							}
+						} else {
+							if (hero.hasTalent(Talent.ABILITY_PROTECTION)){
+								Buff.affect(hero, Barrier.class).setShield(
+										Math.round(hero.HT * (hero.pointsInTalent(Talent.ABILITY_PROTECTION) / 7f)));
 							}
 						}
 						Invisibility.dispel();

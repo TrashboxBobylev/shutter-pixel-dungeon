@@ -630,6 +630,10 @@ public class Hero extends Char {
 	
 	public float attackDelay() {
 		float del = super.attackDelay();
+		if (hasTalent(Talent.SWINGY_EXPERIENCE) &&
+			Random.Int(6) < pointsInTalent(Talent.SWINGY_EXPERIENCE)-1){
+			return 0;
+		}
 		if (buff(Talent.LethalMomentumTracker.class) != null){
 			buff(Talent.LethalMomentumTracker.class).detach();
 			return 0;
