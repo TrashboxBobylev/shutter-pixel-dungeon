@@ -54,6 +54,8 @@ public class PhantasticalBow extends SpiritBow {
     }
 
     public class PhantasticalArrow extends SpiritArrow {
-
+        {
+            image = ItemSpriteSheet.PHAN_ARROW;
+        }
     }
 }
