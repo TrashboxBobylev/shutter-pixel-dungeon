@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.BadgeBanner;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.WoollyBomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
@@ -46,7 +47,6 @@ import java.util.ArrayList;
 public class v1_X_Changes {
 
 	public static void addAllChanges( ArrayList<ChangeInfo> changeInfos ){
-		add_Shutter(changeInfos);
 		add_v1_4_Changes(changeInfos);
 		add_v1_3_Changes(changeInfos);
 		add_v1_2_Changes(changeInfos);
@@ -55,7 +55,47 @@ public class v1_X_Changes {
 	}
 
 	public static void add_Shutter( ArrayList<ChangeInfo> changeInfos ){
-		ChangeInfo changes = new ChangeInfo("Shutter-1.3.1", true, "");
+		ChangeInfo changes = new ChangeInfo("Shutter-1.4", true, "");
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+		changes.addButton( new ChangeButton(Icons.get(Icons.INFO), "Developer Commentary",
+				"_-_ Released March 17th, 2023\n\n" +
+						"_-_ This release ports Shattered 2.0.0's changes and adjusts the difficulty found in this bugfix."));
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.WAND_MAGIC_MISSILE), "Magic Tweaks",
+				"_-_ Now all wands have 30 maximum charges instead of 10, but cannot gain any more with upgrades.\n" +
+						"_-_ The base recharge delay is adjusted to 300 turns, but no longer scales with missing charges at all.\n" +
+						"_-_ Recharging buff is nerfed from 33% to 20%.\n" +
+						"_-_ Changed Magic Missile Wand to have 25% chance to not consume its charge after usage instead of extra charges.\n" +
+						"_-_ Changed MM's Battlemage ability to grant less charge to all wands."
+		));
+		changes.addButton( new ChangeButton(new BuffIcon(BuffIndicator.SACRIFICE, true), "Sacrifice Rooms",
+				"Buffed sacrifice altar room's value in a run:\n\n" +
+						"_-_ Now grants one of 3 exclusive weapons with 50% chance, that are upgraded with Dungeon's chapter."));
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.ADVRAPIER), "New Weapons",
+				"Added few new different weapons:\n\n" +
+						"_-_ _Advanced Rapier_, the tier-5 upgraded version of the Duelist's rapier; has the double damage and defense factor of normal rapier.\n" +
+						"_-_ _Pickaxe+_, the tier-5 (with less strength required) upgraded version of pickaxe, which can be bought in any shop, if player has normal pickaxe in their inventory; attacks twice per turn, including the Duelist's abilities.\n" +
+						"_-_ _Runic Blade_, the tier-4 sacrifice room-exclusive weapon; reduced scaling from +6 to +4, but now has a chance to shoot a random wand in point-blank range, with upgrade level equal to blade's one.\n" +
+						"_-_ _Burnt Pan_, the tier-3 sacrifice room-exclusive weapon, with slightly reduced accuracy and 0.25 turns attack delay; consecutive hits with a pan increase its damage by a lot, peaking at 4 hits, but missing or breaking the combo in any way will remove the damage buff and spend the rest of turn, that was not spent on attacking.\n" +
+						"_-_ _Phantastical Bow_, the tier-2 sacrifice room-exclusive weapon, that is very similar to spirit bow; it doesn't spend gold to shoot arrows, but is effectively 2x weaker than regular bow and requires scrolls of upgrade to gain levels."
+		));
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.SWORD, Item.TAGGED), "Tagging",
+				"Added tagging functionality. It costs a ton of gold, but allows to preserve any item of your choice as hero's remains on floor 1 in next run."
+		));
+		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
+				"_-_ Knightresque can use Duelist's weapon abilities.\n" +
+						"_-_ Having invisibility buff rewards player with extra stealth.\n" +
+						"_-_ Spirit Bow requires 4 gold again.\n" +
+						"_-_ Items are bought in shops for 2x less more gold and sold for 2x more gold.\n" +
+						"_-_ Doubled the damage of bombs. They also do 2x extra damage to heroes but the armor value is doubled before that.\n" +
+						"_-_ Ring of Energy no longer gives extra recharging to wands.\n" +
+						"_-_ Added a chance for gold to be replaced with energy crystal when generated on the level.\n" +
+						"_-_ Unencumbered Spirit talent no longer rewards player for having cloth armor.\n" +
+						"_-_ Ethereal Chains no longer recharge if their charges are used up to 0.\n" +
+						"_-_ Added extra talents for Duelist's subclasses."
+		));
+
+		changes = new ChangeInfo("Shutter-1.3.1", true, "");
 		changes.hardlight(Window.TITLE_COLOR);
 		changeInfos.add(changes);
 		changes.addButton( new ChangeButton(Icons.get(Icons.INFO), "Developer Commentary",
